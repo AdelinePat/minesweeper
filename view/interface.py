@@ -1,5 +1,5 @@
 import pygame
-from view.__settings__ import RESOLUTION, INDIGO_DYE, TITLE_FONT, TEXT_FONT
+from view.__settings__ import RESOLUTION, INDIGO_DYE, TITLE_FONT, TEXT_FONT, MINE_ICON
 class Interface():
     def __init__(self, caption, width=RESOLUTION[0], height=RESOLUTION[1], background_color=INDIGO_DYE):
         self.width=width
@@ -13,7 +13,7 @@ class Interface():
         self.screen_center = (self.width//2, self.height//2)
         self.title_center = (self.width//2, self.height//12)
         self.screen.fill(self.background_color)
-        # self.icon = pygame.display.set_icon(pygame.image.load("path")) # If we want an icon for the window
+        self.icon = pygame.display.set_icon(pygame.image.load(MINE_ICON)) # If we want an icon for the window
 
     def update(self):
         pygame.display.flip()
