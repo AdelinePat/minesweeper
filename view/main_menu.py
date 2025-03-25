@@ -42,9 +42,10 @@ class MainMenu():
             #                         (self.menu.screen_center[0],
             #                         self.menu.screen_center[1] + self.menu.height//8*1.5))
             
-            self.controller.start_game(self.controller.is_screen_in_game)
-            self.controller.set_settings(self.controller.is_screen_settings)
-            self.controller.get_top_players(self.controller.is_screen_record)
+            self.controller.screen_access()
+            # self.controller.start_game()
+            # self.controller.set_settings(self.controller.is_screen_settings)
+            # self.controller.get_top_players(self.controller.is_screen_record)
 
             if button_quit == True:
                 pygame.quit()

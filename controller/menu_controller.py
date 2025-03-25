@@ -5,10 +5,19 @@ class MenuController():
         self.is_screen_main = True
         self.is_screen_win = False
         self.is_screen_in_game = False
+
+    def screen_access(self):
+        if self.is_screen_in_game == True:
+            print("ceci est un super jeu")
+        elif self.is_screen_settings == True:
+            print("Ceci est le menu des paramètres")
+        elif self.is_screen_record == True:
+            print("Un super top 3!!")
+
   
-    def start_game(self, choice): # return to the game screen
+    def start_game(self): # return to the game screen
         '''TODO: start the game screen'''
-        if choice == True:
+        if self.is_screen_in_game == True:
             print("ceci est un super jeu")
         
         pass
