@@ -1,5 +1,5 @@
 import pygame, sys
-import pygame_menu
+# import pygame_menu
 # import pygame_menu.themes
 from view.__settings__ import CUSTOM_THEME, RESOLUTION, INDIGO_DYE, TITLE_FONT, GHOST_WHITE, CELESTE, TEXT_FONT, FPS, CERULEAN
 from view.interface import Interface
@@ -8,10 +8,6 @@ from view.button import Button
 pygame.init()
 
 screen_main_menu = Menu('Minesweeper - Main menu')
-
-def clock_tick(clock, fps):
-    pygame.display.update()
-    clock.tick(fps)
 
 while True:
     print("hahahahahaha")

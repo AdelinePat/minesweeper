@@ -42,10 +42,13 @@ class Menu(Interface):
         button_draw_text.width=self.win_width - self.border_thickness*2
 
         if hovered and pygame.mouse.get_pressed()[0]:
-            print(button_text)
+            # return button_text
+            return True
+        else:
+            return False
             # return something usefull, I guess
 
-        return hovered_button
+        # return hovered_button
 
     def small_button(self, button_text, center, background=CYAN, background_hovered=AGRESSIVE_PINK, color=INDIGO_DYE, color_hover=GHOST_WHITE):
         # Create rectangle for text -> self.button_height//2 = font_size
