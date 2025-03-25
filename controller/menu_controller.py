@@ -1,35 +1,34 @@
-class MenuController():
+class MenuController:
     def __init__(self):
-        self.is_screen_settings = False
-        self.is_screen_record = False
-        self.is_screen_main = True
-        self.is_screen_win = False
-        self.is_screen_in_game = False
+        # Dictionary to store different screens
+        self.screens = {
+            "main": "Main Menu",
+            "game": "Starting the game...",
+            "settings": "Displaying settings...",
+            "record": "Showing leaderboard..."
+        }
+        self.current_screen = "main"  # Default screen
+
+    def change_screen(self, screen_name):
+        """Switch the active screen and display a message."""
+        if screen_name in self.screens:
+            self.current_screen = screen_name
+            print(f"Screen changed: {self.screens[screen_name]}")
+        else:
+            print(f"Error: Screen '{screen_name}' does not exist!")
 
     def screen_access(self):
-        if self.is_screen_in_game == True:
-            print("ceci est un super jeu")
-        elif self.is_screen_settings == True:
-            print("Ceci est le menu des paramètres")
-        elif self.is_screen_record == True:
-            print("Un super top 3!!")
+        """Display a message based on the current screen."""
+        print(self.screens.get(self.current_screen, "Unknown screen"))
 
-  
-    def start_game(self): # return to the game screen
-        '''TODO: start the game screen'''
-        if self.is_screen_in_game == True:
-            print("ceci est un super jeu")
-        
-        pass
-    
-    def set_settings(self, choice):
-        '''TODO: display settings screen + back-end for settings choice'''
-        if choice == True:
-            print('YEAH LET\'S PLAY')
-        pass
+    def start_game(self):
+        """Switch to the game screen."""
+        self.change_screen("game")
 
-    def get_top_players(self, choice):
-        '''TODO: display top 3 players + back-end for getting right data'''
-        if choice == True:
-            print("un super top trois")
-        pass
+    def set_settings(self):
+        """Switch to the settings screen."""
+        self.change_screen("settings")
+
+    def show_leaderboard(self):
+        """Display the leaderboard."""
+        self.change_screen("record")

@@ -13,7 +13,7 @@ class Interface():
         self.screen_center = (self.width//2, self.height//2)
         self.title_center = (self.width//2, self.height//12)
         self.screen.fill(self.background_color)
-        self.icon = pygame.display.set_icon(pygame.image.load(MINE_ICON)) # If we want an icon for the window
+        self.icon = pygame.display.set_icon(pygame.image.load(MINE_ICON)) # icon on the windows
 
     def update(self):
         pygame.display.flip()
