@@ -4,6 +4,7 @@ from pygame_menu import Theme
 width=1080
 height=720
 RESOLUTION = (width, height)
+FPS = 144
 ## COLORS
 AGRESSIVE_PINK = (195, 60, 84)
 INDIGO_DYE = (37, 78, 112)
