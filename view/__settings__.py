@@ -18,6 +18,9 @@ NOT_SO_GHOST_WHITE = (212, 223, 228)
 TITLE_FONT = "./assets/fonts/JockeyOne-Regular.ttf"
 TEXT_FONT = "./assets/fonts/Jersey10-Regular.ttf"
 
+##ICON
+MINE_ICON = "./assets/icon/mine_icon.png"
+
 CUSTOM_THEME = Theme(
     background_color=GHOST_WHITE,
     scrollbar_shadow=True,
