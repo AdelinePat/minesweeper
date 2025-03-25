@@ -69,11 +69,6 @@ class Menu(Interface):
             0, 0,
             button_text_rect.width, button_text_rect.height
         )
-        # small_button.center = center
-        
-        # Change button size (width and height) depending on text length
-        # small_button.width = button_text_rect.width + 30
-        # small_button.height = button_text_rect.height + 20
         small_button.center = center
        
         # Draw rectangle and text for button
@@ -87,7 +82,7 @@ class Menu(Interface):
 
         if hovered and pygame.mouse.get_pressed()[0]:
             print(button_text)
-            # return button_text
+            # return something usefull, I guess
 
         return small_button
 
