@@ -54,7 +54,7 @@ coverage.xml
 .pytest_cache/
 cover/
 launch.json
-toto.py
+
 
 
 # Translations
