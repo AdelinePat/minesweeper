@@ -14,6 +14,10 @@ WIDTH, HEIGHT = 500, 300
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Settings")
 
+"""
+TODO : renommer fichier : settings.py en settings_menu.py et implementer fonction dans projet !!!
+"""
+
 
 FONT = pygame.font.Font(None, 40)
 
