@@ -1,8 +1,8 @@
 # from pygame_menu import Theme
 # from assets.fonts import 
 ## DEFAULT SETTINGS
-width=800
-height=400
+width=1080
+height=720
 RESOLUTION = (width, height)
 FPS = 144
 ## COLORS

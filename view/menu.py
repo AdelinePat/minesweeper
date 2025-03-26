@@ -22,6 +22,45 @@ class Menu(Interface):
         window = pygame.draw.rect(self.screen, self.win_bg_color, self.window_rect, border_radius=self.border_radius)
         window_border = pygame.draw.rect(self.screen, CERULEAN, self.window_rect, self.border_thickness, border_radius=self.border_radius)
 
+    def option_button(self, text1, text2, center, background=GHOST_WHITE, background_hovered=AGRESSIVE_PINK, color=INDIGO_DYE, color_hover=GHOST_WHITE):
+        background_option = pygame.Rect(
+            0, 0,
+            self.win_width - self.border_thickness*2, self.button_height
+        )
+        background_option.center = center
+
+        pygame.draw.rect(self.screen, background, background_option)
+
+        option_title = self.draw_text(text1, TEXT_FONT,
+                       background_option.height-10,
+                       (self.win_width//3*1.5,
+                        background_option.midleft[1]),
+                       color)
+                        #text1
+
+        
+        
+        option = self.draw_text(text2,
+                       TEXT_FONT,
+                       background_option.height-10,
+                       (self.win_width//3*2.5,
+                        background_option.midright[1]),
+                       color) # text2
+        
+        left_button = self.draw_text('<', TEXT_FONT,
+                       background_option.height-10,
+                       (option.midleft[0] - 50,
+                        background_option.midleft[1]),
+                       color)
+        
+        right_button = self.draw_text('>',
+                       TEXT_FONT,
+                       background_option.height-10,
+                       (option.midright[0] +50,
+                        background_option.midright[1]),
+                       color)
+
+        # font, font_size, position
 
 
     def draw_full_button(self, button_text, center, background=GHOST_WHITE, background_hovered=AGRESSIVE_PINK, color=INDIGO_DYE, color_hover=GHOST_WHITE):
@@ -90,4 +129,3 @@ class Menu(Interface):
             # return something usefull, I guess
 
         return small_button
-

@@ -26,6 +26,8 @@ share/python-wheels/
 *.egg
 MANIFEST
 *test.venv/
+*.txt
+
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -51,6 +53,9 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
+launch.json
+toto.py
+
 
 # Translations
 *.mo
