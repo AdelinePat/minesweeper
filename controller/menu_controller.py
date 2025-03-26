@@ -7,6 +7,8 @@ class MenuController():
         self.is_screen_in_game = False
         self.winner = ""
 
+        
+
     def screen_access(self):
         if self.is_screen_in_game == True:
             print("ceci est un super jeu")
