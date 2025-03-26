@@ -1,34 +1,53 @@
-class MenuController:
-    def __init__(self):
-        # Dictionary to store different screens
-        self.screens = {
-            "main": "Main Menu",
-            "game": "Starting the game...",
-            "settings": "Displaying settings...",
-            "record": "Showing leaderboard..."
-        }
-        self.current_screen = "main"  # Default screen
+from view.settings import Settings
 
-    def change_screen(self, screen_name):
-        """Switch the active screen and display a message."""
-        if screen_name in self.screens:
-            self.current_screen = screen_name
-            print(f"Screen changed: {self.screens[screen_name]}")
-        else:
-            print(f"Error: Screen '{screen_name}' does not exist!")
+class MenuController():
+    def __init__(self):
+        self.is_screen_settings = False
+        self.is_screen_record = False
+        self.is_screen_main = True
+        self.is_screen_win = False
+        self.is_screen_in_game = False
+
 
     def screen_access(self):
-        """Display a message based on the current screen."""
-        print(self.screens.get(self.current_screen, "Unknown screen"))
+        """Controls screen transitions based on the flags."""
+        if self.is_screen_in_game:
+
+            print("This is the game screen.")
+        elif self.is_screen_settings:
+            # self.is_screen_main = False
+            self.settings_screen = Settings()
+            self.settings_screen.draw_settings_screen()
+            # self.settings_screen.update()
+
+            print("This is the settings menu.")
+        elif self.is_screen_record:
+            print("This is the top 3 players screen.")
+        elif self.is_screen_main:
+            print("This is the main menu.")
 
     def start_game(self):
-        """Switch to the game screen."""
-        self.change_screen("game")
+        """Placeholder for starting the game."""
+        if self.is_screen_in_game:
+            print("This is the game screen.")
+        pass
 
     def set_settings(self):
-        """Switch to the settings screen."""
-        self.change_screen("settings")
+        """Handle settings screen access."""
+        if self.is_screen_settings:
+            print("This is the settings menu.")
+        pass
 
-    def show_leaderboard(self):
-        """Display the leaderboard."""
-        self.change_screen("record")
+    def go_to_main_menu(self):
+        """Switch to the main menu."""
+        self.is_screen_main = True
+        self.is_screen_settings = False
+        self.is_screen_in_game = False
+        print("Going back to the main menu.")
+
+    def go_to_settings(self):
+        """Switch to the settings screen."""
+        self.is_screen_main = False
+        self.is_screen_settings = True
+        print("Switching to the settings menu.")
+

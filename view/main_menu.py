@@ -3,109 +3,91 @@ from view.menu import Menu
 from controller.menu_controller import MenuController
 from controller.game_controller import GameController
 from view.__settings__ import TITLE_FONT, CELESTE
+from view.settings import Settings
 
 class MainMenu():
     def __init__(self):
-        self.menu = Menu('Minesweeper')
+        self.menu = Menu('Minesweeper')  # Main game menu
         self.controller = MenuController()
         self.game_controller = GameController()
+        self.in_settings_screen = False  # Track if we are in settings screen
+        self.settings = Settings()
+
+    def settings_screen(self):
+        """Handles the display of the settings screen with dropdown menus"""
+        self.settings.settings_screen()
 
     def main_loop(self):
         pygame.init()
 
         while True:
-            # Check the current screen and handle accordingly
-            if self.controller.current_screen == "main":
-                self.main_menu_screen()  # Main menu screen
-            elif self.controller.current_screen == "settings":
-                self.settings_screen()  # Settings screen
+            self.controller.screen_access()
+            self.main_menu_screen()
+            
 
-            self.menu.update()  # Update the menu each loop
+            if self.button_quit == True:
+                pygame.quit()
+            
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+
+            
+
+            # Handle main menu and settings screen separately
+            if self.controller.is_screen_main:
+                self.main_menu_screen()  # Display main menu screen
+            elif self.controller.is_screen_settings:
+                self.settings_screen()  # Display settings screen
+
+            pygame.display.update()
 
     def main_menu_screen(self):
-        """This method handles the main menu screen."""
-        # Draw title text
         my_title = self.menu.draw_text('Minesweeper',
-                                       TITLE_FONT,
-                                       self.menu.height//9,
-                                       self.menu.title_center,
-                                       color=CELESTE)
-        
-        # Draw buttons and check if they're pressed (for the main menu only)
-        button_play = self.menu.draw_full_button('Jouer', 
-                                                 (self.menu.screen_center[0],
-                                                  self.menu.screen_center[1]- self.menu.height//8*1.5))
-        
-        button_settings = self.menu.draw_full_button('Paramètres',
-                                                     (self.menu.screen_center[0],
-                                                      self.menu.screen_center[1]- self.menu.height//8*0.5))
-        
-        button_record = self.menu.draw_full_button('Palmarès', 
-                                                   (self.menu.screen_center[0],
-                                                    self.menu.screen_center[1] + self.menu.height//8*0.5))
-        
-        button_quit = self.menu.draw_full_button('Quitter', 
-                                                 (self.menu.screen_center[0],
-                                                  self.menu.screen_center[1] + self.menu.height//8*1.5))
+                                        TITLE_FONT,
+                                        self.menu.height // 9,
+                                        self.menu.title_center,
+                                        color=CELESTE)
 
-        # Handle button clicks and navigate accordingly (for the main menu only)
-        if button_play:
-             self.controller.start_game()  # Start the game
-        elif button_settings:
-             self.controller.set_settings()  # Go to settings screen
-        elif button_record:
-             self.controller.show_leaderboard()  # Show leaderboard
-        elif button_quit:
-             pygame.quit()  # Quit the game
-             sys.exit()
+        # Main menu buttons
+        self.controller.is_screen_in_game = self.menu.draw_full_button('Jouer', (self.menu.screen_center[0],
+                                            self.menu.screen_center[1] - self.menu.height // 8 * 1.5))
 
-        # Event handling for mouse clicks or key presses (for the main menu only)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+        self.controller.is_screen_settings = self.menu.draw_full_button('Paramètres',
+                                                (self.menu.screen_center[0],
+                                                self.menu.screen_center[1] - self.menu.height // 8 * 0.5))
 
-    def settings_screen(self):
-        """This method handles the settings screen, which is similar to the main menu."""
-        # Draw title text for settings
-        my_title = self.menu.draw_text('Paramètres',
-                                       TITLE_FONT,
-                                       self.menu.height//9,
-                                       self.menu.title_center,
-                                       color=CELESTE)
-        
-        # Draw different buttons for the settings menu (only settings-related buttons)
-        button_difficulty = self.menu.draw_full_button('Difficultés', 
-                                                 (self.menu.screen_center[0],
-                                                 self.menu.screen_center[1]- self.menu.height//8*1.5))
-        
-        button_language = self.menu.draw_full_button('Langues', 
-                                                   (self.menu.screen_center[0],
-                                                    self.menu.screen_center[1] - self.menu.height//8*0.5))
-        
-        button_resolution = self.menu.draw_full_button('Résolution', 
-                                                 (self.menu.screen_center[0],
-                                                  self.menu.screen_center[1] + self.menu.height//8*1.5))
-        
-        button_back = self.menu.draw_full_button('Retour', 
-                                                 (self.menu.screen_center[0],
-                                                  self.menu.screen_center[1] + self.menu.height//8*2))
+        self.controller.is_screen_record = self.menu.draw_full_button('Palmarès',
+                                                (self.menu.screen_center[0],
+                                                self.menu.screen_center[1] + self.menu.height // 8 * 0.5))
 
-        # Handle button clicks for settings screen
-        if button_difficulty:
-            # Add your audio settings logic here
-            print("Difficultés settings clicked!")
-        elif button_language:
-            # Add your language settings logic here
-            print("Language settings clicked!")
-        elif button_resolution:
-            print("Resolution settings clicked!")  # Add resolution logic
-        elif button_back:
-            # Go back to the main menu when the 'Retour' button is pressed
-            self.controller.change_screen("main")
+        self.button_quit = self.menu.draw_full_button('Quitter',
+                                                (self.menu.screen_center[0],
+                                                self.menu.screen_center[1] + self.menu.height // 8 * 1.5))
+       
+        # Handle button clicks
+        # mouse_position = pygame.mouse.get_pos()
+        # for event in pygame.event.get():
+        #     if event.type == pygame.QUIT:
+        #         pygame.quit()
+        #         sys.exit()
 
-        # Event handling for the settings screen
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+        #     if event.type == pygame.MOUSEBUTTONDOWN:
+        #         if button_play.collidepoint(mouse_position):
+        #             print("Game Started!")
+        #             # Transition to game screen logic
+        #             # self.controller.is_screen_main = False
+        #             # self.controller.is_screen_in_game = True
+
+        #         elif button_settings.collidepoint(mouse_position):
+        #             self.controller.is_screen_main = False
+        #             self.controller.is_screen_record = True
+        #             self.controller.go_to_settings()  # Go to settings screen
+
+        #         elif button_quit.collidepoint(mouse_position):
+        #             pygame.quit()
+        #             sys.exit()
+
+          # Access the appropriate screen based on current state
+

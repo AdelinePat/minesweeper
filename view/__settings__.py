@@ -1,8 +1,8 @@
-from pygame_menu import Theme
+# from pygame_menu import Theme
 # from assets.fonts import 
 ## DEFAULT SETTINGS
-width=1080
-height=720
+width=800
+height=400
 RESOLUTION = (width, height)
 FPS = 144
 ## COLORS
@@ -21,15 +21,15 @@ TEXT_FONT = "./assets/fonts/Jersey10-Regular.ttf"
 ##ICON
 MINE_ICON = "./assets/icon/mine_icon.png"
 
-CUSTOM_THEME = Theme(
-    background_color=GHOST_WHITE,
-    scrollbar_shadow=True,
-    scrollbar_slider_color="orange",
-    scrollbar_slider_hover_color="green",
-    scrollbar_slider_pad=2,
-    selection_color=AGRESSIVE_PINK,
-    title_background_color=INDIGO_DYE,
-    title_font_color=CELESTE,
-    title_font_shadow=True,
-    widget_font_color=INDIGO_DYE
-)
+# CUSTOM_THEME = Theme(
+#     background_color=GHOST_WHITE,
+#     scrollbar_shadow=True,
+#     scrollbar_slider_color="orange",
+#     scrollbar_slider_hover_color="green",
+#     scrollbar_slider_pad=2,
+#     selection_color=AGRESSIVE_PINK,
+#     title_background_color=INDIGO_DYE,
+#     title_font_color=CELESTE,
+#     title_font_shadow=True,
+#     widget_font_color=INDIGO_DYE
+# )

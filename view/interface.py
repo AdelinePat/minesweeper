@@ -1,5 +1,7 @@
 import pygame
 from view.__settings__ import RESOLUTION, INDIGO_DYE, TITLE_FONT, TEXT_FONT, MINE_ICON
+
+
 class Interface():
     def __init__(self, caption, width=RESOLUTION[0], height=RESOLUTION[1], background_color=INDIGO_DYE):
         self.width=width
