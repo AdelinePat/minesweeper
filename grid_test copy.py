@@ -20,7 +20,7 @@ class Board():
         self.revealed_square = []
 
 
-        self.grid_surface_tuple = (actual_screen.win_width//3*2, actual_screen.win_height//3*2)
+        self.grid_surface_tuple = (actual_screen.height//3*2, actual_screen.height//3*2)
 
         self.grid_rect = pygame.Rect(actual_screen.window_rect.topleft[0],
                                      actual_screen.window_rect.topleft[1],
@@ -32,14 +32,17 @@ class Board():
                                                self.grid_rect,
                                                border_radius=actual_screen.border_radius)
 
-        self.grid_border = pygame.draw.rect(actual_screen.screen,
-                                         CERULEAN,
-                                         actual_screen.window_rect,
-                                         actual_screen.border_thickness,
-                                         border_radius=actual_screen.border_radius)
-        
-        self.grid_node_width = (self.grid_rect.height // self.rows)  
-        self.grid_node_height = (self.grid_rect.height // self.rows)
+        # self.grid_border = pygame.draw.rect(actual_screen.screen,
+        #                                  CERULEAN,
+        #                                  self.grid_rect,
+        #                                  actual_screen.border_thickness,
+        #                                  border_radius=actual_screen.border_radius)
+        self.padding = 2
+
+        self.grid_node_width = (
+            (self.grid_rect.height - actual_screen.border_thickness*2 ) // self.rows)- self.padding
+        self.grid_node_height = ((self.grid_rect.height - actual_screen.border_thickness*2) // self.rows) - self.padding
+
         # self.grid_surface_tuple = (actual_screen.width//3*2, actual_screen.height//3*2)
         
         # pygame.display.get_surface()
@@ -50,7 +53,10 @@ class Board():
         # self.grid_fill = self.grid_surface.fill('black')
         # self.grid_display = actual_screen.screen.blit(self.grid_surface, self.grid_fill_rect)
 
-        self.grid_top_left = self.grid_rect.topleft
+        self.grid_top_left = (self.grid_rect.topleft[0] + actual_screen.border_thickness+ self.padding//2,
+                              self.grid_rect.topleft[1] + actual_screen.border_thickness+ self.padding//2 )
+        # self.grid_top_left = (actual_screen.window_rect.center[0] - actual_screen.window_rect.center[0]//2,
+        #                       actual_screen.window_rect.center[1] - actual_screen.window_rect.center[1] //2)
 
         self.board = self.create_board()
 
@@ -106,8 +112,8 @@ class Board():
 
 
     def create_board(self):
-        y = self.grid_top_left[0] - 50
-        x = self.grid_top_left[1] + 80
+        x = self.grid_top_left[0]
+        y = self.grid_top_left[1]
         board = []
         
         for index in range(self.rows): # rows
@@ -134,10 +140,14 @@ class Board():
                 #         content = [square_hitbox, None]
                 
                 row_list.append(content)
-                x += (self.grid_node_width + 2)
+                x += (self.grid_node_width + self.padding)
+
             board.append(row_list)
-            x = self.grid_top_left[1] + 80
-            y += (self.grid_node_height + 2)
+            x = self.grid_top_left[0]
+            y += (self.grid_node_height + self.padding)
+        
+        self.draw_grid_border()
+
             # print(board)
         return board
     
@@ -210,8 +220,13 @@ class Board():
                 
                 # print(hitbox[0].topleft)
                 # print(f'value of square = {hitbox[1]}')
-    def reveal_number(self):
-        pass
+    def draw_grid_border(self):
+        self.grid_border = pygame.draw.rect(actual_screen.screen,
+                                         CERULEAN,
+                                         self.grid_rect,
+                                         actual_screen.border_thickness,
+                                         border_radius=actual_screen.border_radius)
+
     def reveal_square(self, row, column):
         min_row_range, max_row_range = self.set_range(row, self.rows)
         min_column_range, max_column_range = self.set_range(column, self.columns)
@@ -248,6 +263,8 @@ class Board():
                         self.board[actual_row][actual_col][0].height - 5,
                         self.board[actual_row][actual_col][0].center
                         )
+                    
+            self.draw_grid_border()
                 
         print(self.revealed_square)
 
