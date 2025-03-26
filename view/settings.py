@@ -1,6 +1,6 @@
 import pygame
 import sys
-from view.__settings__ import TITLE_FONT, CELESTE, RESOLUTION  # Necessary imports
+from view.__settings__ import TITLE_FONT, CELESTE, RESOLUTION, AGRESSIVE_PINK, GHOST_WHITE, INDIGO_DYE # Necessary imports
 # from view.interface import Interface
 from view.menu import Menu
 
@@ -20,6 +20,50 @@ class Settings(Menu):
         self.setting_win = self.draw_menu_window()
         # self.draw_full_button = self.draw_full_button()
 
+    """
+    CECI EST LA FONCTION COPIEE DEPUIS MENU A REPRENDRE POUR QUE CA FONCTIONNE
+    PLUS BESOIN DE TEXT1 TEXT2 VU QUE TU AS TOUT DANS LE INIT
+    """    
+    def option_button(self, text1, text2, center, background=GHOST_WHITE, background_hovered=AGRESSIVE_PINK, color=INDIGO_DYE, color_hover=GHOST_WHITE):
+        background_option = pygame.Rect(
+            0, 0,
+            self.win_width - self.border_thickness*2, self.button_height
+        )
+        background_option.center = center
+
+        pygame.draw.rect(self.screen, background, background_option)
+
+        option_title = self.draw_text(text1, TEXT_FONT,
+                       background_option.height-10,
+                       (self.win_width//3*1.5,
+                        background_option.midleft[1]),
+                       color)
+                        #text1
+        
+        option = self.draw_text(text2,
+                       TEXT_FONT,
+                       background_option.height-10,
+                       (self.win_width//3*2.5,
+                        background_option.midright[1]),
+                       color) # text2
+        
+        left_button = self.draw_text('<', TEXT_FONT,
+                       background_option.height-10,
+                       (option.midleft[0] - 50,
+                        background_option.midleft[1]),
+                       color)
+        
+        right_button = self.draw_text('>',
+                       TEXT_FONT,
+                       background_option.height-10,
+                       (option.midright[0] +50,
+                        background_option.midright[1]),
+                       color)
+        """ left et right button contiennent l'index courant """
+        return left_button
+
+        # font, font_size, position
+
     def draw_settings_screen(self):
         """Handles the display of the settings screen with dropdown menus"""
         while True:
@@ -30,7 +74,8 @@ class Settings(Menu):
             # self.draw_text('Difficulty', TITLE_FONT, 40, (self.screen_center[0], self.screen_center[1] - 100), color=CELESTE)
 
             # Arrows for navigation (left and right)
-            self.option_button('Difficulté', self.difficulties[self.difficulty_index],
+            """ tentative de mettre l'index dans difficulty index """
+            self.difficulty_index = self.option_button('Difficulté', self.difficulties[self.difficulty_index],
                             self.screen_center)
             # left_arrow_difficulty = self.draw_full_button('< ', (self.screen_center[0] - 100, self.screen_center[1] - 50))
             # right_arrow_difficulty = self.draw_full_button('>', (self.screen_center[0] + 100, self.screen_center[1] - 50))
