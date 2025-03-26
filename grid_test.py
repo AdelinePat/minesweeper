@@ -2,7 +2,7 @@ from view.menu import Menu
 import pygame
 import sys
 from view.__settings__ import NOT_SO_GHOST_WHITE, GHOST_WHITE, CERULEAN
-
+import random
 
 actual_screen = Menu('Grille de jeu')
 
@@ -15,6 +15,7 @@ class Board():
         self.columns = columns
         self.grid_node_width = 20  
         self.grid_node_height = 20
+        self.bomb_positions = self.get_bomb_positions_list()
 
 
         self.grid_surface_tuple = (actual_screen.win_width//3*2, actual_screen.win_height//3*2)
@@ -46,7 +47,7 @@ class Board():
 
         self.grid_top_left = self.grid_rect.topleft
 
-        self.board = self.update_board()
+        self.board = self.create_board()
 
 
 
@@ -92,12 +93,11 @@ class Board():
             # print(index)
 
 
-    def update_board(self):
-        y = self.grid_top_left[0]
-        x = self.grid_top_left[1]
+    def create_board(self):
+        y = self.grid_top_left[0] - 50
+        x = self.grid_top_left[1] + 80
         board = []
         
-
         for index in range(self.rows): # rows
             row_list = []
 
@@ -118,54 +118,95 @@ class Board():
                         content = [square_hitbox, None]
                 
                 row_list.append(content)
-                x += self.grid_node_width
+                x += self.grid_node_width 
             board.append(row_list)
-            x = self.grid_top_left[1]
+            x = self.grid_top_left[1] + 80
             y += self.grid_node_height
             # print(board)
         return board
+    
+    def check_square_surroundings(self, hitbox, row, column):
+        bomb_count = 0
+        bomb_count_list = []
+        
+        if row == 0:
+            min_row_range = 0
+            max_row_range = row + 2
+        elif row == self.rows:
+            min_row_range = row - 1
+            max_row_range = row
+        else:
+            min_row_range = row - 1
+            max_row_range = row + 2
             
-                # elif other_index 
-                # else:
-                #     self.createSquare(NOT_SO_GHOST_WHITE, x, y)
-            
+        if column == 0:
+            min_column_range = 0
+            max_column_range = column + 2
+        elif column == self.columns:
+            min_column_range = column - 1
+            max_column_range = column
+        else:
+            min_column_range = column - 1
+            max_column_range = column + 2
+
+            for actual_row in range(min_row_range, max_row_range):
+                for actual_col in range(min_column_range, max_column_range):
+                    if (actual_row, actual_col) in self.bomb_positions:
+                    # if hitbox[actual_row][column-1][1] in self.bomb_positions:
+                        bomb_count += 1
+                        bomb_count_list.append(bomb_count)
+            print(bomb_count_list)
+
+        # (row-1 , column-1) (row-1, column) (row-1, column+1)
+        # (row , column-1)                   (row, column+1)
+        # (row+1 , column-1) (row+1, column) (row+1, column+1)
+        
+        pass
+    
+    def check_user_click(self,row, column, mouse_position, hitbox):
+        if hitbox[0].collidepoint(mouse_position) and pygame.mouse.get_pressed()[0]:
+            if (row, column) in self.bomb_positions:
+                print("AIE, raté ! Il y avait une bombe , tu as perdu")
+            else:
+                self.check_square_surroundings(hitbox, row, column)
+                # hitbox[1] = 2
+                hitbox[0] = self.createSquare('red',
+                            hitbox[0].topleft[0],
+                            hitbox[0].topleft[1])
+                
+                # print(hitbox[0].topleft)
+                # print(f'value of square = {hitbox[1]}')
+    
+
     def go_through_board(self):
         mouse_position = pygame.mouse.get_pos()
         for row in range(self.rows):
             for column in range(self.columns):
                 hitbox = self.board[row][column]
-                if hitbox[0].collidepoint(mouse_position) and pygame.mouse.get_pressed()[0]:
-                    hitbox[1] = 2
-                    hitbox[0] = self.createSquare('red',
-                                                  hitbox[0].topleft[0],
-                                                  hitbox[0].topleft[1])
-                    print(hitbox[0].topleft)
-                    print(hitbox[1])
+                self.check_user_click(row, column, mouse_position, hitbox)
+    
+    def get_random_position_tuple(self):
+        x = random.randrange(self.rows)
+        y = random.randrange(self.columns)
+        position = (x,y)
+        return position
 
+    def get_bomb_positions_list(self):
+
+        bomb_positions_list = []
+
+        bomb_number = random.randrange(10)
+        for bomb in range(0, 11):
+            position = self.get_random_position_tuple()
+            if position in bomb_positions_list:
+                position = self.get_random_position_tuple()
+            bomb_positions_list.append(position)
+        print(bomb_positions_list)
+        return bomb_positions_list
+                
+
+    
         
-        # hovered = board.collidepoint(mouse_position)
-
-        # if hovered and pygame.mouse.get_pressed()[0]:
-        #     pass
-        # else:
-        #     pass
-            
-
-
-    def visualizeGrid(self):
-        y = 0  # we start at the top of the screen
-        for row in range(self.columns):
-            x = 0 # for every row we start at the left of the screen again
-            for item in range(self.rows):
-                # if item == None:
-                if item % 2 == 0 and row % 2== 0:
-                    self.createSquare(x, y, NOT_SO_GHOST_WHITE)
-                else:
-                    self.createSquare(x, y, GHOST_WHITE)
-
-                x += self.grid_node_width # for ever item/number in that row we move one "step" to the right
-            y += self.grid_node_height   # for every new row we move one "step" downwards
-        pygame.display.update()
 
 # we use the sizes to draw as well as to do our "steps" in the loops. 
 matrix = Board(5,5)
@@ -173,13 +214,12 @@ matrix = Board(5,5)
 
 
 
-
-
-
 # visualizeGrid()  # call the function    
 while True:
+    
+
     actual_screen.update()
-    board = matrix.update_board()
+    board = matrix.create_board()
     matrix.go_through_board()
     # matrix.visualizeGrid()  # call the function    
     for event in pygame.event.get():
