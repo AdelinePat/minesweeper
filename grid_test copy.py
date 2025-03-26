@@ -197,9 +197,16 @@ class Board():
                 self.reveal_square(row, column)
                 # self.count_surrounding_bombs(row, column)
                 # hitbox[1] = 2
-                hitbox[0] = self.createSquare('green',
-                            hitbox[0].topleft[0],
-                            hitbox[0].topleft[1])
+                # hitbox[0] = self.createSquare(GHOST_WHITE,
+                #             hitbox[0].topleft[0],
+                #             hitbox[0].topleft[1])
+                # if hitbox[1] in (1,2,3,4,5,6,7,8):
+                #     self.draw_text(str(hitbox[1]),
+                #             TEXT_FONT,
+                #             hitbox[0].height - 5,
+                #             hitbox[0].center
+                #             )
+                
                 
                 # print(hitbox[0].topleft)
                 # print(f'value of square = {hitbox[1]}')
@@ -215,7 +222,7 @@ class Board():
                 
                 if self.board[actual_row][actual_col][1] == 0 and (actual_row,actual_col) not in self.revealed_square:
 
-                    self.createSquare('green',
+                    self.createSquare(GHOST_WHITE,
                         self.board[actual_row][actual_col][0].topleft[0],
                         self.board[actual_row][actual_col][0].topleft[1])
                     
@@ -232,6 +239,10 @@ class Board():
                     self.reveal_square(actual_row, actual_col)
 
                 elif self.board[actual_row][actual_col][1] in (1,2,3,4,5,6,7,8):
+                    self.createSquare(GHOST_WHITE,
+                        self.board[actual_row][actual_col][0].topleft[0],
+                        self.board[actual_row][actual_col][0].topleft[1])
+
                     self.draw_text(str(self.board[actual_row][actual_col][1]),
                         TEXT_FONT,
                         self.board[actual_row][actual_col][0].height - 5,
