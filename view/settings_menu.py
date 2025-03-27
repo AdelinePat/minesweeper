@@ -26,6 +26,7 @@ class SettingsMenu(Menu):
         self.right_resolution = None
         self.left_language = None
         self.right_language = None
+        self.button_return =False
 
 
 
@@ -108,12 +109,6 @@ class SettingsMenu(Menu):
         self.win_height = self.height // 3 * 1.2
         self.draw_menu_window()
 
-        #   my_title = self.menu.draw_text('Minesweeper',
-        #                                TITLE_FONT,
-        #                                self.menu.height // 9,
-        #                                self.menu.title_center,
-        #                                color=CELESTE)
-        
 
         self.menu.draw_text("Paramètres", TITLE_FONT, 50, (self.win_width // 2, self.win_height // 8))
 
