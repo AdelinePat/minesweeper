@@ -50,42 +50,42 @@ class Menu(Interface):
 
         # return hovered_button
 
-    def small_button(self, button_text, center, background=CYAN, background_hovered=AGRESSIVE_PINK, color=INDIGO_DYE, color_hover=GHOST_WHITE):
-        # Create rectangle for text -> self.button_height//2 = font_size
-        button_draw_text, button_text_rect = self.create_text_rect(button_text,
-                                            TEXT_FONT,
-                                            self.button_height//2,
-                                            center)
+    # def small_button(self, button_text, center, background=CYAN, background_hovered=AGRESSIVE_PINK, color=INDIGO_DYE, color_hover=GHOST_WHITE):
+    #     # Create rectangle for text -> self.button_height//2 = font_size
+    #     button_draw_text, button_text_rect = self.create_text_rect(button_text,
+    #                                         TEXT_FONT,
+    #                                         self.button_height//2,
+    #                                         center)
 
-        button_text_rect.width = button_text_rect.width + 30
-        button_text_rect.height = button_text_rect.height + 20
-        button_text_rect.center = center
+    #     button_text_rect.width = button_text_rect.width + 30
+    #     button_text_rect.height = button_text_rect.height + 20
+    #     button_text_rect.center = center
 
-        mouse_position = pygame.mouse.get_pos()
-        hovered = button_text_rect.collidepoint(mouse_position)
+    #     mouse_position = pygame.mouse.get_pos()
+    #     hovered = button_text_rect.collidepoint(mouse_position)
 
-        actual_bg_color = background_hovered if hovered else background
-        actual_font_color = color_hover if hovered else color
+    #     actual_bg_color = background_hovered if hovered else background
+    #     actual_font_color = color_hover if hovered else color
 
-        # Create rectangle for small button
-        small_button = pygame.Rect(
-            0, 0,
-            button_text_rect.width, button_text_rect.height
-        )
-        small_button.center = center
+    #     # Create rectangle for small button
+    #     small_button = pygame.Rect(
+    #         0, 0,
+    #         button_text_rect.width, button_text_rect.height
+    #     )
+    #     small_button.center = center
        
-        # Draw rectangle and text for button
-        pygame.draw.rect(self.screen, actual_bg_color, small_button, border_radius=self.border_radius)
-        button_draw_text, button_text_rect = self.create_text_rect(button_text,
-                                            TEXT_FONT,
-                                            self.button_height//2,
-                                            center,
-                                            actual_font_color)
-        self.blit_text_from_rect(button_draw_text, button_text_rect)
+    #     # Draw rectangle and text for button
+    #     pygame.draw.rect(self.screen, actual_bg_color, small_button, border_radius=self.border_radius)
+    #     button_draw_text, button_text_rect = self.create_text_rect(button_text,
+    #                                         TEXT_FONT,
+    #                                         self.button_height//2,
+    #                                         center,
+    #                                         actual_font_color)
+    #     self.blit_text_from_rect(button_draw_text, button_text_rect)
 
-        if hovered and pygame.mouse.get_pressed()[0]:
-            print(button_text)
-            # return something usefull, I guess
+    #     if hovered and pygame.mouse.get_pressed()[0]:
+    #         print(button_text)
+    #         # return something usefull, I guess
 
-        return small_button
+    #     return small_button
 
