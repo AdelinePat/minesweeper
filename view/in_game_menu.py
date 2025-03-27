@@ -33,9 +33,6 @@ class InGameMenu(Interface):
         )
 
 
-
-
-
     def display_game_info(self, text_title, text_content, position_y):
         font = TEXT_FONT
         font_size = self.height // 24

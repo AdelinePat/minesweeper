@@ -29,8 +29,10 @@ class MainMenu:
                                   (self.menu.screen_center[0], self.menu.screen_center[1] - self.menu.height // 8 * 1.5))
 
         # "Settings" button
-        self.controller.is_screen_settings = self.menu.draw_full_button('Paramètres',
-                                (self.menu.screen_center[0], self.menu.screen_center[1] - self.menu.height // 8 * 0.5))
+        if self.menu.draw_full_button('Paramètres',
+                            (self.menu.screen_center[0], self.menu.screen_center[1] - self.menu.height // 8 * 0.5)):
+            self.controller.go_to_settings()  # Utilise la fonction de transition
+
 
         # "Leaderboard" button
         self.controller.is_screen_win = self.menu.draw_full_button('Palmarès', 
@@ -53,6 +55,7 @@ class MainMenu:
             # Call settings menu or screen transition here
             self.controller.is_screen_main = False
             self.in_settings_screen = True
+            self.controller.screen_access()
             # Maybe call your SettingsMenu or navigate to the settings screen here
 
         if self.controller.is_screen_win:

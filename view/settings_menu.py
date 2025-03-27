@@ -58,40 +58,36 @@ class SettingsMenu(Menu):
         return settings
     
     def draw_window_settings(self, controller):
-
+        """Affiche les boutons sur l'interface Settings et les rend accessibles dans la classe."""
+       
         self.reset_background_screen()
-        self.win_height = self.height // 3*1.2
+        self.win_height = self.height // 3 * 1.2
         self.draw_menu_window()
 
-    def draw_settings_screen(self):
-        running = True
-        while running:
-            self.interface.reset_background_screen()
+        self.interface.draw_text("Paramètres", TITLE_FONT, 50, (self.win_width // 2, self.win_height // 8))
 
-           
-            self.interface.draw_text("Paramètres", TITLE_FONT, 50, (self.win_width // 2, self.win_height // 8))
+        # Création et affichage des boutons
+        self.button_difficulty = self.draw_full_button("Difficulté", (self.win_width // 1.13, self.win_height // 8 * 1.5))
+        if self.button_difficulty:
+            self.difficulty_index = (self.difficulty_index + 1) % len(self.difficulties)
+            self.get_current_settings()
 
-          
-            if self.draw_full_button("Difficulté", (self.win_width // 1.13, self.win_height // 8 * 1.5)):
-                self.difficulty_index = (self.difficulty_index + 1) % len(self.difficulties)
-                self.get_current_settings()
+        self.button_resolution = self.draw_full_button("Résolution", (self.win_width // 1.13, self.win_height // 8 * 3.5))
+        if self.button_resolution:
+            self.resolution_index = (self.resolution_index + 1) % len(self.resolutions)
+            self.get_current_settings()
 
-            if self.draw_full_button("Résolution", (self.win_width // 1.13, self.win_height // 8 * 3.5)):
-                self.resolution_index = (self.resolution_index + 1) % len(self.resolutions)
-                self.get_current_settings()
+        self.button_language = self.draw_full_button("Langue", (self.win_width // 1.13, self.win_height // 8 * 5.5))
+        if self.button_language:
+            self.language_index = (self.language_index + 1) % len(self.languages)
+            self.get_current_settings()
 
-            if self.draw_full_button("Langue", (self.win_width // 1.13, self.win_height // 8 * 5.5)):
-                self.language_index = (self.language_index + 1) % len(self.languages)
-                self.get_current_settings()
+        # Ajout du bouton Retour
+        self.button_return = self.draw_full_button("Retour", (self.win_width // 1.35, self.win_height // 8 * 7))
 
-            
-            if self.draw_full_button("Retour", (self.win_width // 1.35, self.win_height // 8 * 7)):
-                print("Retour au menu")
-                running = False
+        return self.button_return  # Retourne le bouton retour pour gestion dans le contrôleur
 
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
+
 
 
     def update(self):

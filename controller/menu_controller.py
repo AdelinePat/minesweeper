@@ -1,5 +1,6 @@
 from view.winner_menu import Winner
 from view.settings_menu import SettingsMenu
+import pygame
 
 class MenuController():
     def __init__(self):
@@ -26,9 +27,10 @@ class MenuController():
             pass
         elif self.is_screen_settings:
             self.is_screen_main = False
-            self.settings_screen.draw_settings_screen()
+            self.settings_screen.draw_window_settings(self)
+            pygame.display.update()
             
-            if self.settings_screen.button_return == True:
+            if self.settings_screen.button_return:
                 self.is_screen_settings = False
                 self.is_screen_main = True
 
@@ -44,14 +46,15 @@ class MenuController():
     
     def set_settings(self, choice):
         '''TODO: display settings screen + back-end for settings choice'''
+
         if choice == True:
             print('YEAH LET\'S PLAY')
             print("This is the game screen.")
         elif self.is_screen_settings:
-            # self.is_screen_main = False
+            self.is_screen_main = False
             
-            self.settings_screen.draw_settings_screen()
-            if self.settings_screen.button_return == True:
+            self.settings_screen.draw_window_settings(self)
+            if self.settings_screen.button_return :
                 self.is_screen_settings = False
                 self.is_screen_main = True
             # self.settings_screen.update()
@@ -93,5 +96,8 @@ class MenuController():
         """Switch to the settings screen."""
         self.is_screen_main = False
         self.is_screen_settings = True
+        self.screen_access()
         print("Switching to the settings menu.")
+
+
 
