@@ -12,12 +12,17 @@ class Interface():
         self.background_color = background_color
         self.screen_center = (self.width//2, self.height//2)
         self.title_center = (self.width//2, self.height//12)
-        self.screen.fill(self.background_color)
+        self.reset_background_screen()
+        
         # self.icon = pygame.display.set_icon(pygame.image.load("path")) # If we want an icon for the window
 
     def update(self):
         pygame.display.flip()
-        self.clock.tick(self.fps)    
+        self.clock.tick(self.fps)
+
+    def reset_background_screen(self):
+        self.screen.fill(self.background_color)
+        
         
     # def get_title_font(self):
     #     title_font_load = pygame.font.Font(jockey_one, font_size) # load font then text_font.render('text', true, color)
@@ -81,6 +86,8 @@ class Interface():
 
         if hovered and pygame.mouse.get_pressed()[0]:
             print(button_text)
+            return True
+        else:
+            return False
             # return something usefull, I guess
 
-        return small_button

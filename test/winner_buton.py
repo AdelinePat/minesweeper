@@ -4,13 +4,11 @@ from controller.menu_controller import MenuController
 from controller.game_controller import GameController
 from view.__settings__ import TITLE_FONT, CELESTE
 from view.interface import Interface
-from view.menu_copy import Menu
+from view.winner_menu import Menu
 
 class SomeClass:
     def __init__(self):
         self.controller = MenuController()  
-
-
 
 class WinnerButton:
     def __init__(self):

@@ -12,7 +12,7 @@ class Menu(Interface):
         self.border_thickness = 5
         self.border_radius = 15
         self.button_height = self.height // 12
-        self.draw_menu_window()
+        # self.draw_menu_window()
     
     def draw_menu_window(self):
         self.window_rect =  pygame.Rect(
@@ -33,11 +33,7 @@ class Menu(Interface):
 
         subtitle_text = self.draw_text(text, font, subtitle_rect.height-10, center, color)
 
-
-
-
-
-    def draw_full_button(self, button_text, center, background=GHOST_WHITE, background_hovered=AGRESSIVE_PINK, color=INDIGO_DYE, color_hover=GHOST_WHITE):
+    def draw_full_button(self, button_text, center, background=GHOST_WHITE, background_hovered=AGRESSIVE_PINK, color=INDIGO_DYE, color_hover=GHOST_WHITE, font=TEXT_FONT):
         hovered_button = pygame.Rect(
             0, 0,
             self.win_width - self.border_thickness*2, self.button_height
@@ -51,7 +47,7 @@ class Menu(Interface):
         pygame.draw.rect(self.screen, actual_bg_color, hovered_button)
 
         actual_font_color = color_hover if hovered else color
-        button_draw_text = self.draw_text(button_text, TEXT_FONT, hovered_button.height-10, center, actual_font_color)
+        button_draw_text = self.draw_text(button_text, font, hovered_button.height-10, center, actual_font_color)
        
         button_draw_text.height=self.button_height
         button_draw_text.width=self.win_width - self.border_thickness*2
@@ -99,11 +95,9 @@ class Menu(Interface):
         self.blit_text_from_rect(button_draw_text, button_text_rect)
 
         if hovered and pygame.mouse.get_pressed()[0]:
-            print(button_text)
-            # return something usefull, I guess
-
-        return medium_button
-
+            return True
+        else:
+            return False
 
 
     def small_button(self, button_text, center, background=CYAN, background_hovered=AGRESSIVE_PINK, color=INDIGO_DYE, color_hover=GHOST_WHITE):

@@ -1,3 +1,5 @@
+from view.winner_menu import Winner
+
 class MenuController():
     def __init__(self):
         self.is_screen_settings = False
@@ -5,10 +7,12 @@ class MenuController():
         self.is_screen_main = True
         self.is_screen_win = False
         self.is_screen_in_game = False
+        self.button_return = False
         self.winner = ""
 
-        
+        self.winner_screen = Winner('Bravo vous avez gagné')
 
+    
         self.player_name = " Yulii"
         self.player_score = 0
         self.top_players = []
@@ -20,6 +24,15 @@ class MenuController():
             print("Ceci est le menu des paramètres")
         elif self.is_screen_record == True:
             print("Un super top 3!!")
+
+        elif self.is_screen_win == True:
+            self.is_screen_main = False
+            # create condition for which screen to display
+            # self.winner_screen.draw_winner_top_3(self)
+            self.winner_screen.draw_window_winner_not_top_3(self)
+            if self.winner_screen.button_return == True:
+                self.is_screen_win = False
+                self.is_screen_main = True
 
   
     def start_game(self): # return to the game screen
