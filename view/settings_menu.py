@@ -19,12 +19,21 @@ class SettingsMenu(Menu):
         self.resolution_index = 0
         self.languages = ["fr", "eng"]
         self.language_index = 0
+        self.left_difficulty = None
+        self.right_difficulty = None
+        self.left_resolution = None
+        self.right_resolution = None
+        self.left_language = None
+        self.right_language = None
+
+
 
     def draw_button(self, text, center):
         return self.draw_full_button(text, center, background=CYAN, background_hovered=AGRESSIVE_PINK, color=GHOST_WHITE, color_hover=INDIGO_DYE, font=TITLE_FONT)
     
     
     def option_button(self, label, options, index, center):
+        
 
         label_button = self.draw_full_button(f"{label}:", center=(center[0] - 100, center[1]), background=CYAN, background_hovered=AGRESSIVE_PINK, color=GHOST_WHITE, color_hover=INDIGO_DYE, font=TEXT_FONT)
         
@@ -56,24 +65,42 @@ class SettingsMenu(Menu):
             print(f"Langue: Index {settings[2][0]}, Valeur {settings[2][1]}")
 
             return settings
-        
-    def draw_window_settings(self, controller): 
-        # self.reset_background_screen()
-        # self.win_height = self.height // 3 * 2
-        self.draw_menu_window()
-
-        self.interface.draw_text("Paramètres", TITLE_FONT, 50, (self.win_width // 2, self.win_height // 8))
-
     
-        self.left_difficulty, self.right_difficulty = self.option_button("Difficulté", self.difficulties, self.difficulty_index, (self.win_width // 1.13, self.win_height // 8 * 1.5))
-        self.left_resolution, self.right_resolution = self.option_button("Résolution", self.resolutions, self.resolution_index, (self.win_width // 1.13, self.win_height // 8 * 3.5))
-        self.left_language, self.right_language = self.option_button("Langue", self.languages, self.language_index, (self.win_width // 1.13, self.win_height // 8 * 5.5))
+    def handle_events(self, event):
+#         self.left_difficulty, self.right_difficulty = self.option_button(
+#     "Difficulté", self.difficulties, self.difficulty_index, 
+#     (self.win_width // 1.13, self.win_height // 8 * 1.5)
+# )
 
-       
-        self.button_return = self.draw_full_button("Retour", (self.win_width // 2, self.win_height // 8 * 7))
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_pos = pygame.mouse.get_pos()
 
-        return self.button_return  
 
+            if self.left_difficulty.collidepoint(mouse_pos):
+                self.difficulty_index = (self.difficulty_index - 1) % len(self.difficulties)
+                self.get_current_settings()
+            elif self.right_difficulty.collidepoint(mouse_pos):
+                self.difficulty_index = (self.difficulty_index + 1) % len(self.difficulties)
+                self.get_current_settings()
+
+
+            if self.left_resolution.collidepoint(mouse_pos):
+                self.resolution_index = (self.resolution_index - 1) % len(self.resolutions)
+                self.get_current_settings()
+            elif self.right_resolution.collidepoint(mouse_pos):
+                self.resolution_index = (self.resolution_index + 1) % len(self.resolutions)
+                self.get_current_settings()
+
+
+            if self.left_language.collidepoint(mouse_pos):
+                self.language_index = (self.language_index - 1) % len(self.languages)
+                self.get_current_settings()
+            elif self.right_language.collidepoint(mouse_pos):
+                self.language_index = (self.language_index + 1) % len(self.languages)
+                self.get_current_settings()
+
+        
+        
     
     def draw_window_settings(self, controller):
         self.reset_background_screen()
@@ -99,7 +126,10 @@ class SettingsMenu(Menu):
             self.get_current_settings()
 
         
-        self.button_return = self.draw_full_button("Retour", (self.win_width // 1.35, self.win_height // 8 * 7))
+        self.button_return = self.medium_button(
+            'Retour',
+            (self.screen_center[0],
+            self.screen_center[1] + self.height // 8 * 1.5))
 
         return self.button_return  
 
