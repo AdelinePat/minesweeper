@@ -9,8 +9,9 @@ class SettingsMenu(Menu):
     def __init__(self, caption="Settings"):
         super().__init__(caption)
 
-        self.interface = Interface(caption)
-        self.screen = self.interface.screen
+        # self.interface = Interface(caption)
+        # self.screen = self.interface.screen
+        self.menu = Menu('Paramètres')
         
 
         self.difficulties = ["Facile", "Difficile"]
@@ -107,7 +108,14 @@ class SettingsMenu(Menu):
         self.win_height = self.height // 3 * 1.2
         self.draw_menu_window()
 
-        self.interface.draw_text("Paramètres", TITLE_FONT, 50, (self.win_width // 2, self.win_height // 8))
+        #   my_title = self.menu.draw_text('Minesweeper',
+        #                                TITLE_FONT,
+        #                                self.menu.height // 9,
+        #                                self.menu.title_center,
+        #                                color=CELESTE)
+        
+
+        self.menu.draw_text("Paramètres", TITLE_FONT, 50, (self.win_width // 2, self.win_height // 8))
 
 
         self.button_difficulty = self.draw_full_button("Difficulté", (self.win_width // 1.13, self.win_height // 8 * 1.5))
