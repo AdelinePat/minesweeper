@@ -1,8 +1,9 @@
 import pygame
 import sys
-from view.__settings__ import TITLE_FONT, CELESTE, RESOLUTION  # Necessary imports
+from view.__settings__ import TITLE_FONT, TEXT_FONT, CYAN, TITLE_FONT, TEXT_FONT  # Necessary imports
 # from view.interface import Interface
 from view.menu import Menu
+from view.interface import Interface
 
 
 
@@ -11,14 +12,34 @@ class SettingsMenu(Menu):
         # Calling the parent class constructor (Interface)
         super().__init__(caption)
         # self.menu = Menu(caption)
+        self.interface = Interface(caption)
+
+        # Utilisation de l'interface pour obtenir l'écran
+        self.screen = self.interface.screen
         
         # Attributes specific to the settings window
         self.difficulties = ["Facile", "Difficile"]
-        self.resolutions = ["1080x720", "720x450"]
         self.difficulty_index = 0
+        self.resolutions = ["1080x720", "720x450"]
         self.resolution_index = 0
+        self.languages = ["fr", "eng"]
+        self.language_index = 0
         self.setting_win = self.draw_menu_window()
         # self.draw_full_button = self.draw_full_button()
+
+    def draw_text(self, text, position, color=TEXT_FONT):
+        text_surface = FONT.render(text, True, color)
+        self.screen.blit(text_surface, position)
+
+    def draw_button(self, text, center):
+    
+        button_rect = pygame.Rect(0, 0, 120, 50)
+        button_rect.center = center
+        pygame.draw.rect(self.screen, CYAN, button_rect, border_radius=10)
+        text_surface = FONT.render(text, True, TITLE_FONT)
+        text_rect = text_surface.get_rect(center=button_rect.center)
+        self.screen.blit(text_surface, text_rect)
+        return button_rect
 
     def draw_settings_screen(self):
         """Handles the display of the settings screen with dropdown menus"""

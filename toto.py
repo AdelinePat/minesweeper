@@ -23,6 +23,7 @@ class Settings(Menu):
         self.languages = ["fr", "eng"]
         self.language_index = 0
         self.setting_win = self.draw_menu_window()
+        
 
     def draw_text(self, text, position, color=BLACK):
         text_surface = FONT.render(text, True, color)
