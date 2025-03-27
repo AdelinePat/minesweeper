@@ -2,6 +2,9 @@ from view.in_game_menu import InGameMenu
 from view.__settings__ import CERULEAN, NOT_SO_GHOST_WHITE, GHOST_WHITE, TEXT_FONT, TITLE_FONT, CYAN, AGRESSIVE_PINK
 import random
 import pygame
+import datetime
+import time
+
 
 class GameBoard(InGameMenu):
     def __init__(self, caption, rows, columns):
@@ -12,6 +15,10 @@ class GameBoard(InGameMenu):
         self.border_thickness = 5
         self.border_radius = 15
         self.button_height = self.height // 12
+
+        self.start_time = 0
+        self.time = 0
+        self.elapsed_time = '0'
 
         self.click = 0
         self.rows = rows
@@ -46,10 +53,15 @@ class GameBoard(InGameMenu):
         self.board = self.create_board()
 
     def draw_in_game_screen(self):
+        if self.click >= 1:
+            self.time = datetime.datetime.now() - self.start_time
+            # self.actual_time = self.time.strftime('%M:%S')
 
-        self.set_title('1:01')
+            self.time_passed = int(time.time() - self.now)
 
-        nombre_mine = len(self.bomb_positions)
+            self.elapsed_time = f'{datetime.datetime.now().minute} : {datetime.datetime.now().second}'
+
+        self.set_title(f'{self.elapsed_time}')
 
         self.display_game_info('Mines :', f'{len(self.bomb_positions)}',
                                self.height // 4
@@ -64,8 +76,9 @@ class GameBoard(InGameMenu):
         self.display_game_info('? posé(s) :', f'0',
                                self.height // 4*2
                                )
-        
-        # self.small_button()
+
+        self.small_button('Réinitialiser', (self.width // 4*3, self.height // 4 * 2.5))
+        self.small_button('Quitter', (self.width // 4*3, self.height // 4 * 3))
         
         self.go_through_board()
 
@@ -199,6 +212,10 @@ class GameBoard(InGameMenu):
         if hitbox[0].collidepoint(mouse_position) and pygame.mouse.get_pressed()[0]:
             self.click += 1
             if self.click == 1:
+                self.start_time = datetime.datetime.now()
+                self.now = time.time()
+# do some stuff
+
                 self.bomb_positions = self.get_bomb_positions_list(row, column)
                 self.set_board_values()
 

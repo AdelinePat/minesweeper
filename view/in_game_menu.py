@@ -18,6 +18,24 @@ class InGameMenu(Interface):
             color=CELESTE
         )
 
+        back_rect = pygame.Rect(0, 0,
+                    self.title.width + 100,
+                    self.title.height)
+        back_rect.center = self.title.center
+
+        pygame.draw.rect(self.screen, INDIGO_DYE, back_rect)
+        
+        self.title = self.draw_text(text,
+            TITLE_FONT,
+            self.height//9,
+            (self.title_center[0] // 4*3, self.title_center[1]),
+            color=CELESTE
+        )
+
+
+
+
+
     def display_game_info(self, text_title, text_content, position_y):
         font = TEXT_FONT
         font_size = self.height // 24
