@@ -25,12 +25,11 @@ class Settings(Menu):
         self.setting_win = self.draw_menu_window()
 
     def draw_text(self, text, position, color=BLACK):
-        """Affiche un texte sur l'écran à une position donnée."""
         text_surface = FONT.render(text, True, color)
         screen.blit(text_surface, position)
 
     def draw_button(self, text, center):
-        """Crée un bouton avec un texte centré."""
+    
         button_rect = pygame.Rect(0, 0, 120, 50)
         button_rect.center = center
         pygame.draw.rect(screen, GRAY, button_rect, border_radius=10)
@@ -40,7 +39,7 @@ class Settings(Menu):
         return button_rect
 
     def option_button(self, label, options, index, center):
-        """Crée des boutons < et > et affiche l'option actuelle avec un label."""
+       
         label_surface = FONT.render(f"{label}:", True, BLACK)
         label_rect = label_surface.get_rect(midright=(center[0] - 100, center[1]))
 
@@ -62,17 +61,27 @@ class Settings(Menu):
 
         return left_button, right_button
 
-    def get_resolution(self):
-        """Retourne l'index et le tuple de la résolution actuelle."""
-        return self.resolution_index, self.resolutions[self.resolution_index][1]
+    def get_current_settings(self):
+        settings = (
+            (self.difficulty_index, self.difficulties[self.difficulty_index]),
+            (self.resolution_index, self.resolutions[self.resolution_index]),
+            (self.language_index, self.languages[self.language_index]),
+        )
+
+
+        print(f"Difficulté: Index {settings[0][0]}, Valeur {settings[0][1]}")
+        print(f"Résolution: Index {settings[1][0]}, Valeur {settings[1][1]}")
+        print(f"Langue: Index {settings[2][0]}, Valeur {settings[2][1]}")
+
+        return settings
+
 
     def draw_settings_screen(self):
-        """Affichage de l'écran des paramètres et gestion des interactions."""
         running = True
         while running:
             screen.fill(WHITE)
 
-            # Centrage avec self.win_width // 2 et self.win_height // 8 * X
+           
             left_difficulty, right_difficulty = self.option_button(
                 "Difficulté", self.difficulties, self.difficulty_index, (self.win_width // 1.13, self.win_height // 8 * 1.5)
             )
@@ -83,7 +92,7 @@ class Settings(Menu):
                 "Langue", self.languages, self.language_index, (self.win_width // 1.13, self.win_height // 8 * 5.5)
             )
 
-            # 🔙 Bouton "Back"
+      
             button_back = self.draw_button("Back", (self.win_width // 1.35, self.win_height // 8 * 7))
 
             for event in pygame.event.get():
@@ -93,25 +102,31 @@ class Settings(Menu):
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if left_difficulty.collidepoint(event.pos):
                         self.difficulty_index = (self.difficulty_index - 1) % len(self.difficulties)
+                        self.get_current_settings()  # Affiche les valeurs mises à jour en console
                     if right_difficulty.collidepoint(event.pos):
                         self.difficulty_index = (self.difficulty_index + 1) % len(self.difficulties)
+                        self.get_current_settings()
 
                     if left_resolution.collidepoint(event.pos):
                         self.resolution_index = (self.resolution_index - 1) % len(self.resolutions)
+                        self.get_current_settings()
                     if right_resolution.collidepoint(event.pos):
                         self.resolution_index = (self.resolution_index + 1) % len(self.resolutions)
+                        self.get_current_settings()
 
                     if left_language.collidepoint(event.pos):
                         self.language_index = (self.language_index - 1) % len(self.languages)
+                        self.get_current_settings()
                     if right_language.collidepoint(event.pos):
                         self.language_index = (self.language_index + 1) % len(self.languages)
+                        self.get_current_settings()
 
-                    # Vérification du clic sur "Back"
+                  
                     if button_back.collidepoint(event.pos):
-                        print("Retour au menu")  # Ajoute ici la logique pour revenir au menu
-                        running = False  # Ferme l'écran des paramètres
-
+                        print("Retour au menu")  
+                        running = False  
             pygame.display.flip()
+
 
 settings = Settings()
 settings.draw_settings_screen()
