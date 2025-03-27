@@ -78,6 +78,8 @@ class MainMenu:
             # Draw the main menu screen
             if self.controller.is_screen_main:
                 self.draw_main_menu()
+            else:
+                self.menu.reset_background_screen()
                 
                 if self.button_quit:
                     print("Exiting the game...")

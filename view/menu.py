@@ -12,7 +12,7 @@ class Menu(Interface):
         self.border_thickness = 5
         self.border_radius = 15
         self.button_height = self.height // 12
-        self.clicked = False
+        
         # self.draw_menu_window()
     
     def draw_menu_window(self):

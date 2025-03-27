@@ -14,6 +14,7 @@ class Interface():
         self.title_center = (self.width//2, self.height//12)
         self.reset_background_screen()
         self.icon = pygame.display.set_icon(pygame.image.load(MINE_ICON)) # icon on the windows
+        self.clicked = False
 
     def update(self):
         pygame.display.flip()

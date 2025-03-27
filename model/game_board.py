@@ -53,6 +53,13 @@ class GameBoard(InGameMenu):
         self.board = self.create_board()
 
     def draw_in_game_screen(self):
+        # self.reset_background_screen()
+        # self.board = self.create_board()
+        # # if self.click == 0:
+        # #     self.reset_background_screen()
+        
+        # self.redraw_board()
+            
         if self.click >= 1:
             self.time = datetime.datetime.now() - self.start_time
             # self.actual_time = self.time.strftime('%M:%S')
@@ -106,7 +113,7 @@ class GameBoard(InGameMenu):
                 content = [square_hitbox, None]
 
                 if (index, other_index) in self.bomb_positions:
-                    content = [square_hitbox, 'bomb']
+                    content = [square_hitbox, 'bomb', False]
                
                 row_list.append(content)
                 x += (self.grid_node_width + self.padding)
@@ -118,6 +125,21 @@ class GameBoard(InGameMenu):
         self.draw_grid_border()
         return board
     
+    def redraw_board(self):
+        x = self.grid_top_left[0]
+        y = self.grid_top_left[1]
+
+        for row in range(self.rows):
+            for column in range(self.columns):
+                if (row, column) not in self.revealed_square:
+                    self.createSquare(NOT_SO_GHOST_WHITE, x, y)
+                else:
+                    self.createSquare(GHOST_WHITE, x, y)
+            x = self.grid_top_left[0]
+            y += (self.grid_node_height + self.padding)
+        
+        self.draw_grid_border()
+
     def createSquare(self,  color, x, y):
         actual_square = pygame.rect.Rect([x, y, self.grid_node_width, self.grid_node_height])
         pygame.draw.rect(self.screen, color, actual_square)
