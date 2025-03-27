@@ -48,8 +48,8 @@ class SettingsMenu(Menu):
         pygame.draw.rect(self.screen, INDIGO_DYE, left_button)
         pygame.draw.rect(self.screen, INDIGO_DYE, right_button)
 
-        self.interface.draw_text("<", (left_button.centerx - 10, left_button.centery - 12), color=CYAN)
-        self.interface.draw_text(">", (right_button.centerx - 10, right_button.centery - 12), color=CYAN)
+        self.menu.draw_text("<", (left_button.centerx - 10, left_button.centery - 12), color=CYAN)
+        self.menu.draw_text(">", (right_button.centerx - 10, right_button.centery - 12), color=CYAN)
 
         return left_button, right_button
     
