@@ -83,10 +83,23 @@ class Interface():
                                             actual_font_color)
         self.blit_text_from_rect(button_draw_text, button_text_rect)
 
-        if hovered and pygame.mouse.get_pressed()[0]:
-            print(button_text)
+        return self.check_click_on_button(hovered)
+
+        # if hovered and pygame.mouse.get_pressed()[0]:
+        #     print(button_text)
+        #     return True
+        # else:
+        #     return False
+            # return something usefull, I guess
+
+        
+
+    def check_click_on_button(self, hovered):
+        if hovered and pygame.mouse.get_pressed()[0] and not self.clicked:
+            self.clicked = True
+        
+        elif hovered and not pygame.mouse.get_pressed()[0] and self.clicked:
+            self.clicked = False
             return True
         else:
             return False
-            # return something usefull, I guess
-

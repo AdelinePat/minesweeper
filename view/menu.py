@@ -53,21 +53,18 @@ class Menu(Interface):
         button_draw_text.height=self.button_height
         button_draw_text.width=self.win_width - self.border_thickness*2
 
-        # for event in pygame.event.get():
+        return self.check_click_on_button(hovered)
 
-        if hovered and pygame.mouse.get_pressed()[0] and not self.clicked:
-            self.clicked = True
-        # if hovered and event.type == pygame.MOUSEBUTTONDOWN:
-            # return button_text
         
-        elif hovered and not pygame.mouse.get_pressed()[0] and self.clicked:
-            self.clicked = False
-            return True
-        else:
-            return False
-                # return something usefull, I guess
 
-        # return hovered_button
+        # if hovered and pygame.mouse.get_pressed()[0] and not self.clicked:
+        #     self.clicked = True
+        
+        # elif hovered and not pygame.mouse.get_pressed()[0] and self.clicked:
+        #     self.clicked = False
+        #     return True
+        # else:
+        #     return False
 
     def medium_button(self, button_text, center, background=CYAN, background_hovered=AGRESSIVE_PINK, color=INDIGO_DYE, color_hover=GHOST_WHITE):
         # Create rectangle for text -> self.button_height//2 = font_size
@@ -102,7 +99,9 @@ class Menu(Interface):
                                             actual_font_color)
         self.blit_text_from_rect(button_draw_text, button_text_rect)
 
-        if hovered and pygame.mouse.get_pressed()[0]:
-            return True
-        else:
-            return False
+        return self.check_click_on_button(hovered)
+
+        # if hovered and pygame.mouse.get_pressed()[0]:
+        #     return True
+        # else:
+        #     return False

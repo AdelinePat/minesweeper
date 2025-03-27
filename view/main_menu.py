@@ -78,10 +78,15 @@ class MainMenu:
             # Draw the main menu screen
             if self.controller.is_screen_main:
                 self.draw_main_menu()
+                
+                if self.button_quit:
+                    print("Exiting the game...")
+                    pygame.quit()
+                    sys.exit()   
             
             self.controller.screen_access()
 
-            
+                     
 
             # Event handling for window events (such as quit)
             for event in pygame.event.get():
@@ -89,11 +94,7 @@ class MainMenu:
                     pygame.quit()
                     sys.exit()
 
-                if self.button_quit:
-                    print("Exiting the game...")
-                    pygame.quit()
-                    sys.exit()
-
+                
             # Update the display to show changes
             # pygame.display.update()
             self.menu.update()
