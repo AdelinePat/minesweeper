@@ -38,35 +38,51 @@ class SettingsMenu(Menu):
         pygame.draw.rect(self.screen, INDIGO_DYE, left_button)
         pygame.draw.rect(self.screen, INDIGO_DYE, right_button)
 
-        self.interface.draw_text("<", (left_button.centerx - 10, left_button.centery - 15), color=GHOST_WHITE)
-        self.interface.draw_text(">", (right_button.centerx - 10, right_button.centery - 15), color=GHOST_WHITE)
+        self.interface.draw_text("<", (left_button.centerx - 10, left_button.centery - 12), color=CYAN)
+        self.interface.draw_text(">", (right_button.centerx - 10, right_button.centery - 12), color=CYAN)
 
         return left_button, right_button
     
 
     def get_current_settings(self):
-        settings = (
-            (self.difficulty_index, self.difficulties[self.difficulty_index]),
-            (self.resolution_index, self.resolutions[self.resolution_index]),
-            (self.language_index, self.languages[self.language_index]),
-        )
+            settings = (
+                (self.difficulty_index, self.difficulties[self.difficulty_index]),
+                (self.resolution_index, self.resolutions[self.resolution_index]),
+                (self.language_index, self.languages[self.language_index]),
+            )
 
-        print(f"Difficulté: Index {settings[0][0]}, Valeur {settings[0][1]}")
-        print(f"Résolution: Index {settings[1][0]}, Valeur {settings[1][1]}")
-        print(f"Langue: Index {settings[2][0]}, Valeur {settings[2][1]}")
+            print(f"Difficulté: Index {settings[0][0]}, Valeur {settings[0][1]}")
+            print(f"Résolution: Index {settings[1][0]}, Valeur {settings[1][1]}")
+            print(f"Langue: Index {settings[2][0]}, Valeur {settings[2][1]}")
 
-        return settings
+            return settings
+        
+    def draw_window_settings(self, controller): 
+        # self.reset_background_screen()
+        # self.win_height = self.height // 3 * 2
+        self.draw_menu_window()
+
+        self.interface.draw_text("Paramètres", TITLE_FONT, 50, (self.win_width // 2, self.win_height // 8))
+
+    
+        self.left_difficulty, self.right_difficulty = self.option_button("Difficulté", self.difficulties, self.difficulty_index, (self.win_width // 1.13, self.win_height // 8 * 1.5))
+        self.left_resolution, self.right_resolution = self.option_button("Résolution", self.resolutions, self.resolution_index, (self.win_width // 1.13, self.win_height // 8 * 3.5))
+        self.left_language, self.right_language = self.option_button("Langue", self.languages, self.language_index, (self.win_width // 1.13, self.win_height // 8 * 5.5))
+
+       
+        self.button_return = self.draw_full_button("Retour", (self.win_width // 2, self.win_height // 8 * 7))
+
+        return self.button_return  
+
     
     def draw_window_settings(self, controller):
-        """Affiche les boutons sur l'interface Settings et les rend accessibles dans la classe."""
-       
         self.reset_background_screen()
         self.win_height = self.height // 3 * 1.2
         self.draw_menu_window()
 
         self.interface.draw_text("Paramètres", TITLE_FONT, 50, (self.win_width // 2, self.win_height // 8))
 
-        # Création et affichage des boutons
+
         self.button_difficulty = self.draw_full_button("Difficulté", (self.win_width // 1.13, self.win_height // 8 * 1.5))
         if self.button_difficulty:
             self.difficulty_index = (self.difficulty_index + 1) % len(self.difficulties)
@@ -82,10 +98,10 @@ class SettingsMenu(Menu):
             self.language_index = (self.language_index + 1) % len(self.languages)
             self.get_current_settings()
 
-        # Ajout du bouton Retour
+        
         self.button_return = self.draw_full_button("Retour", (self.win_width // 1.35, self.win_height // 8 * 7))
 
-        return self.button_return  # Retourne le bouton retour pour gestion dans le contrôleur
+        return self.button_return  
 
 
 
