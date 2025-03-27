@@ -42,30 +42,31 @@ class MainMenu:
         self.button_quit = self.menu.draw_full_button('Quitter', 
                                 (self.menu.screen_center[0], self.menu.screen_center[1] + self.menu.height // 8 * 1.5))
 
-    def handle_main_menu_events(self):
-        """Handle events for the main menu buttons."""
-        if self.controller.is_screen_in_game:
-            print("Navigating to Game...")
-            # Call the game controller logic here if you need to go to the game screen
-            self.controller.is_screen_main = False
-            self.game_controller.start_game()
+    ## LE CONTROLLEUR SE CHARGE DEJA DE HANDLE MAIN MENU (fonction screen_access)
+    # def handle_main_menu_events(self):
+    #     """Handle events for the main menu buttons."""
+    #     if self.controller.is_screen_in_game:
+    #         print("Navigating to Game...")
+    #         # Call the game controller logic here if you need to go to the game screen
+    #         self.controller.is_screen_main = False
+    #         self.game_controller.start_game()
 
-        if self.controller.is_screen_settings:
-            print("Navigating to Settings...")
-            # Call settings menu or screen transition here
-            self.controller.is_screen_main = False
-            self.in_settings_screen = True
-            self.controller.screen_access()
-            # Maybe call your SettingsMenu or navigate to the settings screen here
+    #     if self.controller.is_screen_settings:
+    #         print("Navigating to Settings...")
+    #         # Call settings menu or screen transition here
+    #         self.controller.is_screen_main = False
+    #         self.in_settings_screen = True
+    #         self.controller.screen_access()
+    #         # Maybe call your SettingsMenu or navigate to the settings screen here
 
-        if self.controller.is_screen_win:
-            print("Navigating to Leaderboard...")
-            # Implement leaderboard navigation here if necessary
+    #     if self.controller.is_screen_win:
+    #         print("Navigating to Leaderboard...")
+    #         # Implement leaderboard navigation here if necessary
         
-        if self.button_quit:
-            print("Exiting the game...")
-            pygame.quit()
-            sys.exit()
+    #     if self.button_quit:
+    #         print("Exiting the game...")
+    #         pygame.quit()
+    #         sys.exit()
 
     def main_loop(self):
         pygame.init()
@@ -75,8 +76,13 @@ class MainMenu:
             if self.controller.is_screen_main:
                 self.draw_main_menu()
             
-            self.handle_main_menu_events()
-            
+            self.controller.screen_access()
+
+            if self.button_quit:
+                print("Exiting the game...")
+                pygame.quit()
+                sys.exit()
+
             # Event handling for window events (such as quit)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

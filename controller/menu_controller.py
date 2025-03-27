@@ -25,11 +25,15 @@ class MenuController():
         """Controls screen transitions based on the flags."""
         if self.is_screen_in_game:
             pass
+
         elif self.is_screen_settings:
             self.is_screen_main = False
             self.settings_screen.draw_window_settings(self)
-            pygame.display.update()
+            # pygame.display.update()
             
+            # self.controller.is_screen_main = False
+            # self.in_settings_screen = True
+
             if self.settings_screen.button_return:
                 self.is_screen_settings = False
                 self.is_screen_main = True
@@ -37,8 +41,8 @@ class MenuController():
         elif self.is_screen_win == True:
             self.is_screen_main = False
             # create condition for which screen to display
-            # self.winner_screen.draw_winner_top_3(self)
-            self.winner_screen.draw_window_winner_not_top_3(self)
+            self.winner_screen.draw_winner_top_3(self)
+            # self.winner_screen.draw_window_winner_not_top_3(self)
             if self.winner_screen.button_return == True:
                 self.is_screen_win = False
                 self.is_screen_main = True
