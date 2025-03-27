@@ -12,6 +12,7 @@ class Menu(Interface):
         self.border_thickness = 5
         self.border_radius = 15
         self.button_height = self.height // 12
+        self.clicked = False
         # self.draw_menu_window()
     
     def draw_menu_window(self):
@@ -52,12 +53,19 @@ class Menu(Interface):
         button_draw_text.height=self.button_height
         button_draw_text.width=self.win_width - self.border_thickness*2
 
-        if hovered and pygame.mouse.get_pressed()[0]:
+        # for event in pygame.event.get():
+
+        if hovered and pygame.mouse.get_pressed()[0] and not self.clicked:
+            self.clicked = True
+        # if hovered and event.type == pygame.MOUSEBUTTONDOWN:
             # return button_text
+        
+        elif hovered and not pygame.mouse.get_pressed()[0] and self.clicked:
+            self.clicked = False
             return True
         else:
             return False
-            # return something usefull, I guess
+                # return something usefull, I guess
 
         # return hovered_button
 

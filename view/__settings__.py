@@ -1,10 +1,10 @@
 # from pygame_menu import Theme
 # from assets.fonts import 
 ## DEFAULT SETTINGS
-width=1380
-height=1020
+width=720
+height=400
 RESOLUTION = (width, height)
-FPS = 144
+FPS = 20
 ## COLORS
 AGRESSIVE_PINK = (195, 60, 84)
 INDIGO_DYE = (37, 78, 112)

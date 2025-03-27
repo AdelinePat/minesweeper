@@ -37,10 +37,13 @@ class MainMenu:
         # "Leaderboard" button
         self.controller.is_screen_win = self.menu.draw_full_button('Palmarès', 
                                 (self.menu.screen_center[0], self.menu.screen_center[1] + self.menu.height // 8 * 0.5))
-
+        
+        if self.controller.is_screen_win==True:
+            print("hola")
         # "Quit" button
         self.button_quit = self.menu.draw_full_button('Quitter', 
                                 (self.menu.screen_center[0], self.menu.screen_center[1] + self.menu.height // 8 * 1.5))
+        
 
     ## LE CONTROLLEUR SE CHARGE DEJA DE HANDLE MAIN MENU (fonction screen_access)
     # def handle_main_menu_events(self):
@@ -78,10 +81,7 @@ class MainMenu:
             
             self.controller.screen_access()
 
-            if self.button_quit:
-                print("Exiting the game...")
-                pygame.quit()
-                sys.exit()
+            
 
             # Event handling for window events (such as quit)
             for event in pygame.event.get():
@@ -89,5 +89,11 @@ class MainMenu:
                     pygame.quit()
                     sys.exit()
 
+                if self.button_quit:
+                    print("Exiting the game...")
+                    pygame.quit()
+                    sys.exit()
+
             # Update the display to show changes
-            pygame.display.update()
+            # pygame.display.update()
+            self.menu.update()
