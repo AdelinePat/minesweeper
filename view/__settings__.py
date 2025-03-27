@@ -13,6 +13,7 @@ CELESTE = (174, 243, 231)
 CYAN = (142, 227, 239)
 GHOST_WHITE = (250, 254, 255)
 NOT_SO_GHOST_WHITE = (212, 223, 228)
+WHITE = (255, 255, 255)
 
 ## FONT PATH
 TITLE_FONT = "./assets/fonts/JockeyOne-Regular.ttf"
