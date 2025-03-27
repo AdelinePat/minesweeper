@@ -1,4 +1,4 @@
-from view.settings import Settings
+from view.settings_main import SettingsMain
 
 class MenuController():
     def __init__(self):
@@ -16,7 +16,7 @@ class MenuController():
             print("This is the game screen.")
         elif self.is_screen_settings:
             # self.is_screen_main = False
-            self.settings_screen = Settings()
+            self.settings_screen = SettingsMain()
             self.settings_screen.draw_settings_screen()
             # self.settings_screen.update()
 

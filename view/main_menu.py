@@ -3,7 +3,7 @@ from view.menu import Menu
 from controller.menu_controller import MenuController
 from controller.game_controller import GameController
 from view.__settings__ import TITLE_FONT, CELESTE
-from view.settings import Settings
+from view.settings_main import SettingsMain
 
 class MainMenu():
     def __init__(self):
@@ -11,7 +11,7 @@ class MainMenu():
         self.controller = MenuController()
         self.game_controller = GameController()
         self.in_settings_screen = False  # Track if we are in settings screen
-        self.settings = Settings()
+        self.settings = SettingsMain()
 
     def settings_screen(self):
         """Handles the display of the settings screen with dropdown menus"""

@@ -6,7 +6,7 @@ from view.menu import Menu
 
 
 
-class Settings(Menu):
+class SettingsMain(Menu):
     def __init__(self, caption="Settings"):
         # Calling the parent class constructor (Interface)
         super().__init__(caption)
