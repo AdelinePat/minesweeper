@@ -1,5 +1,207 @@
 # minesweeper file documentation
 
+# Minesweeper
+
+# Financial Management Tool
+
+![preview main](minsweeper.png)
+
+**Project Description**
+
+The goal of this project is to create a financial management tool that allows users to track their bank accounts. Through a user-friendly graphical interface, the user can add, view, and search for transactions (deposits, withdrawals, transfers), all while benefiting from enhanced security to protect sensitive data.
+
+The system relies on a database that stores all the necessary information for managing accounts, such as the transactions made, registered users, and their personal information.
+
+---
+
+## Main Features
+
+1. **Transaction Management** :
+
+   - The user can perform transactions such as deposits, withdrawals, or money transfers.
+   - Each transaction contains a unique reference, a description, an amount, a date, and a type (withdrawal, deposit, or transfer)
+
+2. **Security** :
+
+   - A login module protects access to the application.
+   - Registration of a new user with the necessary information (last name, first name, email, secure password).
+   - The password is secured through a hashing system and must meet certain requirements (uppercase letters, lowercase letters, numbers,  
+     special character).
+
+3. **Transaction History** :
+
+   - Displaying the complete transaction history of the user.
+   - Advanced search of transactions based on various criteria: date, category, type, amount, etc.
+   - The ability to filter transactions between two dates.
+
+4. **Global financial overview.** :
+
+   - Display of the current balance and monthly expenses.
+   - Charts illustrating expenses by category and by month.
+   - Alerts for overdrafts or other important financial events.
+
+5. **Bank Account Management** (Optional):
+   - Advanced functionality to allow a banker to manage their clients' accounts and perform transactions on their behalf.
+
+---
+
+## Technologies Used
+
+- **Python** : Main Programming Language.
+- **Pygame** : Library for creating games and multimedia applications..
+
+## Prerequisites
+
+Before running this project, you need to install the following libraries and tools:
+
+1. **Python 3.x**
+2. **MySQL Server** : To host the database.
+3. **The following Python libraries:** :
+   - `pygame`
+
+
+You can install the necessary libraries using: `pip` :
+
+```bash
+pip install pygame
+```
+
+---
+
+## Installation
+
+1.  Clone this project to your local machine.
+    ```bash
+    git clone https://github.com/AdelinePat/minesweeper.git
+    ```
+2.  Access the project directory:
+
+    ```bash
+    git cd minesweeper
+    ```
+
+3.  Make sure pygame is installed on your machine.
+
+4.  Create the `.env ` file to install the libraries
+
+---
+
+## Usage
+
+1.  Running the Application:
+
+```bash
+python main.py
+```
+
+2.  You will be prompted to log in with your credentials or create an account if you don't have one.
+
+3.  After logging in, you will be able to make transactions, view the transaction history, and check your finances..
+
+## File Structure
+
+📂 assets  
+│ 📂 font  
+│ 📂 icon    
+| 📂 img  
+│ 📂 img_cell    
+|
+📂 controller  
+│ 📄 game_controller.py  
+│ 📄 menu_controller.py   
+│
+📂 model  
+│ 📄 game_board.py  
+│ 📄 game_info.py  
+│ 📄 square.py  
+│ 📄 write_transactionquery.py  
+│
+📂 test  
+│ 📄 test.py  
+│ 📄 test3.py  
+│ 📄 winner_buton.py  
+│ 📄 winner_top_buton.py  
+│
+📂 view  
+│ 📄 **settings**.py  
+│ 📄 in_game_menu.py  
+│ 📄 interface.py  
+│ 📄 main_menu.py  
+│ 📄 menu.py  
+│ 📄 settings_menu.py  
+│ 📄 winner_menu.py  
+│ 📄 winner.py  
+│ 📄 winner.py   
+│
+📄 .gitignore  
+📄 main.py  
+📄 README.md
+
+---
+
+**BDatabase**
+
+The project uses a MySQL database to store user information, bank accounts, and transactions. Below is the structure of the tables:
+
+1.**Users** : Contains user information (last name, first name, email, password). 2.**Bank_account** : Contains information about bank accounts linked to each user. 3.**transactions** : Contains information about transactions made between bank accounts..
+
+The SQL script to initialize the database and insert sample data is included in the project. You can run it on your MySQL server to create the structure and insert the initial data.
+
+---
+
+# Contributing
+
+This project was made by:
+
+- [Eltigani Abdallah](https://github.com/eltigani-abdallah)
+- [Adeline Patenne](https://github.com/AdelinePat/)
+- [Florence Navet](https://github.com/florence-navet)
+- [Yulia Sherstiuk](https://github.com/yuliia-sherstiuk)
+
+### Licence
+
+This project is licensed under the MIT License.
+
+---
+
+<!-- ![preview main](budget_buddy.png) -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Controller
 ## Game_controller.py
