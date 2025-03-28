@@ -31,6 +31,15 @@ class MenuController():
 
     def screen_access(self):
         """Controls screen transitions based on the flags."""
+
+            # match self.game_controller.game_info.difficulty:
+            #     case 0:
+            #         self.game_controller.game_info.grid_rows = 8
+            #         self.game_controller.game_info.grid_columns = 8                   
+            #     case 1:
+            #         self.game_controller.game_info.grid_rows = 15
+            #         self.game_controller.game_info.grid_columns = 15
+
         if self.is_screen_in_game:
             self.is_screen_main = False
             match self.game_controller.game_info.difficulty:
@@ -41,6 +50,15 @@ class MenuController():
                     self.game_controller.game_info.grid_rows = 15
                     self.game_controller.game_info.grid_columns = 15
             self.in_game_screen.draw_in_game_screen()
+            # pygame.display.update()
+            
+            # self.controller.is_screen_main = False
+            # self.in_settings_screen = True
+
+            if self.in_game_screen.button_return:
+                self.in_game_screen.reset_game_info()
+                self.is_screen_in_game = False
+                self.is_screen_main = True
 
         elif self.is_screen_settings:
             self.is_screen_main = False
@@ -62,7 +80,6 @@ class MenuController():
             if self.winner_screen.button_return == True:
                 self.is_screen_win = False
                 self.is_screen_main = True
-
     
     def set_settings(self, choice):
         '''TODO: display settings screen + back-end for settings choice'''

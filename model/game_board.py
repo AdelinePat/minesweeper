@@ -68,9 +68,6 @@ class GameBoard(InGameMenu):
     
     def draw_in_game_screen(self):        
         self.set_title(self.start_stopwatch() if self.start_stopwatch() else "Clickez pour commencer")
-        #print(f"function time: {self.start_stopwatch()}",f"                                          variable time: {self.stopwatch_start_time}", end="\r")
-
-    def draw_in_game_screen(self):
         self.reset_background_screen()
         self.grid_rect_draw = pygame.draw.rect(self.screen,
                                                CERULEAN,
@@ -86,17 +83,17 @@ class GameBoard(InGameMenu):
         
 
         self.display_game_info('Mines :', f'{len(self.bomb_positions)}',
-                               self.height // 4
+                               self.height // 4*0.75
                                )
         
         #print(len(self.bomb_positions))
         
         self.display_game_info('Drapeau(x) posé(s) :', f'0',
-                               self.height // 4*1.5
+                               self.height // 4*1.25
                                )
         
         self.display_game_info('? posé(s) :', f'0',
-                               self.height // 4*2
+                               self.height // 4*1.75
                                )
 
         self.reset_game = self.small_button('Réinitialiser', (self.width // 4*3, self.height // 4 * 2.5))
@@ -104,8 +101,8 @@ class GameBoard(InGameMenu):
             self.reset_game_info()
             self.create_board()
             
-        self.small_button('Quitter', (self.width // 4*3, self.height // 4 * 3))
-        
+        self.button_return = self.small_button('Retour', (self.width // 4*3, self.height // 4 * 3))
+
         self.go_through_board()
 
     def get_grid_node_size(self):
