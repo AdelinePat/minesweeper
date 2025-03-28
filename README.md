@@ -1,6 +1,6 @@
 # minesweeper file documentation
 
-![preview main](minsweeper.png)
+![preview main](mineweeper.png)
 
 ---
 
