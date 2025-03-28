@@ -4,7 +4,6 @@ from view.__settings__ import TITLE_FONT, TEXT_FONT, CYAN, INDIGO_DYE, GHOST_WHI
 from view.menu import Menu
 from view.interface import Interface
 
-
 class SettingsMenu(Menu):
     def __init__(self, caption="Settings"):
         super().__init__(caption)
@@ -47,22 +46,36 @@ class SettingsMenu(Menu):
         return dialog_rect 
 
     def option_button(self, label, options, index, center):
+        # Positionne le bouton du label à gauche
         label_button = self.special_button(f"{label}:", center=(center[0] - 100, center[1]), background=CYAN, background_hovered=AGRESSIVE_PINK, color=GHOST_WHITE, color_hover=INDIGO_DYE, font=TEXT_FONT)
         
+        # Récupère le texte de l'option sélectionnée
         option_text = options[index][0] if isinstance(options[index], tuple) else options[index]
 
+        # Positionne le bouton de l'option à droite du label
         option_button = self.special_button(option_text, center=(label_button.right + 50, center[1]), background=CYAN, background_hovered=AGRESSIVE_PINK, color=GHOST_WHITE, color_hover=INDIGO_DYE, font=TEXT_FONT)
 
+        # Ajuste les positions des boutons "<" et ">"
         left_button = pygame.Rect(option_button.left - 60, center[1] - 15, 30, 30)
-        right_button = pygame.Rect(option_button.right + 20, center[1] - 15, 30, 30)
+        right_button = pygame.Rect(option_button.right + 10, center[1] - 15, 30, 30)
 
+        # Vérifie que les boutons ne dépassent pas la fenêtre
+        screen_width = self.win_width
+        if left_button.left < 0:
+            left_button.left = 0
+        if right_button.right > screen_width:
+            right_button.right = screen_width
+
+        # Dessine les boutons "<" et ">"
         pygame.draw.rect(self.screen, INDIGO_DYE, left_button)
-        pygame.draw.rect(self.screen, INDIGO_DYE, right_button)
+        pygame.draw.rect(self.screen, AGRESSIVE_PINK, right_button)
 
-        self.draw_setting_text("<", TEXT_FONT, 24, (left_button.centerx - 5, left_button.centery - 15), color=INDIGO_DYE)
-        self.draw_setting_text(">", TEXT_FONT, 24, (right_button.centerx - 5, right_button.centery - 15), color=INDIGO_DYE)
+        # Affiche les symboles "<" et ">" dans leurs boutons respectifs
+        self.draw_setting_text("<", TEXT_FONT, 24, (left_button.centerx, left_button.centery), color=INDIGO_DYE)
+        self.draw_setting_text(">", TEXT_FONT, 24, (right_button.centerx, right_button.centery), color=INDIGO_DYE)
 
         return left_button, right_button
+
     
     def get_current_settings(self):
         settings = (
@@ -77,6 +90,24 @@ class SettingsMenu(Menu):
 
         return settings
     
+    def apply_settings(self):
+        print(f"Paramètres appliqués :\n"
+            f"Difficulté: {self.difficulties[self.difficulty_index]}\n"
+            f"Résolution: {self.resolutions[self.resolution_index]}\n"
+            f"Langue: {self.languages[self.language_index]}")
+
+        if self.resolutions[self.resolution_index] == "1080x720":
+            self.win_width = 1080
+            self.win_height = 720
+        elif self.resolutions[self.resolution_index] == "720x450":
+            self.win_width = 720
+            self.win_height = 450
+
+        if self.languages[self.language_index] == "fr":
+            print("Langue changée en Français")
+        elif self.languages[self.language_index] == "eng":
+            print("Language changed to English")
+
     def get_single_setting(self, setting_name):
         settings = {
             "Difficulté": (self.difficulties[self.difficulty_index], self.difficulty_index),
@@ -139,18 +170,16 @@ class SettingsMenu(Menu):
                         print("Clic sur le bouton droit de la langue")
                         self.language_index = (self.language_index + 1) % len(self.languages)
 
-                    # Vérifie pour le bouton retour
                     if self.button_return.collidepoint(event.pos):
                         print("Retour au menu")
                         running = False
 
-                    # Vérifie pour le bouton appliquer
                     if self.button_apply.collidepoint(event.pos):
                         print("Application des paramètres")
-                        self.apply_settings()  # Appliquer les paramètres
+                        self.apply_settings()  
                         self.get_single_setting("Difficulté")
                         self.get_single_setting("Résolution")
                         self.get_single_setting("Langue")
 
-            pygame.display.update()  # Mettre à jour l'écran après chaque boucle de dessin
+            pygame.display.update()  
         return self.button_return
