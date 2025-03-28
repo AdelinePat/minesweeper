@@ -6,6 +6,8 @@ import datetime
 import time
 from model.square import Square
 
+
+
 class GameBoard(InGameMenu):
     def __init__(self, caption, game_info):
         super().__init__(caption)
@@ -18,7 +20,8 @@ class GameBoard(InGameMenu):
         self.button_height = self.height // 12
         
 
-        self.stopwatch_start_time=pygame.time.get_ticks()
+
+        self.stopwatch_start_time=None
 
         self.click = 0
         self.start_game = False
@@ -27,6 +30,7 @@ class GameBoard(InGameMenu):
         self.bomb_positions = []
         self.revealed_square = []
 
+        
         self.window_rect =  pygame.Rect(
                             0,0,
                             self.win_width, self.win_height)
@@ -50,15 +54,21 @@ class GameBoard(InGameMenu):
         # self.board = self.create_board()
     
     def start_stopwatch(self):
-
         if self.click>=1:
+            if self.stopwatch_start_time==None:
+                self.stopwatch_start_time=pygame.time.get_ticks()
+
             self.current_timer=int((pygame.time.get_ticks()-self.stopwatch_start_time)/1000)
             self.time_in_seconds=(self.current_timer%60)
             self.time_in_minutes=(self.current_timer//60)
             #↓ if it looks stupid, but it works, then it ain't stupid, space erases the previous title and puts in the timer
-            self.time_to_show=str(f"                              {self.time_in_minutes:02}:{self.time_in_seconds:02}                                ")
+            self.time_to_show=str(f"                                                                   {self.time_in_minutes:02}:{self.time_in_seconds:02}                                                               ")
             #↑ if it looks stupid, but it works, then it ain't stupid, space erases the previous title and puts in the timer
             return self.time_to_show
+    
+    def draw_in_game_screen(self):        
+        self.set_title(self.start_stopwatch() if self.start_stopwatch() else "Clickez pour commencer")
+        #print(f"function time: {self.start_stopwatch()}",f"                                          variable time: {self.stopwatch_start_time}", end="\r")
 
     def draw_in_game_screen(self):
         self.reset_background_screen()
@@ -72,7 +82,8 @@ class GameBoard(InGameMenu):
         else:
             self.redraw_board() 
 
-        self.set_title(f'{self.start_stopwatch() if self.start_stopwatch() else "Cliquez pour commancer"}')
+        self.set_title(f'{self.start_stopwatch() if self.start_stopwatch() else "Cliquez pour commencer"}')
+        
 
         self.display_game_info('Mines :', f'{len(self.bomb_positions)}',
                                self.height // 4
@@ -289,9 +300,8 @@ class GameBoard(InGameMenu):
         if hitbox.hitbox.collidepoint(mouse_position) and pygame.mouse.get_pressed()[0]:
             self.click += 1
             self.start_game = True
+            
             if self.click == 1:
-                self.start_time = datetime.datetime.now()
-                self.now = time.time()
 # do some stuff
 
                 self.bomb_positions = self.get_bomb_positions_list(row, column)
@@ -307,7 +317,7 @@ class GameBoard(InGameMenu):
         bomb_count = 0
         min_row_range, max_row_range = self.set_range(row, self.rows)
         min_column_range, max_column_range = self.set_range(column, self.columns)
-       
+
         for actual_row in range(min_row_range, max_row_range):
             for actual_col in range(min_column_range, max_column_range):
                 if (actual_row, actual_col) in self.bomb_positions:     
