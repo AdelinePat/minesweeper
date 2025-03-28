@@ -11,10 +11,15 @@ class InGameMenu(Interface):
         super().__init__(caption)
         self.get_resolution(self.resolution)
     
-    def set_title(self, text):
+    def set_title(self, text, font_size=None):
+        if font_size == None:
+            font_size = self.height//9
+        else:
+            font_size = font_size
+
         self.title = self.draw_text(text,
             TITLE_FONT,
-            self.height//9,
+            font_size,
             (self.title_center[0] // 4*3, self.title_center[1]),
             color=CELESTE
         )
@@ -28,7 +33,7 @@ class InGameMenu(Interface):
         
         self.title = self.draw_text(text,
             TITLE_FONT,
-            self.height//9,
+            font_size,
             (self.title_center[0] // 4*3, self.title_center[1]),
             color=CELESTE
         )

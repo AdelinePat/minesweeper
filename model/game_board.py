@@ -79,7 +79,7 @@ class GameBoard(InGameMenu):
         else:
             self.redraw_board() 
 
-        self.set_title(f'{self.start_stopwatch() if self.start_stopwatch() else ""}')
+        self.set_title(f'{self.start_stopwatch() if self.start_stopwatch() else "Minesweeper MOUHAHAHAHAHA"}', self.height//25)
         
 
         self.display_game_info('Mines :', f'{len(self.bomb_positions)}',
