@@ -17,9 +17,7 @@ class GameBoard(InGameMenu):
         self.border_radius = 15
         self.button_height = self.height // 12
 
-        self.start_time = 0
-        self.time = 0
-        self.elapsed_time = '0'
+        self.stopwatch_start_time=pygame.time.get_ticks()
 
         self.click = 0
         self.rows = rows
@@ -52,30 +50,27 @@ class GameBoard(InGameMenu):
         self.grid_top_left = self.get_grid_top_left()
         
         self.board = self.create_board()
+    
+    def start_stopwatch(self):
+
+        if self.click>=1:
+            self.current_timer=int((pygame.time.get_ticks()-self.stopwatch_start_time)/1000)
+            self.time_in_seconds=(self.current_timer%60)
+            self.time_in_minutes=(self.current_timer//60)
+            #↓ if it looks stupid, but it works, then it ain't stupid, space erases the previous title and puts in the timer
+            self.time_to_show=str(f"                              {self.time_in_minutes:02}:{self.time_in_seconds:02}                                ")
+            #↑ if it looks stupid, but it works, then it ain't stupid, space erases the previous title and puts in the timer
+            return self.time_to_show
 
     def draw_in_game_screen(self):
-        # self.reset_background_screen()
-        # self.board = self.create_board()
-        # # if self.click == 0:
-        # #     self.reset_background_screen()
-        
-        # self.redraw_board()
-            
-        if self.click >= 1:
-            self.time = datetime.datetime.now() - self.start_time
-            # self.actual_time = self.time.strftime('%M:%S')
 
-            self.time_passed = int(time.time() - self.now)
-
-            self.elapsed_time = f'{datetime.datetime.now().minute} : {datetime.datetime.now().second}'
-
-        self.set_title(f'{self.elapsed_time}')
+        self.set_title(f'{self.start_stopwatch() if self.start_stopwatch() else "Cliquez pour commancer"}')
 
         self.display_game_info('Mines :', f'{len(self.bomb_positions)}',
                                self.height // 4
                                )
         
-        print(len(self.bomb_positions))
+        #print(len(self.bomb_positions))
         
         self.display_game_info('Drapeau(x) posé(s) :', f'0',
                                self.height // 4*1.5
