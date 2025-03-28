@@ -101,6 +101,7 @@ class GameBoard(InGameMenu):
 
         self.reset_game = self.small_button('Réinitialiser', (self.width // 4*3, self.height // 4 * 2.5))
         if self.reset_game:
+            self.reset_game_info()
             self.create_board()
             
         self.small_button('Quitter', (self.width // 4*3, self.height // 4 * 3))
@@ -116,6 +117,15 @@ class GameBoard(InGameMenu):
         my_top_left = (self.grid_rect.topleft[0] + self.border_thickness+ self.padding//2,
                               self.grid_rect.topleft[1] + self.border_thickness+ self.padding//2 )
         return my_top_left
+
+    def reset_game_info(self):
+        self.bomb_positions = []
+        self.stopwatch_start_time=None
+        self.click = 0
+        self.start_game = False
+        self.bomb_positions = []
+        self.revealed_square = []
+
 
     def create_board(self):
         
