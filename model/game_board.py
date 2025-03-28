@@ -131,10 +131,10 @@ class GameBoard(InGameMenu):
         return board
     
     def redraw_board(self):
-        self.grid_rect_draw = pygame.draw.rect(self.screen,
-                                               CERULEAN,
-                                               self.grid_rect,
-                                               border_radius=self.border_radius)
+        # self.grid_rect_draw = pygame.draw.rect(self.screen,
+        #                                        CERULEAN,
+        #                                        self.grid_rect,
+        #                                        border_radius=self.border_radius)
         x = self.grid_top_left[0]
         y = self.grid_top_left[1]
 
@@ -174,38 +174,44 @@ class GameBoard(InGameMenu):
         min_row_range, max_row_range = self.set_range(row, self.rows)
         min_column_range, max_column_range = self.set_range(column, self.columns)
 
-        
-        for actual_row in range(min_row_range, max_row_range):
-            for actual_col in range(min_column_range, max_column_range):
-                print(actual_row, actual_col)
-                
-                if self.board[actual_row][actual_col].value == 0 and (actual_row,actual_col) not in self.revealed_square:
 
-                    # self.createSquare(GHOST_WHITE,
-                    #     self.board[actual_row][actual_col].hitbox.topleft[0],
-                    #     self.board[actual_row][actual_col].hitbox.topleft[1])
-                    position = (actual_row, actual_col)
-                    ## delete revelead_square list later
-                    self.revealed_square.append(position)
-                
-                    # print(position)
-                    self.reveal_square(actual_row, actual_col)
-                    self.board[actual_row][actual_col].revealed = True
-                    # print(self.board[actual_row][actual_row])
+        if self.board[row][column].value in (1,2,3,4,5,6,7,8):
+                self.board[row][column].revealed = True
+                self.draw_revealed_square_with_value(row, column)
 
-                elif self.board[actual_row][actual_col].value in (1,2,3,4,5,6,7,8):
-                    self.draw_revealed_square_with_value(actual_row, actual_col)
-                    self.board[actual_row][actual_col].revealed = True
-                    # self.createSquare(GHOST_WHITE,
-                    #     self.board[actual_row][actual_col].hitbox.topleft[0],
-                    #     self.board[actual_row][actual_col].hitbox.topleft[1])
-
-                    # self.draw_text(str(self.board[actual_row][actual_col].value),
-                    #     TEXT_FONT,
-                    #     self.board[actual_row][actual_col].hitbox.height - 5,
-                    #     self.board[actual_row][actual_col].hitbox.center
-                    #     )
+        elif self.board[row][column].value == 0:
+            for actual_row in range(min_row_range, max_row_range):
+                for actual_col in range(min_column_range, max_column_range):
+                    print(actual_row, actual_col)
                     
+                    if self.board[actual_row][actual_col].value == 0 and (actual_row,actual_col) not in self.revealed_square:
+                        self.board[actual_row][actual_col].revealed = True
+                        # self.createSquare(GHOST_WHITE,
+                        #     self.board[actual_row][actual_col].hitbox.topleft[0],
+                        #     self.board[actual_row][actual_col].hitbox.topleft[1])
+                        position = (actual_row, actual_col)
+                        ## delete revelead_square list later
+                        self.revealed_square.append(position)
+                    
+                        # print(position)
+                        self.reveal_square(actual_row, actual_col)
+                        # print(self.board[actual_row][actual_row])
+                    elif self.board[actual_row][actual_col].value in (1,2,3,4,5,6,7,8):
+                        self.board[actual_row][actual_col].revealed = True
+                        self.draw_revealed_square_with_value(actual_row, actual_col)
+
+                    
+                        
+                        # self.createSquare(GHOST_WHITE,
+                        #     self.board[actual_row][actual_col].hitbox.topleft[0],
+                        #     self.board[actual_row][actual_col].hitbox.topleft[1])
+
+                        # self.draw_text(str(self.board[actual_row][actual_col].value),
+                        #     TEXT_FONT,
+                        #     self.board[actual_row][actual_col].hitbox.height - 5,
+                        #     self.board[actual_row][actual_col].hitbox.center
+                        #     )
+                        
             self.draw_grid_border()
 
     def draw_revealed_square_with_value(self, actual_row, actual_col):
@@ -229,7 +235,7 @@ class GameBoard(InGameMenu):
 
         bomb_positions_list = []
 
-        bomb_number = random.randrange(5,10)
+        bomb_number = random.randrange(5, 12)
 
         for bomb in range(0, bomb_number):
             position = self.get_random_position_tuple()

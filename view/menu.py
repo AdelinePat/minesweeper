@@ -34,7 +34,27 @@ class Menu(Interface):
 
         subtitle_text = self.draw_text(text, font, subtitle_rect.height-10, center, color)
         
+    def draw_full_text(self, center):
+        text_rect = pygame.Rect(
+            0, 0,
+            self.win_width - self.border_thickness*2, self.button_height
+        )
+        text_rect.center = center
 
+        # mouse_position = pygame.mouse.get_pos()
+        # hovered = text_rect.collidepoint(mouse_position)
+
+        # actual_bg_color = background_hovered if hovered else background
+        # pygame.draw.rect(self.screen, actual_bg_color, text_rect)
+
+        # actual_font_color = color_hover if hovered else color
+        # button_draw_text = self.draw_text(button_text, font, text_rect.height-10, center, actual_font_color)
+       
+        # button_draw_text.height=self.button_height
+        # button_draw_text.width=self.win_width - self.border_thickness*2
+
+        return text_rect
+    
     def draw_full_button(self, button_text, center, background=GHOST_WHITE, background_hovered=AGRESSIVE_PINK, color=INDIGO_DYE, color_hover=GHOST_WHITE, font=TEXT_FONT):
         hovered_button = pygame.Rect(
             0, 0,
