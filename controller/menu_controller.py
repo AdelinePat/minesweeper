@@ -15,12 +15,12 @@ class MenuController():
         self.is_screen_in_game = False
         self.button_return = False
         self.winner = ""
-
         self.winner_screen = Winner('Bravo vous avez gagné')
         self.settings_screen = SettingsMenu(self.game_controller)
-       
                 # self.in_game_screen = GameBoard('grille de jeu', self.game_controller.game_info)
         self.in_game_screen = GameBoard('grille de jeu', self.game_controller.game_info)
+        
+        self.resolution = self.settings_screen.resolutions[0]
                 
 
     
@@ -79,8 +79,8 @@ class MenuController():
         elif self.is_screen_win == True:
             self.is_screen_main = False
             # create condition for which screen to display
-            # self.winner_screen.draw_winner_top_3(self)
-            self.winner_screen.draw_window_winner_not_top_3(self)
+            self.winner_screen.draw_winner_top_3(self)
+            # self.winner_screen.draw_window_winner_not_top_3(self)
             if self.winner_screen.button_return == True:
                 self.is_screen_win = False
                 self.is_screen_main = True

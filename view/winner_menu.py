@@ -5,11 +5,14 @@ import pygame
 
 class Winner(Menu):
     def __init__(self, caption, identification=0):
-        super().__init__(caption, identification) 
+        super().__init__(caption, identification)
+        
+        self.get_resolution(self.resolution)
         
         self.draw_menu_window()
 
     def draw_window_winner_not_top_3(self, controller):
+        # self.get_resolution(controller.resolution)
 
         self.reset_background_screen()
         self.win_height = self.height // 3*1.2
@@ -32,6 +35,9 @@ class Winner(Menu):
     def draw_winner_top_3(self, controller):
         self.reset_background_screen()
         self.win_height = self.height // 3*2
+        if controller.resolution != controller.settings_screen.resolutions[0]:
+            self.get_resolution(controller.resolution)
+            
         self.draw_menu_window()
 
         my_title = self.draw_text('Vous avez gagné !',

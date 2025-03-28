@@ -9,6 +9,11 @@ class Menu(Interface):
         self.get_actual_menu_window()
         self.border_thickness = 5
         self.border_radius = 15
+
+    def reset_screen_size(self, resolution):
+        self.get_resolution(resolution)
+        self.get_actual_menu_window()
+        self.draw_menu_window()
     
     def get_actual_menu_window(self):
         self.get_resolution(self.resolution)

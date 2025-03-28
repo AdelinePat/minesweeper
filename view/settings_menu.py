@@ -12,11 +12,13 @@ class SettingsMenu(Menu):
         # self.screen = self.interface.screen
         self.difficulties = ["Facile", "Moyen", "Difficile"]
         self.difficulty_index = 0
-        self.resolutions = [(1080,720), (720,450)]
+        self.resolutions = [(1080, 720), (720, 450), (2500, 1080)]
         self.resolution_index = 0
         self.languages = ["fr", "eng"]
         self.language_index = 0
         self.game_controller = game_controller.game_info
+        
+        self.get_resolution(self.resolution)
 
     # def draw_button(self, text, center):
     #     return self.draw_full_button(text, center, background=CYAN, background_hovered=AGRESSIVE_PINK, color=GHOST_WHITE, color_hover=INDIGO_DYE, font=TITLE_FONT)
@@ -113,7 +115,10 @@ class SettingsMenu(Menu):
 
             self.game_controller.language = self.languages[self.language_index]
             self.game_controller.difficulty = self.difficulty_index
+
             self.get_resolution(self.game_controller.resolution)
+            self.get_actual_menu_window()
+            self.draw_menu_window()
 
             
             settings = (

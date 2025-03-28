@@ -9,6 +9,7 @@ pygame.init()
 class InGameMenu(Interface):
     def __init__(self, caption):
         super().__init__(caption)
+        self.get_resolution(self.resolution)
     
     def set_title(self, text):
         self.title = self.draw_text(text,

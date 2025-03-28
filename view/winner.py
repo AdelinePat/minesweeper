@@ -16,15 +16,7 @@ class Winner(Interface):
 
         self.button_height = self.height // 12
         self.draw_menu_window()
-    
-    def draw_winner_window(self):
-        self.window_rect =  pygame.Rect(
-            0,0,
-            self.win_width, self.win_height)
-        self.window_rect.center = self.screen_center
-        window = pygame.draw.rect(self.screen, self.win_bg_color, self.window_rect, border_radius=self.border_radius)
-        window_border = pygame.draw.rect(self.screen, CERULEAN, self.window_rect, self.border_thickness, border_radius=self.border_radius)
-    
+   
     def draw_subtitle(self, text, center, font=TEXT_FONT, color=GHOST_WHITE, background_color=AGRESSIVE_PINK):
         subtitle_rect = pygame.Rect(
             0, 0,

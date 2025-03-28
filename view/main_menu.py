@@ -9,6 +9,8 @@ class MainMenu(Menu):
         super().__init__(caption)
         # self.menu = Menu('Minesweeper')  # Main game menu
         self.controller = MenuController()
+        self.get_resolution(self.controller.resolution)
+        
         self.in_settings_screen = False  # Track if we are in settings screen
         self.button_quit = self.draw_full_button('Quitter', 
                                 (self.screen_center[0], self.screen_center[1] + self.height // 8 * 1.5))
@@ -53,10 +55,13 @@ class MainMenu(Menu):
         
 
         while True:
+
+            # if self.controller.resolution != self.controller.settings_screen.resolutions[0]:
+            # self.get_resolution(self.controller.resolution)
             # Draw the main menu screen
             if self.controller.is_screen_main:
                 self.draw_main_menu()
-                
+
                 if self.button_quit:
                     print("Exiting the game...")
                     pygame.quit()
