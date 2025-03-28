@@ -62,6 +62,31 @@ class Menu(Interface):
 
         # return hovered_button
 
+    def special_button(self, button_text, center, background=GHOST_WHITE, background_hovered=AGRESSIVE_PINK, color=INDIGO_DYE, color_hover=GHOST_WHITE, font=TEXT_FONT):
+        special_button_rect = pygame.Rect(
+            0, 0,
+            self.win_width - self.border_thickness * 2, self.button_height
+        )
+        special_button_rect.center = center
+
+        mouse_position = pygame.mouse.get_pos()
+        hovered = special_button_rect.collidepoint(mouse_position)
+
+        actual_bg_color = background_hovered if hovered else background
+        pygame.draw.rect(self.screen, actual_bg_color, special_button_rect)
+
+        actual_font_color = color_hover if hovered else color
+        button_draw_text = self.draw_text(button_text, font, special_button_rect.height - 10, center, actual_font_color)
+
+        button_draw_text.height = self.button_height
+        button_draw_text.width = self.win_width - self.border_thickness * 2
+
+        if hovered and pygame.mouse.get_pressed()[0]:
+            return special_button_rect
+        else:
+            return special_button_rect
+
+
     def medium_button(self, button_text, center, background=CYAN, background_hovered=AGRESSIVE_PINK, color=INDIGO_DYE, color_hover=GHOST_WHITE):
         # Create rectangle for text -> self.button_height//2 = font_size
         button_draw_text, button_text_rect = self.create_text_rect(button_text,
