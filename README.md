@@ -1,47 +1,25 @@
 # minesweeper file documentation
 
-# Minesweeper
-
-# Financial Management Tool
-
 ![preview main](minsweeper.png)
-
-**Project Description**
-
-The goal of this project is to create a financial management tool that allows users to track their bank accounts. Through a user-friendly graphical interface, the user can add, view, and search for transactions (deposits, withdrawals, transfers), all while benefiting from enhanced security to protect sensitive data.
-
-The system relies on a database that stores all the necessary information for managing accounts, such as the transactions made, registered users, and their personal information.
 
 ---
 
-## Main Features
+🎮 Game Menu System 🎮
 
-1. **Transaction Management** :
+---
 
-   - The user can perform transactions such as deposits, withdrawals, or money transfers.
-   - Each transaction contains a unique reference, a description, an amount, a date, and a type (withdrawal, deposit, or transfer)
+📌 **Project Description**
 
-2. **Security** :
+A customizable game menu system built with **Pygame**. This project provides an interactive interface for setting game preferences, including **difficulty, resolution, and language selection**, as well as a **winner screen**.
 
-   - A login module protects access to the application.
-   - Registration of a new user with the necessary information (last name, first name, email, secure password).
-   - The password is secured through a hashing system and must meet certain requirements (uppercase letters, lowercase letters, numbers,  
-     special character).
+# Financial Management Tool
 
-3. **Transaction History** :
+**Features**
 
-   - Displaying the complete transaction history of the user.
-   - Advanced search of transactions based on various criteria: date, category, type, amount, etc.
-   - The ability to filter transactions between two dates.
-
-4. **Global financial overview.** :
-
-   - Display of the current balance and monthly expenses.
-   - Charts illustrating expenses by category and by month.
-   - Alerts for overdrafts or other important financial events.
-
-5. **Bank Account Management** (Optional):
-   - Advanced functionality to allow a banker to manage their clients' accounts and perform transactions on their behalf.
+- 🎛  **Settings Menu**: Adjust difficulty, resolution, and language.  
+- 🏆 **Winner Screen**: Displays victory messages and prompts for player name entry.  
+- 🎨 **Customizable UI**: Uses various fonts, colors, and buttons.  
+- 🔄 **Dynamic Navigation**: Clickable buttons and arrow-based selection.  
 
 ---
 
@@ -55,8 +33,7 @@ The system relies on a database that stores all the necessary information for ma
 Before running this project, you need to install the following libraries and tools:
 
 1. **Python 3.x**
-2. **MySQL Server** : To host the database.
-3. **The following Python libraries:** :
+2. **The following Python libraries:** :
    - `pygame`
 
 
@@ -139,15 +116,6 @@ python main.py
 
 ---
 
-**BDatabase**
-
-The project uses a MySQL database to store user information, bank accounts, and transactions. Below is the structure of the tables:
-
-1.**Users** : Contains user information (last name, first name, email, password). 2.**Bank_account** : Contains information about bank accounts linked to each user. 3.**transactions** : Contains information about transactions made between bank accounts..
-
-The SQL script to initialize the database and insert sample data is included in the project. You can run it on your MySQL server to create the structure and insert the initial data.
-
----
 
 # Contributing
 
@@ -164,7 +132,7 @@ This project is licensed under the MIT License.
 
 ---
 
-<!-- ![preview main](budget_buddy.png) -->
+![preview main](readme_settings.png)
 
 
 
