@@ -49,7 +49,7 @@ class GameBoard(InGameMenu):
 
         self.grid_top_left = self.get_grid_top_left()
         
-        self.board = self.create_board()
+        # self.board = self.create_board()
     
     def start_stopwatch(self):
 
@@ -63,6 +63,8 @@ class GameBoard(InGameMenu):
             return self.time_to_show
 
     def draw_in_game_screen(self):
+        if self.clicked == 0:
+            self.board = self.create_board()
 
         self.set_title(f'{self.start_stopwatch() if self.start_stopwatch() else "Cliquez pour commancer"}')
 
@@ -100,15 +102,14 @@ class GameBoard(InGameMenu):
         y = self.grid_top_left[1]
         board = []
         
-        for index in range(self.rows): # rows
+        for row in range(self.rows): # rows
             row_list = []
 
-            for other_index in range(self.columns):
+            for column in range(self.columns):
     
                 square_hitbox = self.createSquare(NOT_SO_GHOST_WHITE, x, y)
                 # content = [square_hitbox, None]
                 content = Square(square_hitbox, None, False)
-
                
                 row_list.append(content)
                 x += (self.grid_node_width + self.padding)
@@ -126,8 +127,11 @@ class GameBoard(InGameMenu):
 
         for row in range(self.rows):
             for column in range(self.columns):
-                if (row, column) not in self.revealed_square:
-                    self.createSquare(NOT_SO_GHOST_WHITE, x, y)
+                if self.board[row][column].revealed == True:
+                    self.draw_revealed_square_with_value(row, column)
+
+                # if (row, column) not in self.revealed_square:
+                    # self.createSquare(NOT_SO_GHOST_WHITE, x, y)
                 else:
                     self.createSquare(GHOST_WHITE, x, y)
             x = self.grid_top_left[0]
@@ -172,18 +176,30 @@ class GameBoard(InGameMenu):
                     self.reveal_square(actual_row, actual_col)
 
                 elif self.board[actual_row][actual_col].value in (1,2,3,4,5,6,7,8):
-                    self.createSquare(GHOST_WHITE,
-                        self.board[actual_row][actual_col].hitbox.topleft[0],
-                        self.board[actual_row][actual_col].hitbox.topleft[1])
+                    self.draw_revealed_square_with_value(actual_row, actual_col)
+                    # self.createSquare(GHOST_WHITE,
+                    #     self.board[actual_row][actual_col].hitbox.topleft[0],
+                    #     self.board[actual_row][actual_col].hitbox.topleft[1])
 
-                    self.draw_text(str(self.board[actual_row][actual_col].value),
-                        TEXT_FONT,
-                        self.board[actual_row][actual_col].hitbox.height - 5,
-                        self.board[actual_row][actual_col].hitbox.center
-                        )
+                    # self.draw_text(str(self.board[actual_row][actual_col].value),
+                    #     TEXT_FONT,
+                    #     self.board[actual_row][actual_col].hitbox.height - 5,
+                    #     self.board[actual_row][actual_col].hitbox.center
+                    #     )
                     
             self.draw_grid_border()
 
+    def draw_revealed_square_with_value(self, actual_row, actual_col):
+        self.createSquare(GHOST_WHITE,
+                        self.board[actual_row][actual_col].hitbox.topleft[0],
+                        self.board[actual_row][actual_col].hitbox.topleft[1])
+
+        self.draw_text(str(self.board[actual_row][actual_col].value),
+            TEXT_FONT,
+            self.board[actual_row][actual_col].hitbox.height - 5,
+            self.board[actual_row][actual_col].hitbox.center
+            )
+        
     def get_random_position_tuple(self):
         x = random.randrange(self.rows)
         y = random.randrange(self.columns)
