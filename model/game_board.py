@@ -6,7 +6,6 @@ import datetime
 import time
 from model.square import Square
 
-
 class GameBoard(InGameMenu):
     def __init__(self, caption, rows, columns):
         super().__init__(caption)
@@ -16,10 +15,12 @@ class GameBoard(InGameMenu):
         self.border_thickness = 5
         self.border_radius = 15
         self.button_height = self.height // 12
+        
 
         self.stopwatch_start_time=pygame.time.get_ticks()
 
         self.click = 0
+        self.start_game = False
         self.rows = rows
         self.columns = columns
         self.bomb_positions = []
@@ -38,10 +39,10 @@ class GameBoard(InGameMenu):
                                      self.grid_surface_tuple[0],
                                     self.grid_surface_tuple[1])
         
-        self.grid_rect_draw = pygame.draw.rect(self.screen,
-                                               CERULEAN,
-                                               self.grid_rect,
-                                               border_radius=self.border_radius)
+        # self.grid_rect_draw = pygame.draw.rect(self.screen,
+        #                                        CERULEAN,
+        #                                        self.grid_rect,
+        #                                        border_radius=self.border_radius)
         
         self.grid_node_width = self.get_grid_node_size()
         
@@ -63,8 +64,16 @@ class GameBoard(InGameMenu):
             return self.time_to_show
 
     def draw_in_game_screen(self):
-        if self.clicked == 0:
+        self.reset_background_screen()
+        self.grid_rect_draw = pygame.draw.rect(self.screen,
+                                               CERULEAN,
+                                               self.grid_rect,
+                                               border_radius=self.border_radius)
+
+        if self.click == 0 and not self.start_game:
             self.board = self.create_board()
+        else:
+            self.redraw_board() 
 
         self.set_title(f'{self.start_stopwatch() if self.start_stopwatch() else "Cliquez pour commancer"}')
 
@@ -122,18 +131,28 @@ class GameBoard(InGameMenu):
         return board
     
     def redraw_board(self):
+        self.grid_rect_draw = pygame.draw.rect(self.screen,
+                                               CERULEAN,
+                                               self.grid_rect,
+                                               border_radius=self.border_radius)
         x = self.grid_top_left[0]
         y = self.grid_top_left[1]
 
         for row in range(self.rows):
             for column in range(self.columns):
                 if self.board[row][column].revealed == True:
-                    self.draw_revealed_square_with_value(row, column)
-
-                # if (row, column) not in self.revealed_square:
-                    # self.createSquare(NOT_SO_GHOST_WHITE, x, y)
+                    if self.board[row][column].value != 0:
+                        self.draw_revealed_square_with_value(row, column)
+                    else:
+                        self.createSquare(GHOST_WHITE,
+                                          self.board[row][column].hitbox.topleft[0], 
+                                          self.board[row][column].hitbox.topleft[1]) 
                 else:
-                    self.createSquare(GHOST_WHITE, x, y)
+                    self.createSquare(NOT_SO_GHOST_WHITE,
+                                    self.board[row][column].hitbox.topleft[0], 
+                                    self.board[row][column].hitbox.topleft[1])
+                    print(f'redraw board when not so ghost white {row}, {column}')
+
             x = self.grid_top_left[0]
             y += (self.grid_node_height + self.padding)
         
@@ -142,7 +161,6 @@ class GameBoard(InGameMenu):
     def createSquare(self,  color, x, y):
         actual_square = pygame.rect.Rect([x, y, self.grid_node_width, self.grid_node_height])
         pygame.draw.rect(self.screen, color, actual_square)
-
         return actual_square
     
     def draw_grid_border(self):
@@ -159,24 +177,25 @@ class GameBoard(InGameMenu):
         
         for actual_row in range(min_row_range, max_row_range):
             for actual_col in range(min_column_range, max_column_range):
+                print(actual_row, actual_col)
                 
                 if self.board[actual_row][actual_col].value == 0 and (actual_row,actual_col) not in self.revealed_square:
 
-                    self.createSquare(GHOST_WHITE,
-                        self.board[actual_row][actual_col].hitbox.topleft[0],
-                        self.board[actual_row][actual_col].hitbox.topleft[1])
-                    
+                    # self.createSquare(GHOST_WHITE,
+                    #     self.board[actual_row][actual_col].hitbox.topleft[0],
+                    #     self.board[actual_row][actual_col].hitbox.topleft[1])
                     position = (actual_row, actual_col)
-
                     ## delete revelead_square list later
-                    self.board[actual_row][actual_col].revealed = True
-
                     self.revealed_square.append(position)
-                    print(position)
+                
+                    # print(position)
                     self.reveal_square(actual_row, actual_col)
+                    self.board[actual_row][actual_col].revealed = True
+                    # print(self.board[actual_row][actual_row])
 
                 elif self.board[actual_row][actual_col].value in (1,2,3,4,5,6,7,8):
                     self.draw_revealed_square_with_value(actual_row, actual_col)
+                    self.board[actual_row][actual_col].revealed = True
                     # self.createSquare(GHOST_WHITE,
                     #     self.board[actual_row][actual_col].hitbox.topleft[0],
                     #     self.board[actual_row][actual_col].hitbox.topleft[1])
@@ -217,7 +236,7 @@ class GameBoard(InGameMenu):
             while position in bomb_positions_list or position == (row, column):
                 position = self.get_random_position_tuple()
             bomb_positions_list.append(position)
-        print(bomb_positions_list)
+        # print(bomb_positions_list)
         return bomb_positions_list
     
     def set_range(self, value, max_value):
@@ -243,11 +262,12 @@ class GameBoard(InGameMenu):
             for column in range(self.columns):
                 if self.board[row][column].value == None:
                     self.board[row][column].value = self.count_surrounding_bombs(row, column)
-                print(f'value at {row},{column} : {self.board[row][column].value}')
+                # print(f'value at {row},{column} : {self.board[row][column].value}')
     
     def check_user_click(self,row, column, mouse_position, hitbox):
         if hitbox.hitbox.collidepoint(mouse_position) and pygame.mouse.get_pressed()[0]:
             self.click += 1
+            self.start_game = True
             if self.click == 1:
                 self.start_time = datetime.datetime.now()
                 self.now = time.time()

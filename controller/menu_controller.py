@@ -27,7 +27,6 @@ class MenuController():
         """Controls screen transitions based on the flags."""
         if self.is_screen_in_game:
             self.is_screen_main = False
-            
             self.in_game_screen.draw_in_game_screen()
 
         elif self.is_screen_settings:

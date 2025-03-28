@@ -4,7 +4,7 @@
 width=720
 height=400
 RESOLUTION = (width, height)
-FPS = 20
+FPS = 144
 ## COLORS
 AGRESSIVE_PINK = (195, 60, 84)
 INDIGO_DYE = (37, 78, 112)
