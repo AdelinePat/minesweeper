@@ -77,42 +77,42 @@ python main.py
 
 ## File Structure
 
-📂 assets  
-│ 📂 font  
-│ 📂 icon    
-| 📂 img  
-│ 📂 img_cell    
-|
-📂 controller  
-│ 📄 game_controller.py  
-│ 📄 menu_controller.py   
-│
-📂 model  
-│ 📄 game_board.py  
-│ 📄 game_info.py  
-│ 📄 square.py  
-│ 📄 write_transactionquery.py  
-│
-📂 test  
-│ 📄 test.py  
-│ 📄 test3.py  
-│ 📄 winner_buton.py  
-│ 📄 winner_top_buton.py  
-│
-📂 view  
-│ 📄 **settings**.py  
-│ 📄 in_game_menu.py  
-│ 📄 interface.py  
-│ 📄 main_menu.py  
-│ 📄 menu.py  
-│ 📄 settings_menu.py  
-│ 📄 winner_menu.py  
-│ 📄 winner.py  
-│ 📄 winner.py   
-│
-📄 .gitignore  
-📄 main.py  
+📂 assets
+│ 📂 font
+│ 📂 icon
+│ 📂 img
+│ 📂 img_cell
+
+📂 controller
+│ 📄 game_controller.py
+│ 📄 menu_controller.py
+
+📂 model
+│ 📄 game_board.py
+│ 📄 game_info.py
+│ 📄 square.py
+│ 📄 write_transactionquery.py
+
+📂 test
+│ 📄 test.py
+│ 📄 test3.py
+│ 📄 winner_button.py
+│ 📄 winner_top_button.py
+
+📂 view
+│ 📄 __settings__.py
+│ 📄 in_game_menu.py
+│ 📄 interface.py
+│ 📄 main_menu.py
+│ 📄 menu.py
+│ 📄 settings_menu.py
+│ 📄 winner_menu.py
+│ 📄 winner.py
+
+📄 .gitignore
+📄 main.py
 📄 README.md
+
 
 ---
 
