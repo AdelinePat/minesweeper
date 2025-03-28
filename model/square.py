@@ -3,4 +3,5 @@ class Square():
         self.hitbox = hitbox
         self.value = value
         self.element = element
+        self.is_element = None
         self.revealed = revealed

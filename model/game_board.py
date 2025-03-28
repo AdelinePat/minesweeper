@@ -161,18 +161,26 @@ class GameBoard(InGameMenu):
 
         for row in range(self.rows):
             for column in range(self.columns):
+               
+                
                 if self.board[row][column].revealed == True:
                     if self.board[row][column].value != 0:
                         self.draw_revealed_square_with_value(row, column)
+
                     else:
                         self.createSquare(GHOST_WHITE,
                                           self.board[row][column].hitbox.topleft[0], 
-                                          self.board[row][column].hitbox.topleft[1]) 
-                else:
+                                          self.board[row][column].hitbox.topleft[1])
+                
+                elif self.board[row][column].revealed==False:
+
                     self.createSquare(NOT_SO_GHOST_WHITE,
                                     self.board[row][column].hitbox.topleft[0], 
                                     self.board[row][column].hitbox.topleft[1])
                     # print(f'redraw board when not so ghost white {row}, {column}')
+                    if self.board[row][column].is_element and self.board[row][column].element in ("F", "?"):
+                        print(f"element: {self.board[row][column].element}")
+                        self.draw_revealed_square_with_element(row, column)
             x = self.grid_top_left[0]
             y += (self.grid_node_height + self.padding)
         
@@ -245,6 +253,17 @@ class GameBoard(InGameMenu):
             self.board[actual_row][actual_col].hitbox.center
             )
         
+    def draw_revealed_square_with_element(self, actual_row, actual_col):
+        self.createSquare((255,0,0),
+                        self.board[actual_row][actual_col].hitbox.topleft[0],
+                        self.board[actual_row][actual_col].hitbox.topleft[1])
+
+        self.draw_text(str(self.board[actual_row][actual_col].element),
+            TEXT_FONT,
+            self.board[actual_row][actual_col].hitbox.height - 5,
+            self.board[actual_row][actual_col].hitbox.center
+            )
+        
     def get_random_position_tuple(self):
         x = random.randrange(self.rows)
         y = random.randrange(self.columns)
@@ -271,6 +290,21 @@ class GameBoard(InGameMenu):
         # print(bomb_positions_list)
         return bomb_positions_list
     
+    def draw_element(self,actual_row, actual_col):
+        self.createSquare(
+            GHOST_WHITE,
+            self.board[actual_row][actual_col].hitbox.topleft[0],
+            self.board[actual_row][actual_col].hitbox.topleft[1]
+        )
+
+        self.draw_text(str(self.board[actual_row][actual_col].element),
+            TEXT_FONT,
+            self.board[actual_row][actual_col].hitbox.height - 5,
+            self.board[actual_row][actual_col].hitbox.center
+            )
+
+
+    
     def set_range(self, value, max_value):
         if value == 0:
             min_range = 0
@@ -296,7 +330,7 @@ class GameBoard(InGameMenu):
                     self.board[row][column].value = self.count_surrounding_bombs(row, column)
                 # print(f'value at {row},{column} : {self.board[row][column].value}')
     
-    def check_user_click(self,row, column, mouse_position, hitbox):
+    def check_user_click(self, row, column, mouse_position, hitbox):
         if hitbox.hitbox.collidepoint(mouse_position) and pygame.mouse.get_pressed()[0]:
             self.click += 1
             self.start_game = True
@@ -312,6 +346,13 @@ class GameBoard(InGameMenu):
 
             else:
                 self.reveal_square(row, column)
+        
+        elif hitbox.hitbox.collidepoint(mouse_position) and pygame.mouse.get_pressed()[2]:
+            self.start_game = True
+            hitbox.element= "F"
+            self.board[row][column].is_element = True
+            self.draw_element(row, column)
+           
 
     def count_surrounding_bombs(self, row, column):
         bomb_count = 0
