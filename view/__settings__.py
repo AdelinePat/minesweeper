@@ -19,6 +19,9 @@ WHITE = (255, 255, 255)
 TITLE_FONT = "./assets/fonts/JockeyOne-Regular.ttf"
 TEXT_FONT = "./assets/fonts/Jersey10-Regular.ttf"
 
+
+
+
 ##ICON
 MINE_ICON = "./assets/icon/mine_icon.png"
 
