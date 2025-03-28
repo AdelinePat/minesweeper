@@ -1,37 +1,38 @@
 import pygame
 import sys
-from view.menu import Menu
 
 pygame.init()
 
+# Couleurs
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GRAY = (200, 200, 200)
 
-screen = pygame.display.set_mode((500, 300))
+# Dimensions de la fenêtre
+SCREEN_WIDTH = 500
+SCREEN_HEIGHT = 300
+
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Settings")
 
-FONT = pygame.font.Font(None, 40)
+FONT = pygame.font.Font(None, 30)
 
-class Settings(Menu):
-    def __init__(self, caption="Settings"):
-        super().__init__(caption)
+
+class Settings:
+    def __init__(self):
         self.difficulties = ["Facile", "Difficile"]
         self.difficulty_index = 0
         self.resolutions = [("1080x720", (1080, 720)), ("720x450", (720, 450))]
         self.resolution_index = 0
         self.languages = ["fr", "eng"]
         self.language_index = 0
-        self.setting_win = self.draw_menu_window()
-        
 
     def draw_text(self, text, position, color=BLACK):
         text_surface = FONT.render(text, True, color)
         screen.blit(text_surface, position)
 
     def draw_button(self, text, center):
-    
-        button_rect = pygame.Rect(0, 0, 120, 50)
+        button_rect = pygame.Rect(0, 0, 140, 40)
         button_rect.center = center
         pygame.draw.rect(screen, GRAY, button_rect, border_radius=10)
         text_surface = FONT.render(text, True, BLACK)
@@ -40,7 +41,6 @@ class Settings(Menu):
         return button_rect
 
     def option_button(self, label, options, index, center):
-       
         label_surface = FONT.render(f"{label}:", True, BLACK)
         label_rect = label_surface.get_rect(midright=(center[0] - 100, center[1]))
 
@@ -57,44 +57,64 @@ class Settings(Menu):
         screen.blit(label_surface, label_rect)
         screen.blit(option_surface, option_rect)
 
-        self.draw_text("<", (left_button.centerx - 10, left_button.centery - 15), BLACK)
-        self.draw_text(">", (right_button.centerx - 10, right_button.centery - 15), BLACK)
+        self.draw_text("<", (left_button.centerx - 5, left_button.centery - 10), BLACK)
+        self.draw_text(">", (right_button.centerx - 5, right_button.centery - 10), BLACK)
 
         return left_button, right_button
 
     def get_current_settings(self):
-        settings = (
-            (self.difficulty_index, self.difficulties[self.difficulty_index]),
-            (self.resolution_index, self.resolutions[self.resolution_index]),
-            (self.language_index, self.languages[self.language_index]),
-        )
+        settings = {
+            "Difficulté": self.difficulties[self.difficulty_index],
+            "Résolution": self.resolutions[self.resolution_index][0],
+            "Langue": self.languages[self.language_index],
+        }
 
-
-        print(f"Difficulté: Index {settings[0][0]}, Valeur {settings[0][1]}")
-        print(f"Résolution: Index {settings[1][0]}, Valeur {settings[1][1]}")
-        print(f"Langue: Index {settings[2][0]}, Valeur {settings[2][1]}")
+        print("\nParamètres appliqués :")
+        for key, value in settings.items():
+            print(f"{key}: {value}")
 
         return settings
+    
+    def get_single_setting(self, setting_name):
+        """Récupère la valeur et l'index d'un seul paramètre et l'affiche."""
+        settings = {
+            "Difficulté": (self.difficulties[self.difficulty_index], self.difficulty_index),
+            "Résolution": (self.resolutions[self.resolution_index][0], self.resolution_index),  # On ne garde que le texte
+            "Langue": (self.languages[self.language_index], self.language_index),
+        }
 
+        valeur, index = settings.get(setting_name, ("Paramètre invalide", -1))
+
+        # Affichage automatique
+        print(f"{setting_name} actuelle : {valeur} (Index: {index})")
+
+        return valeur, index
+
+
+    def apply_settings(self):
+        settings = self.get_current_settings()
+        print("Les paramètres ont été appliqués !")
+        return settings  # Tu peux utiliser cette valeur pour les sauvegarder
 
     def draw_settings_screen(self):
         running = True
         while running:
             screen.fill(WHITE)
 
-           
+            # Position des options
             left_difficulty, right_difficulty = self.option_button(
-                "Difficulté", self.difficulties, self.difficulty_index, (self.win_width // 1.13, self.win_height // 8 * 1.5)
+                "Difficulté", self.difficulties, self.difficulty_index, (SCREEN_WIDTH // 2, 60)
             )
             left_resolution, right_resolution = self.option_button(
-                "Résolution", self.resolutions, self.resolution_index, (self.win_width // 1.13, self.win_height // 8 * 3.5)
+                "Résolution", self.resolutions, self.resolution_index, (SCREEN_WIDTH // 2, 120)
             )
             left_language, right_language = self.option_button(
-                "Langue", self.languages, self.language_index, (self.win_width // 1.13, self.win_height // 8 * 5.5)
+                "Langue", self.languages, self.language_index, (SCREEN_WIDTH // 2, 180)
             )
 
-      
-            button_back = self.draw_button("Back", (self.win_width // 1.35, self.win_height // 8 * 7))
+            # Boutons Retour et Appliquer
+            button_back = self.draw_button("Retour", (SCREEN_WIDTH // 3, 240))
+            button_apply = self.draw_button("Appliquer", (2 * SCREEN_WIDTH // 3, 240))
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -103,32 +123,36 @@ class Settings(Menu):
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if left_difficulty.collidepoint(event.pos):
                         self.difficulty_index = (self.difficulty_index - 1) % len(self.difficulties)
-                        self.get_current_settings()  # Affiche les valeurs mises à jour en console
                     if right_difficulty.collidepoint(event.pos):
                         self.difficulty_index = (self.difficulty_index + 1) % len(self.difficulties)
-                        self.get_current_settings()
 
                     if left_resolution.collidepoint(event.pos):
                         self.resolution_index = (self.resolution_index - 1) % len(self.resolutions)
-                        self.get_current_settings()
                     if right_resolution.collidepoint(event.pos):
                         self.resolution_index = (self.resolution_index + 1) % len(self.resolutions)
-                        self.get_current_settings()
 
                     if left_language.collidepoint(event.pos):
                         self.language_index = (self.language_index - 1) % len(self.languages)
-                        self.get_current_settings()
                     if right_language.collidepoint(event.pos):
                         self.language_index = (self.language_index + 1) % len(self.languages)
-                        self.get_current_settings()
 
-                  
                     if button_back.collidepoint(event.pos):
-                        print("Retour au menu")  
-                        running = False  
+                        print("Retour au menu")
+                        running = False
+
+                    if button_apply.collidepoint(event.pos):
+                        self.apply_settings()  # Applique les paramètres
+
+                         # Afficher chaque paramètre individuellement
+                        self.get_single_setting("Difficulté")
+                        self.get_single_setting("Résolution")
+                        self.get_single_setting("Langue")
+
+
             pygame.display.flip()
 
 
+# Lancer la fenêtre des paramètres
 settings = Settings()
 settings.draw_settings_screen()
 
