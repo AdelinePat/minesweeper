@@ -15,6 +15,7 @@ class Interface():
         self.reset_background_screen()
         self.icon = pygame.display.set_icon(pygame.image.load(MINE_ICON)) # icon on the windows
         self.clicked = False
+        self.button_height = self.height // 12
 
     def update(self):
         pygame.display.flip()

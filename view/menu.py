@@ -11,7 +11,7 @@ class Menu(Interface):
         self.win_height = self.height // 3*2
         self.border_thickness = 5
         self.border_radius = 15
-        self.button_height = self.height // 12
+        
         
         # self.draw_menu_window()
     
