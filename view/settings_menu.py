@@ -6,30 +6,37 @@ from view.interface import Interface
 
 
 class SettingsMenu(Menu):
-    def __init__(self, caption="Settings"):
+    def __init__(self, game_controller, caption="Settings"):
         super().__init__(caption)
         # self.interface = Interface(caption)
         # self.screen = self.interface.screen
         self.difficulties = ["Facile", "Difficile"]
         self.difficulty_index = 0
-        self.resolutions = ["1080x720", "720x450"]
+        self.resolutions = [(1080,720), (720,450)]
         self.resolution_index = 0
         self.languages = ["fr", "eng"]
         self.language_index = 0
+        self.game_controller = game_controller.game_info
 
     # def draw_button(self, text, center):
     #     return self.draw_full_button(text, center, background=CYAN, background_hovered=AGRESSIVE_PINK, color=GHOST_WHITE, color_hover=INDIGO_DYE, font=TITLE_FONT)
     
     
     def option_button(self, option_surface, label, options, index, center):
+        if options == self.resolutions:
+            pass
+            
         label_rect = self.draw_text(f"{label}",
                        TEXT_FONT,
                        self.height//18,
                        (option_surface.midleft[0] + self.win_width // 4, option_surface.midleft[1])
                        )
-
+        
         option_text = options[index][0] if isinstance(options[index], tuple) else options[index]
-        option_rect = self.draw_text(option_text, TEXT_FONT, self.height//18, (option_surface.midright[0] - self.win_width // 4, option_surface.midright[1]), color=AGRESSIVE_PINK)
+        if options == self.resolutions:
+            option_text = f'{self.resolutions[index][0]}x{self.resolutions[index][1]}'
+        
+        option_rect = self.draw_text(str(option_text), TEXT_FONT, self.height//18, (option_surface.midright[0] - self.win_width // 4, option_surface.midright[1]), color=AGRESSIVE_PINK)
 
 
         return option_rect
@@ -70,8 +77,12 @@ class SettingsMenu(Menu):
         return self.check_arrow_click(hovered, option_index, options, left_right)
 
     def check_arrow_click(self, hovered, option_index, options, left_right):
-        if hovered and pygame.mouse.get_pressed()[0]:
-            print(self.difficulty_index)
+
+        if hovered and pygame.mouse.get_pressed()[0] and not self.clicked:
+            self.clicked = True
+            return option_index   
+        elif hovered and not pygame.mouse.get_pressed()[0] and self.clicked:
+            self.clicked = False
             if left_right == 'left':
                 option_index = (option_index - 1) % len(options)
                 return option_index
@@ -80,6 +91,7 @@ class SettingsMenu(Menu):
                 return option_index
         else:
             return option_index
+
 
     def draw_arrow_button(self, option_rect, option_index, options):
         # actual_left_button = option_index 
@@ -91,13 +103,19 @@ class SettingsMenu(Menu):
         
         actual_index = self.arrow_button(">",            
                         (option_rect.midright[0] + 30, option_rect.midright[1]),
-                        option_index,
+                        actual_index,
                         options,
                         'right')
         return actual_index
-         
 
     def get_current_settings(self):
+            self.game_controller.resolution = self.resolutions[self.resolution_index]
+
+            self.game_controller.language = self.languages[self.language_index]
+            self.game_controller.difficulty = self.difficulty_index
+            self.get_resolution(self.game_controller.resolution)
+
+            
             settings = (
                 (self.difficulty_index, self.difficulties[self.difficulty_index]),
                 (self.resolution_index, self.resolutions[self.resolution_index]),
@@ -127,6 +145,10 @@ class SettingsMenu(Menu):
 
     #     return self.button_return  
 
+    def apply_settings(self):
+        settings = self.get_current_settings()
+        print("Les paramètres ont été appliqués !")
+        return settings  # Tu peux utiliser cette valeur pour les sauvegarder
     
     def draw_window_settings(self, controller):
         self.reset_background_screen()
@@ -168,5 +190,8 @@ class SettingsMenu(Menu):
         self.button_apply = self.small_button("Appliquer",
                                         (self.screen_center[0] + self.win_width // 4,
                                 self.screen_center[1] + self.height//8*1.5))
+        
+        if self.button_apply:
+            self.apply_settings()
 
         return self.button_return  

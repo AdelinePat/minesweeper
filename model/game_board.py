@@ -7,8 +7,9 @@ import time
 from model.square import Square
 
 class GameBoard(InGameMenu):
-    def __init__(self, caption, rows, columns):
+    def __init__(self, caption, game_info):
         super().__init__(caption)
+        self.game_info = game_info
         self.win_width = self.width // 3*2
         self.win_height = self.height // 3*2
         self.padding = 2
@@ -21,8 +22,8 @@ class GameBoard(InGameMenu):
 
         self.click = 0
         self.start_game = False
-        self.rows = rows
-        self.columns = columns
+        # self.rows = rows
+        # self.columns = columns
         self.bomb_positions = []
         self.revealed_square = []
 
@@ -44,11 +45,7 @@ class GameBoard(InGameMenu):
         #                                        self.grid_rect,
         #                                        border_radius=self.border_radius)
         
-        self.grid_node_width = self.get_grid_node_size()
         
-        self.grid_node_height = self.get_grid_node_size()
-
-        self.grid_top_left = self.get_grid_top_left()
         
         # self.board = self.create_board()
     
@@ -91,7 +88,10 @@ class GameBoard(InGameMenu):
                                self.height // 4*2
                                )
 
-        self.small_button('Réinitialiser', (self.width // 4*3, self.height // 4 * 2.5))
+        self.reset_game = self.small_button('Réinitialiser', (self.width // 4*3, self.height // 4 * 2.5))
+        if self.reset_game:
+            self.create_board()
+            
         self.small_button('Quitter', (self.width // 4*3, self.height // 4 * 3))
         
         self.go_through_board()
@@ -107,6 +107,16 @@ class GameBoard(InGameMenu):
         return my_top_left
 
     def create_board(self):
+        
+        self.rows = self.game_info.grid_rows
+        self.columns = self.game_info.grid_columns
+
+        self.grid_node_width = self.get_grid_node_size()
+        
+        self.grid_node_height = self.get_grid_node_size()
+
+        self.grid_top_left = self.get_grid_top_left()
+
         x = self.grid_top_left[0]
         y = self.grid_top_left[1]
         board = []
@@ -151,8 +161,7 @@ class GameBoard(InGameMenu):
                     self.createSquare(NOT_SO_GHOST_WHITE,
                                     self.board[row][column].hitbox.topleft[0], 
                                     self.board[row][column].hitbox.topleft[1])
-                    print(f'redraw board when not so ghost white {row}, {column}')
-
+                    # print(f'redraw board when not so ghost white {row}, {column}')
             x = self.grid_top_left[0]
             y += (self.grid_node_height + self.padding)
         
@@ -234,8 +243,14 @@ class GameBoard(InGameMenu):
     def get_bomb_positions_list(self, row, column):
 
         bomb_positions_list = []
-
-        bomb_number = random.randrange(5, 12)
+        if self.game_info.difficulty == 0:
+            min_range = 8
+            max_range = 15
+        elif self.game_info.difficulty == 1:
+            min_range = 30
+            max_range = 40
+        
+        bomb_number = random.randrange(min_range, max_range)
 
         for bomb in range(0, bomb_number):
             position = self.get_random_position_tuple()

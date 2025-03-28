@@ -2,28 +2,35 @@ import pygame
 from view.__settings__ import RESOLUTION, INDIGO_DYE, TITLE_FONT, TEXT_FONT, MINE_ICON, AGRESSIVE_PINK, CYAN, GHOST_WHITE, NOT_SO_GHOST_WHITE
 class Interface():
     def __init__(self, caption, width=RESOLUTION[0], height=RESOLUTION[1], background_color=INDIGO_DYE):
-        self.width=width
-        self.height=height
-        self.resolution = (self.width, self.height)
-        self.screen = pygame.display.set_mode((self.resolution))
+        # self.resolution = (width, height)
+        # self.width= self.resolution[0]
+        # self.height= self.resolution[1]
+        self.get_resolution((width, height))
         pygame.display.set_caption(caption)
+        self.background_color = background_color
         self.clock = pygame.time.Clock()
         self.fps = 144
-        self.background_color = background_color
+        self.icon = pygame.display.set_icon(pygame.image.load(MINE_ICON)) # icon on the windows
+        self.reset_background_screen()
+        self.clicked = False
+        
+        
+    def get_resolution(self, resolution):
+        self.resolution = resolution
+        self.width= self.resolution[0]
+        self.height= self.resolution[1]
+        self.screen = pygame.display.set_mode((self.resolution))
         self.screen_center = (self.width//2, self.height//2)
         self.title_center = (self.width//2, self.height//12)
-        self.reset_background_screen()
-        self.icon = pygame.display.set_icon(pygame.image.load(MINE_ICON)) # icon on the windows
-        self.clicked = False
         self.button_height = self.height // 12
+
 
     def update(self):
         pygame.display.flip()
         self.clock.tick(self.fps)
 
     def reset_background_screen(self):
-        self.screen.fill(self.background_color)
-        
+        self.screen.fill(self.background_color)  
         
     # def get_title_font(self):
     #     title_font_load = pygame.font.Font(jockey_one, font_size) # load font then text_font.render('text', true, color)
@@ -40,7 +47,6 @@ class Interface():
     
     def blit_text_from_rect(self, dialog, dialog_rect):
         self.screen.blit(dialog, dialog_rect)
-
 
     def draw_text(self, text, font, font_size, position, color=INDIGO_DYE):
         # dialog, dialog_rect = self.create_text_rect()

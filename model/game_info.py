@@ -5,7 +5,8 @@ class GameInfo():
         self.difficulty = 0 # 0 = Easy, 1 = Difficult , possibility to have more difficulties with time
         self.language = 'fr' # fr = french, en = english
         self.resolution = (width, height)
-        self.grid_size = None
+        self.grid_rows = None
+        self.grid_columns = None
         self.mines_number = None
         self.flag_number = None
         self.interrogation_point_number = None

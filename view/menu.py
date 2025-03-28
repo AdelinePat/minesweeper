@@ -6,15 +6,16 @@ class Menu(Interface):
     def __init__(self, caption, identification=0):
         super().__init__(caption) 
         self.identification = identification # main_menu, settings_menu, wall_of_fame_screen, winner_screen
+        self.get_actual_menu_window()
+        self.border_thickness = 5
+        self.border_radius = 15
+    
+    def get_actual_menu_window(self):
+        self.get_resolution(self.resolution)
         self.win_bg_color=GHOST_WHITE
         self.win_width = self.width // 3*2
         self.win_height = self.height // 3*2
-        self.border_thickness = 5
-        self.border_radius = 15
-        
-        
-        # self.draw_menu_window()
-    
+
     def draw_menu_window(self):
         self.window_rect =  pygame.Rect(
             0,0,

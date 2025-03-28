@@ -1,10 +1,13 @@
 from view.winner_menu import Winner
 from view.settings_menu import SettingsMenu
 from model.game_board import GameBoard
+
+from controller.game_controller import GameController
 import pygame
 
 class MenuController():
     def __init__(self):
+        self.game_controller = GameController()
         self.is_screen_settings = False
         self.is_screen_record = False
         self.is_screen_main = True
@@ -14,8 +17,11 @@ class MenuController():
         self.winner = ""
 
         self.winner_screen = Winner('Bravo vous avez gagné')
-        self.settings_screen = SettingsMenu()
-        self.in_game_screen = GameBoard('grille de jeu', 10, 10)
+        self.settings_screen = SettingsMenu(self.game_controller)
+       
+                # self.in_game_screen = GameBoard('grille de jeu', self.game_controller.game_info)
+        self.in_game_screen = GameBoard('grille de jeu', self.game_controller.game_info)
+                
 
     
         self.player_name = " Yulii"
@@ -27,6 +33,13 @@ class MenuController():
         """Controls screen transitions based on the flags."""
         if self.is_screen_in_game:
             self.is_screen_main = False
+            match self.game_controller.game_info.difficulty:
+                case 0:
+                    self.game_controller.game_info.grid_rows = 8
+                    self.game_controller.game_info.grid_columns = 8                   
+                case 1:
+                    self.game_controller.game_info.grid_rows = 15
+                    self.game_controller.game_info.grid_columns = 15
             self.in_game_screen.draw_in_game_screen()
 
         elif self.is_screen_settings:
