@@ -22,64 +22,80 @@ class SettingsMenu(Menu):
     
     
     def option_button(self, option_surface, label, options, index, center):
-
-        # label_button = self.draw_full_button(f"{label}:", center=(center[0] - 100, center[1]), background=CYAN, background_hovered=AGRESSIVE_PINK, color=GHOST_WHITE, color_hover=INDIGO_DYE, font=TEXT_FONT)
-        
-        # option_text = options[index][0] if isinstance(options[index], tuple) else options[index]
-
-        # option_button = self.draw_full_button(option_text, center=(label_button.right + 50, center[1]), background=CYAN, background_hovered=AGRESSIVE_PINK, color=GHOST_WHITE, color_hover=INDIGO_DYE, font=TEXT_FONT)
-
-        # left_button = pygame.Rect(option_button.left - 40, center[1] - 15, 30, 30)
-        # right_button = pygame.Rect(option_button.right + 10, center[1] - 15, 30, 30)
-
-        # pygame.draw.rect(self.screen, INDIGO_DYE, left_button)
-        # pygame.draw.rect(self.screen, INDIGO_DYE, right_button)
-
-        # self.draw_text("<", (left_button.centerx - 10, left_button.centery - 12), color=CYAN)
-        # self.draw_text(">", (right_button.centerx - 10, right_button.centery - 12), color=CYAN)
-
-        # return left_button, right_button
-        
-
-        #  text, font, font_size, position,
         label_rect = self.draw_text(f"{label}",
                        TEXT_FONT,
                        self.height//18,
                        (option_surface.midleft[0] + self.win_width // 4, option_surface.midleft[1])
                        )
 
-        # label_surface = FONT.render(f"{label}:", True, BLACK)
-        # label_rect = label_surface.get_rect(midright=(center[0] - 100, center[1]))
-
         option_text = options[index][0] if isinstance(options[index], tuple) else options[index]
         option_rect = self.draw_text(option_text, TEXT_FONT, self.height//18, (option_surface.midright[0] - self.win_width // 4, option_surface.midright[1]), color=AGRESSIVE_PINK)
 
-        # option_surface = FONT.render(option_text, True, BLACK)
-        # option_rect = option_surface.get_rect(midleft=(label_rect.right + 50, center[1]))
 
-        # left_button = pygame.Rect(option_rect.left - 40, center[1] - 15, 30, 30)
-        # right_button = pygame.Rect(option_rect.right + 10, center[1] - 15, 30, 30)
+        return option_rect
 
-        # pygame.draw.rect(self.screen, 'grey', left_button)
-        # pygame.draw.rect(self.screen, 'grey', right_button)
-
-        # self.screen.blit(label_surface, label_rect)
-        # self.screen.blit(option_surface, option_rect)
-        #  text, font, font_size, position, color=INDIGO_DYE):
-        actual_left_button = self.draw_text("<", 
+    def arrow_button(self, button_text, center, option_index,  options, left_right, background=CYAN, background_hovered=AGRESSIVE_PINK, color=INDIGO_DYE, color_hover=GHOST_WHITE):
+        # Create rectangle for text -> self.button_height//2 = font_size
+        button_draw_text, button_text_rect = self.create_text_rect(button_text,
                                             TEXT_FONT,
-                                            self.height//20,
-                                             (option_rect.midleft[0] - 30 , option_rect.midleft[1]),
-                                             CYAN)
-        
-        actual_right_button = self.draw_text(">",
-                                             TEXT_FONT,
-                                             self.height //20, 
-                                             (option_rect.midright[0] + 30, option_rect.midright[1]),
-                                             CYAN)
+                                            self.button_height//2,
+                                            center)
 
-        return actual_left_button, actual_right_button
-    
+        button_text_rect.width = button_text_rect.width + 30
+        button_text_rect.height = button_text_rect.height + 20
+        button_text_rect.center = center
+
+        mouse_position = pygame.mouse.get_pos()
+        hovered = button_text_rect.collidepoint(mouse_position)
+
+        actual_bg_color = background_hovered if hovered else background
+        actual_font_color = color_hover if hovered else color
+
+        # Create rectangle for small button
+        small_button = pygame.Rect(
+            0, 0,
+            button_text_rect.width, button_text_rect.height
+        )
+        small_button.center = center
+       
+        # Draw rectangle and text for button
+        pygame.draw.rect(self.screen, actual_bg_color, small_button, border_radius=self.border_radius)
+        button_draw_text, button_text_rect = self.create_text_rect(button_text,
+                                            TEXT_FONT,
+                                            self.button_height//2,
+                                            center,
+                                            actual_font_color)
+        self.blit_text_from_rect(button_draw_text, button_text_rect)
+
+        return self.check_arrow_click(hovered, option_index, options, left_right)
+
+    def check_arrow_click(self, hovered, option_index, options, left_right):
+        if hovered and pygame.mouse.get_pressed()[0]:
+            print(self.difficulty_index)
+            if left_right == 'left':
+                option_index = (option_index - 1) % len(options)
+                return option_index
+            elif left_right == 'right':
+                option_index = (option_index + 1) % len(options)
+                return option_index
+        else:
+            return option_index
+
+    def draw_arrow_button(self, option_rect, option_index, options):
+        # actual_left_button = option_index 
+        actual_index = self.arrow_button("<",
+                        (option_rect.midleft[0] - 30 , option_rect.midleft[1]),
+                        option_index,
+                        options,
+                        'left')
+        
+        actual_index = self.arrow_button(">",            
+                        (option_rect.midright[0] + 30, option_rect.midright[1]),
+                        option_index,
+                        options,
+                        'right')
+        return actual_index
+         
 
     def get_current_settings(self):
             settings = (
@@ -122,59 +138,35 @@ class SettingsMenu(Menu):
                         self.title_center,
                         color=CELESTE)
         
-        # option_button(self, label, options, index, center):
-
+       # Create row surface for blitting option labels, button and option
         difficulty_surface = self.draw_full_text((self.screen_center[0], self.screen_center[1] - self.height // 8 * 1.5))
         resolution_surface = self.draw_full_text((self.screen_center[0], self.screen_center[1] - self.height // 8 * 0.5))
         language_surface = self.draw_full_text((self.screen_center[0], self.screen_center[1] + self.height // 8 * 0.5))
         
-        left_difficulty, right_difficulty = self.option_button(difficulty_surface,
+        option_difficulty_rect = self.option_button(difficulty_surface,
                 "Difficulté", self.difficulties, self.difficulty_index, (self.width // 2, 60)
             )
-        left_resolution, right_resolution = self.option_button(resolution_surface,
+        
+        self.difficulty_index = self.draw_arrow_button(option_difficulty_rect, self.difficulty_index, self.difficulties)
+
+        option_resolution_rect = self.option_button(resolution_surface,
             "Résolution", self.resolutions, self.resolution_index, (self.width // 2, 120)
         )
-        left_language, right_language = self.option_button(language_surface,
+        self.resolution_index = self.draw_arrow_button(option_resolution_rect,
+            self.resolution_index, self.resolutions)
+
+        option_language_rect = self.option_button(language_surface,
             "Langue", self.languages, self.language_index, (self.width // 2, 180)
         )
+        self.language_index = self.draw_arrow_button(option_language_rect,
+            self.language_index, self.languages)
 
         # Boutons Retour et Appliquer
-        #  text, font, font_size, position, color=INDIGO_DYE):
-        # button_text, center
         self.button_return = self.small_button("Retour",
                                 (self.screen_center[0] - self.win_width // 4,
                                 self.screen_center[1] + self.height//8*1.5))
         self.button_apply = self.small_button("Appliquer",
                                         (self.screen_center[0] + self.win_width // 4,
                                 self.screen_center[1] + self.height//8*1.5))
-
-        # self.button_difficulty = self.draw_full_button("Difficulté",(self.screen_center[0],
-        #                     self.screen_center[1] - self.height//8*1.5))
-        #                                             #    (self.win_width // 1.13, self.win_height // 8 * 1.5))
-        # if self.button_difficulty:
-        #     self.difficulty_index = (self.difficulty_index + 1) % len(self.difficulties)
-        #     self.get_current_settings()
-
-        # self.button_resolution = self.draw_full_button("Résolution", 
-        #                                                (self.screen_center[0],
-        #                         self.screen_center[1] - self.height//8*0.5))
-        #                                             #    (self.win_width // 1.13, self.win_height // 8 * 3.5))
-        # if self.button_resolution:
-        #     self.resolution_index = (self.resolution_index + 1) % len(self.resolutions)
-        #     self.get_current_settings()
-
-        # self.button_language = self.draw_full_button("Langue", (self.screen_center[0],
-        #                         self.screen_center[1] + self.height//8*0.5))
-        
-        #                     # (self.win_width // 1.13, self.win_height // 8 * 5.5))
-        # if self.button_language:
-        #     self.language_index = (self.language_index + 1) % len(self.languages)
-        #     self.get_current_settings()
-
-        
-        # self.button_return = self.draw_full_button("Retour", 
-        #                                            (self.screen_center[0],
-        #                         self.screen_center[1] + self.height//8*1.5))
-        # (self.win_width // 1.35, self.win_height // 8 * 7))
 
         return self.button_return  
