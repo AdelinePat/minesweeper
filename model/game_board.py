@@ -4,6 +4,7 @@ import random
 import pygame
 import datetime
 import time
+from model.square import Square
 
 
 class GameBoard(InGameMenu):
@@ -111,9 +112,8 @@ class GameBoard(InGameMenu):
     
                 square_hitbox = self.createSquare(NOT_SO_GHOST_WHITE, x, y)
                 content = [square_hitbox, None]
+                # content = Square(square_hitbox, None, False)
 
-                if (index, other_index) in self.bomb_positions:
-                    content = [square_hitbox, 'bomb', False]
                
                 row_list.append(content)
                 x += (self.grid_node_width + self.padding)
