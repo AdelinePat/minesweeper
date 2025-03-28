@@ -67,7 +67,7 @@ class GameBoard(InGameMenu):
             return self.time_to_show
     
     def draw_in_game_screen(self):        
-        self.set_title(self.start_stopwatch() if self.start_stopwatch() else "Clickez pour commencer")
+        # self.set_title(self.start_stopwatch() if self.start_stopwatch() else "Cliquez pour commencer")
         self.reset_background_screen()
         self.grid_rect_draw = pygame.draw.rect(self.screen,
                                                CERULEAN,
@@ -79,7 +79,7 @@ class GameBoard(InGameMenu):
         else:
             self.redraw_board() 
 
-        self.set_title(f'{self.start_stopwatch() if self.start_stopwatch() else "Cliquez pour commencer"}')
+        self.set_title(f'{self.start_stopwatch() if self.start_stopwatch() else ""}')
         
 
         self.display_game_info('Mines :', f'{len(self.bomb_positions)}',
@@ -263,10 +263,14 @@ class GameBoard(InGameMenu):
         bomb_positions_list = []
         if self.game_info.difficulty == 0:
             min_range = 8
-            max_range = 15
+            max_range = 12
         elif self.game_info.difficulty == 1:
-            min_range = 30
-            max_range = 40
+            min_range = 17
+            max_range = 22
+        else:
+            min_range = 40
+            max_range = 50
+
         
         bomb_number = random.randrange(min_range, max_range)
 

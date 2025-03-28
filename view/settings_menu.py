@@ -10,7 +10,7 @@ class SettingsMenu(Menu):
         super().__init__(caption)
         # self.interface = Interface(caption)
         # self.screen = self.interface.screen
-        self.difficulties = ["Facile", "Difficile"]
+        self.difficulties = ["Facile", "Moyen", "Difficile"]
         self.difficulty_index = 0
         self.resolutions = [(1080,720), (720,450)]
         self.resolution_index = 0

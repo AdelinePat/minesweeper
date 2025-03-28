@@ -47,8 +47,12 @@ class MenuController():
                     self.game_controller.game_info.grid_rows = 8
                     self.game_controller.game_info.grid_columns = 8                   
                 case 1:
+                    self.game_controller.game_info.grid_rows = 12
+                    self.game_controller.game_info.grid_columns = 12
+                case 2:
                     self.game_controller.game_info.grid_rows = 15
                     self.game_controller.game_info.grid_columns = 15
+
             self.in_game_screen.draw_in_game_screen()
             # pygame.display.update()
             
@@ -75,8 +79,8 @@ class MenuController():
         elif self.is_screen_win == True:
             self.is_screen_main = False
             # create condition for which screen to display
-            self.winner_screen.draw_winner_top_3(self)
-            # self.winner_screen.draw_window_winner_not_top_3(self)
+            # self.winner_screen.draw_winner_top_3(self)
+            self.winner_screen.draw_window_winner_not_top_3(self)
             if self.winner_screen.button_return == True:
                 self.is_screen_win = False
                 self.is_screen_main = True
