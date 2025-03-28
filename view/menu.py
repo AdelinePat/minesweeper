@@ -32,6 +32,7 @@ class Menu(Interface):
         pygame.draw.rect(self.screen, background_color, subtitle_rect)
 
         subtitle_text = self.draw_text(text, font, subtitle_rect.height-10, center, color)
+        
 
     def draw_full_button(self, button_text, center, background=GHOST_WHITE, background_hovered=AGRESSIVE_PINK, color=INDIGO_DYE, color_hover=GHOST_WHITE, font=TEXT_FONT):
         hovered_button = pygame.Rect(

@@ -32,7 +32,7 @@ class Settings:
         screen.blit(text_surface, position)
 
     def draw_button(self, text, center):
-        button_rect = pygame.Rect(0, 0, 120, 40)
+        button_rect = pygame.Rect(0, 0, 140, 40)
         button_rect.center = center
         pygame.draw.rect(screen, GRAY, button_rect, border_radius=10)
         text_surface = FONT.render(text, True, BLACK)
@@ -64,15 +64,37 @@ class Settings:
 
     def get_current_settings(self):
         settings = {
-            "Difficulté": {"index": self.difficulty_index, "valeur": self.difficulties[self.difficulty_index]},
-            "Résolution": {"index": self.resolution_index, "valeur": self.resolutions[self.resolution_index]},
-            "Langue": {"index": self.language_index, "valeur": self.languages[self.language_index]},
+            "Difficulté": self.difficulties[self.difficulty_index],
+            "Résolution": self.resolutions[self.resolution_index][0],
+            "Langue": self.languages[self.language_index],
         }
 
+        print("\nParamètres appliqués :")
         for key, value in settings.items():
-            print(f"{key}: Index {value['index']}, Valeur {value['valeur']}")
+            print(f"{key}: {value}")
 
         return settings
+    
+    def get_single_setting(self, setting_name):
+        """Récupère la valeur et l'index d'un seul paramètre et l'affiche."""
+        settings = {
+            "Difficulté": (self.difficulties[self.difficulty_index], self.difficulty_index),
+            "Résolution": (self.resolutions[self.resolution_index][0], self.resolution_index),  # On ne garde que le texte
+            "Langue": (self.languages[self.language_index], self.language_index),
+        }
+
+        valeur, index = settings.get(setting_name, ("Paramètre invalide", -1))
+
+        # Affichage automatique
+        print(f"{setting_name} actuelle : {valeur} (Index: {index})")
+
+        return valeur, index
+
+
+    def apply_settings(self):
+        settings = self.get_current_settings()
+        print("Les paramètres ont été appliqués !")
+        return settings  # Tu peux utiliser cette valeur pour les sauvegarder
 
     def draw_settings_screen(self):
         running = True
@@ -90,8 +112,9 @@ class Settings:
                 "Langue", self.languages, self.language_index, (SCREEN_WIDTH // 2, 180)
             )
 
-            # Bouton Retour
-            button_back = self.draw_button("Retour", (SCREEN_WIDTH // 2, 240))
+            # Boutons Retour et Appliquer
+            button_back = self.draw_button("Retour", (SCREEN_WIDTH // 3, 240))
+            button_apply = self.draw_button("Appliquer", (2 * SCREEN_WIDTH // 3, 240))
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -100,28 +123,31 @@ class Settings:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if left_difficulty.collidepoint(event.pos):
                         self.difficulty_index = (self.difficulty_index - 1) % len(self.difficulties)
-                        self.get_current_settings()
                     if right_difficulty.collidepoint(event.pos):
                         self.difficulty_index = (self.difficulty_index + 1) % len(self.difficulties)
-                        self.get_current_settings()
 
                     if left_resolution.collidepoint(event.pos):
                         self.resolution_index = (self.resolution_index - 1) % len(self.resolutions)
-                        self.get_current_settings()
                     if right_resolution.collidepoint(event.pos):
                         self.resolution_index = (self.resolution_index + 1) % len(self.resolutions)
-                        self.get_current_settings()
 
                     if left_language.collidepoint(event.pos):
                         self.language_index = (self.language_index - 1) % len(self.languages)
-                        self.get_current_settings()
                     if right_language.collidepoint(event.pos):
                         self.language_index = (self.language_index + 1) % len(self.languages)
-                        self.get_current_settings()
 
                     if button_back.collidepoint(event.pos):
                         print("Retour au menu")
-                        running = False  
+                        running = False
+
+                    if button_apply.collidepoint(event.pos):
+                        self.apply_settings()  # Applique les paramètres
+
+                         # Afficher chaque paramètre individuellement
+                        self.get_single_setting("Difficulté")
+                        self.get_single_setting("Résolution")
+                        self.get_single_setting("Langue")
+
 
             pygame.display.flip()
 
