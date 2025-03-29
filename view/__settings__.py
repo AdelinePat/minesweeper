@@ -2,6 +2,11 @@ RESOLUTION = (1080, 720)
 FPS = 144
 TOP3_PATH = './assets/roll_of_fame.json'
 
+## LISTS
+DIFFICULTY = ["Facile", "Moyen", "Difficile"]
+RESOLUTIONS = [(1080, 720), (720, 450), (2500, 1080)]
+LANGUAGES = ["fr", "eng"]
+
 ## COLORS
 AGRESSIVE_PINK = (195, 60, 84)
 INDIGO_DYE = (37, 78, 112)

@@ -1,6 +1,6 @@
 import pygame
 import sys
-from view.__settings__ import TITLE_FONT, TEXT_FONT, CYAN, INDIGO_DYE, GHOST_WHITE, AGRESSIVE_PINK,CELESTE
+from view.__settings__ import TITLE_FONT, TEXT_FONT, CYAN, INDIGO_DYE, GHOST_WHITE, AGRESSIVE_PINK,CELESTE, DIFFICULTY, RESOLUTIONS, LANGUAGES
 from view.menu import Menu
 from view.interface import Interface
 
@@ -8,22 +8,16 @@ from view.interface import Interface
 class SettingsMenu(Menu):
     def __init__(self, game_controller, caption="Settings"):
         super().__init__(caption)
-        # self.interface = Interface(caption)
-        # self.screen = self.interface.screen
-        self.difficulties = ["Facile", "Moyen", "Difficile"]
+        self.difficulties = DIFFICULTY
         self.difficulty_index = 0
-        self.resolutions = [(1080, 720), (720, 450), (2500, 1080)]
+        self.resolutions = RESOLUTIONS
         self.resolution_index = 0
-        self.languages = ["fr", "eng"]
+        self.languages = LANGUAGES
         self.language_index = 0
         self.game_controller = game_controller
         
         self.get_resolution(self.resolution)
 
-    # def draw_button(self, text, center):
-    #     return self.draw_full_button(text, center, background=CYAN, background_hovered=AGRESSIVE_PINK, color=GHOST_WHITE, color_hover=INDIGO_DYE, font=TITLE_FONT)
-    
-    
     def option_button(self, option_surface, label, options, index, center):
         if options == self.resolutions:
             pass

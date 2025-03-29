@@ -42,7 +42,6 @@ class MenuController():
             self.victory_screen.draw_window_winner_not_top_3(self)
         else:
             self.victory_screen.draw_winner_top_3(self)
-            print(self.game_controller.player_name)
 
     def screen_access(self):
         """Controls screen transitions based on the flags."""
