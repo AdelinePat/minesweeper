@@ -26,6 +26,7 @@ class GameBoard(InGameMenu):
         self.revealed_square = []
         self.flag_list = 0
         self.interrogation_list = 0
+        self.game_over = False
 
         
         self.window_rect =  pygame.Rect(
@@ -66,7 +67,11 @@ class GameBoard(InGameMenu):
         else:
             self.redraw_board() 
 
-        self.set_title(f'{self.start_stopwatch() if self.start_stopwatch() else "Minesweeper MOUHAHAHAHAHA"}', self.height//25)
+        if not self.game_over:
+            self.set_title(f'{self.start_stopwatch() if self.start_stopwatch() else "Minesweeper MOUHAHAHAHAHA"}', self.height//25)
+        else:
+            self.set_title(f'Vous avez perdu', self.height//25)
+
         
 
         self.display_game_info('Mines :', f'{len(self.bomb_positions)}',
@@ -108,6 +113,7 @@ class GameBoard(InGameMenu):
         self.bomb_positions = []
         self.revealed_square = []
         self.is_victory = False
+        self.game_over = False
         # self.flag_list = 0
         # self.interrogation_list = 0
 
@@ -116,9 +122,13 @@ class GameBoard(InGameMenu):
         self.rows = self.game_info.grid_rows
         self.columns = self.game_info.grid_columns
 
+        
         self.grid_node_width = self.get_grid_node_size()
         
         self.grid_node_height = self.get_grid_node_size()
+        self.game_info.square_surface = (self.grid_node_width, self.grid_node_height)
+        self.game_info.set_mine_resized()
+        self.game_info.set_flag_resized()
 
         self.grid_top_left = self.get_grid_top_left()
 
@@ -332,6 +342,7 @@ class GameBoard(InGameMenu):
                 self.set_board_values()
 
             if (row, column) in self.bomb_positions:
+                self.game_over = True
                 print("AIE, raté ! Il y avait une bombe , tu as perdu")
 
             else:
@@ -372,7 +383,7 @@ class GameBoard(InGameMenu):
     def go_through_board(self):
         mouse_position = pygame.mouse.get_pos()
         self.check_for_victory()
-        if not self.is_victory:
+        if not self.is_victory and not self.game_over:
             self.flag_list = 0
             self.interrogation_list = 0
             for row in range(self.rows):
@@ -387,6 +398,8 @@ class GameBoard(InGameMenu):
                         self.flag_list += 1
                     elif self.board[row][column].element == "?":
                         self.interrogation_list += 1
+        elif self.game_over:
+            self.reveal_all_board()
         else:
             print("fin de partie")
 
@@ -400,3 +413,23 @@ class GameBoard(InGameMenu):
             self.game_info.game_time = self.exact_current_timer
         else:
             self.is_victory = False
+
+    def reveal_all_board(self):
+        for row in range(self.rows):
+            for column in range(self.columns):
+                if self.board[row][column].value in (1,2,3,4,5,6,7,8):
+                    self.draw_revealed_square_with_value(row, column)
+                elif self.board[row][column].value == 0:
+                    self.createSquare(GHOST_WHITE,
+                        self.board[row][column].hitbox.topleft[0],
+                        self.board[row][column].hitbox.topleft[1])
+                else:
+                    self.createSquare(NOT_SO_GHOST_WHITE,
+                        self.board[row][column].hitbox.topleft[0],
+                        self.board[row][column].hitbox.topleft[1])
+                    self.screen.blit(self.game_info.mine_img, self.board[row][column].hitbox)
+                    
+        self.draw_grid_border()
+
+
+
