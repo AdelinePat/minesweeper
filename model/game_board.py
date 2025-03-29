@@ -58,7 +58,7 @@ class GameBoard(InGameMenu):
         if self.click>=1:
             if self.stopwatch_start_time==None:
                 self.stopwatch_start_time=pygame.time.get_ticks()
-
+            self.exact_current_timer=int((pygame.time.get_ticks()-self.stopwatch_start_time)//10)
             self.current_timer=int((pygame.time.get_ticks()-self.stopwatch_start_time)/1000)
             self.time_in_seconds=(self.current_timer%60)
             self.time_in_minutes=(self.current_timer//60)
@@ -401,5 +401,8 @@ class GameBoard(InGameMenu):
         print(len(self.revealed_square))
         if len(self.revealed_square) == square_to_reveal:
             self.is_victory = True
+            print(f"timer exact en fin de partie {self.exact_current_timer}")
+            print(f"timer en fin de partie {self.current_timer}")
+            self.game_info.game_time = self.exact_current_timer
         else:
             self.is_victory = False

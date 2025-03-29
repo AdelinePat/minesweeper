@@ -1,7 +1,8 @@
 from view.winner_menu import Winner
 from view.settings_menu import SettingsMenu
 from model.game_board import GameBoard
-
+import json
+from view.__settings__ import TOP3_PATH
 from controller.game_controller import GameController
 import pygame
 
@@ -63,6 +64,11 @@ class MenuController():
                 self.in_game_screen.reset_game_info()
                 self.is_screen_in_game = False
                 self.is_screen_main = True
+            elif self.in_game_screen.is_victory:
+                self.in_game_screen.reset_game_info()
+                self.is_screen_in_game = False
+                self.is_screen_win = True
+                
 
         elif self.is_screen_settings:
             self.is_screen_main = False
@@ -78,8 +84,13 @@ class MenuController():
 
         elif self.is_screen_win == True:
             self.is_screen_main = False
-            # create condition for which screen to display
-            self.winner_screen.draw_winner_top_3(self)
+            is_top_3 = self.check_timer_top_3_players()
+
+            if is_top_3 == None:
+                self.winner_screen.draw_window_winner_not_top_3(self)
+            else:
+                # create condition for which screen to display
+                self.winner_screen.draw_winner_top_3(self)
             # self.winner_screen.draw_window_winner_not_top_3(self)
             if self.winner_screen.button_return == True:
                 self.is_screen_win = False
@@ -139,6 +150,18 @@ class MenuController():
         self.is_screen_settings = True
         self.screen_access()
         print("Switching to the settings menu.")
+
+    def check_timer_top_3_players(self):
+        with open(TOP3_PATH, 'r', encoding="UTF-8") as file:
+            top3_dict = json.load(file)
+
+        for index, key in enumerate(top3_dict):
+            if top3_dict[key] < self.game_controller.game_info.game_time:
+                print("ALLLEER TOP 3!")
+                print(index)
+                return index
+            else:
+                return None
 
 
 

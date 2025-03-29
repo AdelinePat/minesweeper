@@ -10,5 +10,4 @@ class GameInfo():
         self.flag_number = None
         self.interrogation_point_number = None
         self.mines_positions = None # list of tuples
-        self.time_start = None
-        self.time_end = None
+        self.game_time = None
