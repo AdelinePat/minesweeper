@@ -6,7 +6,7 @@ from view.__settings__ import TITLE_FONT, CELESTE, TEXT_FONT, GHOST_WHITE, CERUL
 
 class RollOfFame(Menu):
     def __init__(self, controller):
-        super().__init__('Wall of Fame')
+        super().__init__('Palmarès')
         self.controller = controller
         self.data_acces = self.controller.data_access
         self.game_controller = self.controller.game_controller
@@ -17,7 +17,7 @@ class RollOfFame(Menu):
         self.reset_background_screen()
         self.draw_menu_window()
 
-        my_title = self.draw_text('Wall of Fame',
+        my_title = self.draw_text('Palmarès',
                                        TITLE_FONT,
                                        self.height//9,
                                        self.title_center,

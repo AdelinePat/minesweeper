@@ -108,7 +108,7 @@ class GameBoard(InGameMenu):
 
     def get_grid_node_size(self):
         size = (
-            (self.grid_rect.height - self.border_thickness*2 ) // self.rows)- self.padding
+            (self.grid_rect.height - self.border_thickness ) // self.rows)- self.padding
         return size
     
     def get_grid_top_left(self):
