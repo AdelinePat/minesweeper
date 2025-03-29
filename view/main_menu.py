@@ -1,46 +1,48 @@
 import pygame
 import sys
+from view.__settings__ import TITLE_FONT, CELESTE
 from view.menu import Menu
 from controller.menu_controller import MenuController
-from view.__settings__ import TITLE_FONT, CELESTE
 
-class MainMenu:
-    def __init__(self):
-        self.menu = Menu('Minesweeper')  # Main game menu
+class MainMenu(Menu):
+    def __init__(self, caption):
+        super().__init__(caption)
         self.controller = MenuController()
+        self.get_resolution(self.controller.resolution)
+        
         self.in_settings_screen = False  # Track if we are in settings screen
+        self.button_quit = self.draw_full_button('Quitter', 
+                                (self.screen_center[0], self.screen_center[1] + self.height // 8 * 1.5))
     
     def draw_main_menu(self):
         # Reset background and draw the main menu
-        self.menu.reset_background_screen()
-        self.menu.draw_menu_window()
+        self.reset_background_screen()
+        self.draw_menu_window()
 
         # Title of the game
-        my_title = self.menu.draw_text('Minesweeper',
+        my_title = self.draw_text('Minesweeper',
                                        TITLE_FONT,
-                                       self.menu.height // 9,
-                                       self.menu.title_center,
+                                       self.height // 9,
+                                       self.title_center,
                                        color=CELESTE)
         
         # "Play" button
-        self.controller.is_screen_in_game = self.menu.draw_full_button('Jouer', 
-                                  (self.menu.screen_center[0], self.menu.screen_center[1] - self.menu.height // 8 * 1.5))
+        self.controller.is_screen_in_game = self.draw_full_button('Jouer', 
+                                  (self.screen_center[0], self.screen_center[1] - self.height // 8 * 1.5))
 
         # "Settings" button
-        if self.menu.draw_full_button('Paramètres',
-                            (self.menu.screen_center[0], self.menu.screen_center[1] - self.menu.height // 8 * 0.5)):
-            self.controller.go_to_settings()  # Utilise la fonction de transition
-
+        self.controller.is_screen_settings = self.draw_full_button('Paramètres',
+                            (self.screen_center[0], self.screen_center[1] - self.height // 8 * 0.5))
 
         # "Leaderboard" button
-        self.controller.is_screen_win = self.menu.draw_full_button('Palmarès', 
-                                (self.menu.screen_center[0], self.menu.screen_center[1] + self.menu.height // 8 * 0.5))
+        self.controller.is_screen_record = self.draw_full_button('Palmarès', 
+                                (self.screen_center[0], self.screen_center[1] + self.height // 8 * 0.5))
         
-        if self.controller.is_screen_win==True:
-            print("hola")
         # "Quit" button
-        self.button_quit = self.menu.draw_full_button('Quitter', 
-                                (self.menu.screen_center[0], self.menu.screen_center[1] + self.menu.height // 8 * 1.5))
+        self.button_quit = self.draw_full_button('Quitter', 
+                                (self.screen_center[0], self.screen_center[1] + self.height // 8 * 1.5))
+        
+        
 
     def main_loop(self):
         pygame.init()
@@ -49,6 +51,12 @@ class MainMenu:
             # Draw the main menu screen
             if self.controller.is_screen_main:
                 self.draw_main_menu()
+
+                if self.button_quit:
+                    print("Exiting the game...")
+                    pygame.quit()
+                    sys.exit() 
+
             else:
                 
                 if self.button_quit:
@@ -64,7 +72,4 @@ class MainMenu:
                     pygame.quit()
                     sys.exit()
 
-                
-            # Update the display to show changes
-            # pygame.display.update()
-            self.menu.update()
+            self.update()

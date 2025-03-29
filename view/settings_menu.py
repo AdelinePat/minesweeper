@@ -10,13 +10,15 @@ class SettingsMenu(Menu):
         super().__init__(caption)
         # self.interface = Interface(caption)
         # self.screen = self.interface.screen
-        self.difficulties = ["Facile", "Difficile"]
+        self.difficulties = ["Facile", "Moyen", "Difficile"]
         self.difficulty_index = 0
-        self.resolutions = [(1080,720), (720,450)]
+        self.resolutions = [(1080, 720), (720, 450), (2500, 1080)]
         self.resolution_index = 0
         self.languages = ["fr", "eng"]
         self.language_index = 0
         self.game_controller = game_controller.game_info
+        
+        self.get_resolution(self.resolution)
 
     # def draw_button(self, text, center):
     #     return self.draw_full_button(text, center, background=CYAN, background_hovered=AGRESSIVE_PINK, color=GHOST_WHITE, color_hover=INDIGO_DYE, font=TITLE_FONT)
@@ -113,7 +115,10 @@ class SettingsMenu(Menu):
 
             self.game_controller.language = self.languages[self.language_index]
             self.game_controller.difficulty = self.difficulty_index
+
             self.get_resolution(self.game_controller.resolution)
+            self.get_actual_menu_window()
+            self.draw_menu_window()
 
             
             settings = (
@@ -161,9 +166,9 @@ class SettingsMenu(Menu):
                         color=CELESTE)
         
        # Create row surface for blitting option labels, button and option
-        difficulty_surface = self.draw_full_text((self.screen_center[0], self.screen_center[1] - self.height // 8 * 1.5))
-        resolution_surface = self.draw_full_text((self.screen_center[0], self.screen_center[1] - self.height // 8 * 0.5))
-        language_surface = self.draw_full_text((self.screen_center[0], self.screen_center[1] + self.height // 8 * 0.5))
+        difficulty_surface = self.get_full_rect((self.screen_center[0], self.screen_center[1] - self.height // 8 * 1.5))
+        resolution_surface = self.get_full_rect((self.screen_center[0], self.screen_center[1] - self.height // 8 * 0.5))
+        language_surface = self.get_full_rect((self.screen_center[0], self.screen_center[1] + self.height // 8 * 0.5))
         
         option_difficulty_rect = self.option_button(difficulty_surface,
                 "Difficulté", self.difficulties, self.difficulty_index, (self.width // 2, 60)

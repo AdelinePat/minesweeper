@@ -3,7 +3,7 @@ from model.game_board import GameBoard
 import pygame
 import sys
 
-my_menu = GameBoard('grille de jeu', 10, 10)
+my_menu = GameBoard('grille de jeu')
 
 board = my_menu.create_board()
 while True:

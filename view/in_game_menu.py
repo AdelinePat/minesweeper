@@ -1,19 +1,23 @@
-# from view.menu import Menu
-from view.interface import Interface
-from view.__settings__ import CELESTE, TITLE_FONT, TEXT_FONT, NOT_SO_GHOST_WHITE, CYAN, GHOST_WHITE, INDIGO_DYE
-import random
-# from model.game_board import GameBoard
 import pygame
+from view.interface import Interface
+from view.__settings__ import CELESTE, TITLE_FONT, TEXT_FONT, CYAN, GHOST_WHITE, INDIGO_DYE
 
 pygame.init()
 class InGameMenu(Interface):
     def __init__(self, caption):
         super().__init__(caption)
+        self.get_resolution(self.resolution)
     
-    def set_title(self, text):
+
+    def set_title(self, text, font_size=None):
+        if font_size == None:
+            font_size = self.height//9
+        else:
+            font_size = font_size
+
         self.title = self.draw_text(text,
             TITLE_FONT,
-            self.height//9,
+            font_size,
             (self.title_center[0] // 4*3, self.title_center[1]),
             color=CELESTE
         )
@@ -27,11 +31,10 @@ class InGameMenu(Interface):
         
         self.title = self.draw_text(text,
             TITLE_FONT,
-            self.height//9,
+            font_size,
             (self.title_center[0] // 4*3, self.title_center[1]),
             color=CELESTE
         )
-
 
     def display_game_info(self, text_title, text_content, position_y):
         font = TEXT_FONT
