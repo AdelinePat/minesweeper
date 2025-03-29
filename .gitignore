@@ -27,6 +27,7 @@ share/python-wheels/
 MANIFEST
 *test.venv/
 *.txt
+*kevin.py
 
 
 # PyInstaller

@@ -1,3 +1,4 @@
+
 import pygame
 import sys
 from view.menu import Menu
@@ -53,9 +54,16 @@ class MainMenu(Menu):
         
 
         while True:
+            if self.controller.has_return:
+                self.controller.has_return == False
+                # print("haha")
+                # print(f"main_menu_variable =",self.controller.resolution)
+                # print(f"main_settings_variable =",self.controller.settings_screen.resolution)
 
-            # if self.controller.resolution != self.controller.settings_screen.resolutions[0]:
-            # self.get_resolution(self.controller.resolution)
+                if self.controller.resolution != self.controller.settings_screen.resolution:
+                    self.controller.resolution = self.controller.settings_screen.resolution
+                    self.get_resolution(self.controller.resolution) 
+                
             # Draw the main menu screen
             if self.controller.is_screen_main:
                 self.draw_main_menu()
@@ -84,3 +92,6 @@ class MainMenu(Menu):
             # Update the display to show changes
             # pygame.display.update()
             self.update()
+
+          
+ 

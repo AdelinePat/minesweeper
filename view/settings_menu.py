@@ -17,8 +17,11 @@ class SettingsMenu(Menu):
         self.languages = ["fr", "eng"]
         self.language_index = 0
         self.game_controller = game_controller.game_info
+        self.settings = ""
         
         self.get_resolution(self.resolution)
+        if not hasattr(game_controller, "game_info"):
+            raise AttributeError("L'objet game_controller doit avoir un attribut 'game_info'")
 
     # def draw_button(self, text, center):
     #     return self.draw_full_button(text, center, background=CYAN, background_hovered=AGRESSIVE_PINK, color=GHOST_WHITE, color_hover=INDIGO_DYE, font=TITLE_FONT)

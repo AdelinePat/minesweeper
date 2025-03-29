@@ -23,12 +23,11 @@ class MenuController():
         self.is_screen_in_game = False
         self.button_return = False
         self.winner = ""
-        self.winner_screen = Winner('Bravo vous avez gagné', self.game_controller)
+        # self.winner_screen = Winner('Bravo vous avez gagné', self.game_controller)
         self.settings_screen = SettingsMenu(self.game_controller)
         self.roll_of_fame_screen = RollOfFame(self)
                 # self.in_game_screen = GameBoard('grille de jeu', self.game_controller.game_info)
         self.in_game_screen = GameBoard('grille de jeu', self.game_controller.game_info)
-        
         self.resolution = self.settings_screen.resolutions[0]
 
         ## Displatch those 4 infos into game_info or elsewhere
@@ -36,6 +35,8 @@ class MenuController():
         self.player_time = None
         self.top_players = []
         self.player_id = str(uuid.uuid4())
+        self.game_info = {} 
+        self.has_return = False
 
     def set_grid(self):
         match self.game_controller.game_info.difficulty:
@@ -77,7 +78,10 @@ class MenuController():
         elif self.is_screen_settings:
             self.is_screen_main = False
             self.settings_screen.draw_window_settings(self)
+            if self.settings_screen.settings != "":
+                self.resolution = self.settings_screen.settings[1][1]
             # pygame.display.update()
+        
             
             # self.controller.is_screen_main = False
             # self.in_settings_screen = True
@@ -85,6 +89,7 @@ class MenuController():
             if self.settings_screen.button_return:
                 # self.is_screen_settings = False
                 # self.is_screen_main = True
+                self.has_return = True
                 self.go_to_main_menu()
 
         elif self.is_screen_win == True:
@@ -110,6 +115,8 @@ class MenuController():
 
                 # self.is_screen_win = False
                 # self.is_screen_main = True
+        else:
+            print("hihihi")
     
     def set_settings(self, choice):
         '''TODO: display settings screen + back-end for settings choice'''
@@ -121,6 +128,7 @@ class MenuController():
             self.is_screen_main = False
             
             self.settings_screen.draw_window_settings(self)
+           
             if self.settings_screen.button_return :
                 self.is_screen_settings = False
                 self.is_screen_main = True
