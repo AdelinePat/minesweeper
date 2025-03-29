@@ -5,29 +5,12 @@ from view.in_game_menu import InGameMenu
 from model.square import Square
 
 class GameGrid(InGameMenu):
-    def __init__(self, caption, game_info):
+    def __init__(self, caption, controller, game_info):
         super().__init__(caption)
+        self.controller = controller
         self.game_info = game_info
-        self.win_width = self.width // 3*2
-        self.win_height = self.height // 3*2
-        self.padding = 2
-        self.border_thickness = 5
-        self.border_radius = 15
-        self.button_height = self.height // 12
-        self.window_rect =  pygame.Rect(
-                            0,0,
-                            self.win_width, self.win_height)
-        
-        self.window_rect.center = self.screen_center
-
-        self.grid_surface_tuple = (self.height//3*2, self.height//3*2)
-
-        self.grid_rect = pygame.Rect(self.window_rect.topleft[0],
-                                     self.window_rect.topleft[1],
-                                     self.grid_surface_tuple[0],
-                                    self.grid_surface_tuple[1])
+   
         self.previous_mouse_state=pygame.mouse.get_pressed()
-
 
         self.is_victory = False
         self.stopwatch_start_time=None
@@ -53,7 +36,12 @@ class GameGrid(InGameMenu):
             return self.time_to_show
     
     def draw_in_game_screen(self):
-        self.set_caption(self.caption)       
+        self.set_caption(self.caption) 
+        if self.controller.resolution != self.resolution:
+            self.controller.resolution = self.controller.settings_screen.resolution
+            self.get_resolution(self.controller.resolution) 
+            self.get_actual_menu_window()    
+
         self.reset_background_screen()
         self.grid_rect_draw = pygame.draw.rect(self.screen,
                                                CERULEAN,
