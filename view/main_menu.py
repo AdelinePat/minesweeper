@@ -9,12 +9,11 @@ class MainMenu(Menu):
         super().__init__(caption)
         self.controller = MenuController()
         self.get_resolution(self.controller.resolution)
-        
-        self.in_settings_screen = False  # Track if we are in settings screen
         self.button_quit = self.draw_full_button('Quitter', 
                                 (self.screen_center[0], self.screen_center[1] + self.height // 8 * 1.5))
     
     def draw_main_menu(self):
+        self.set_caption(self.caption)
         # Reset background and draw the main menu
         self.reset_background_screen()
         self.draw_menu_window()

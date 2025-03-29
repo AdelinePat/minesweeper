@@ -1,29 +1,27 @@
 import pygame
 import sys
-from view.__settings__ import TITLE_FONT, TEXT_FONT, CYAN, INDIGO_DYE, GHOST_WHITE, AGRESSIVE_PINK,CELESTE
+from view.__settings__ import TITLE_FONT, TEXT_FONT, CYAN, INDIGO_DYE, GHOST_WHITE, AGRESSIVE_PINK,CELESTE, DIFFICULTY, RESOLUTIONS, LANGUAGES
 from view.menu import Menu
 from view.interface import Interface
 
 
 class SettingsMenu(Menu):
-    def __init__(self, game_controller, caption="Settings"):
+    def __init__(self, game_controller, data_access, caption="Paramètres"):
         super().__init__(caption)
-        # self.interface = Interface(caption)
-        # self.screen = self.interface.screen
-        self.difficulties = ["Facile", "Moyen", "Difficile"]
+        self.caption = caption
+        self.difficulties = DIFFICULTY
         self.difficulty_index = 0
-        self.resolutions = [(1080, 720), (720, 450), (2500, 1080)]
+        self.resolutions = RESOLUTIONS
         self.resolution_index = 0
-        self.languages = ["fr", "eng"]
+        self.languages = LANGUAGES
+        self.yes_no_choice = ['Oui', 'Non']
+        self.yes_index = 1
         self.language_index = 0
-        self.game_controller = game_controller.game_info
+        self.game_controller = game_controller
+        self.data_access = data_access
         
         self.get_resolution(self.resolution)
 
-    # def draw_button(self, text, center):
-    #     return self.draw_full_button(text, center, background=CYAN, background_hovered=AGRESSIVE_PINK, color=GHOST_WHITE, color_hover=INDIGO_DYE, font=TITLE_FONT)
-    
-    
     def option_button(self, option_surface, label, options, index, center):
         if options == self.resolutions:
             pass
@@ -115,6 +113,11 @@ class SettingsMenu(Menu):
 
             self.game_controller.language = self.languages[self.language_index]
             self.game_controller.difficulty = self.difficulty_index
+            self.game_controller.difficulty_string = self.difficulties[self.difficulty_index]
+            self.game_controller.reset_top_3 = self.yes_index
+            if self.game_controller.reset_top_3 == 0:
+                self.data_access.reset_top_3_players()
+
 
             self.get_resolution(self.game_controller.resolution)
             self.get_actual_menu_window()
@@ -132,30 +135,14 @@ class SettingsMenu(Menu):
             print(f"Langue: Index {settings[2][0]}, Valeur {settings[2][1]}")
 
             return settings
-        
-    # def draw_window_settings(self, controller): 
-    #     # self.reset_background_screen()
-    #     # self.win_height = self.height // 3 * 2
-    #     self.draw_menu_window()
-
-    #     self.draw_text("Paramètres", TITLE_FONT, 50, (self.height // 9, self.title_center))
-
-    
-    #     self.left_difficulty, self.right_difficulty = self.option_button("Difficulté", self.difficulties, self.difficulty_index, (self.win_width // 3, self.win_height // 8 * 1.5))
-    #     self.left_resolution, self.right_resolution = self.option_button("Résolution", self.resolutions, self.resolution_index, (self.win_width // 3, self.win_height // 8 * 3.5))
-    #     self.left_language, self.right_language = self.option_button("Langue", self.languages, self.language_index, (self.win_width // 3, self.win_height // 8 * 5.5))
-
-       
-    #     self.button_return = self.draw_full_button("Retour", (self.win_width // 2, self.win_height // 8 * 7))
-
-    #     return self.button_return  
 
     def apply_settings(self):
         settings = self.get_current_settings()
         print("Les paramètres ont été appliqués !")
-        return settings  # Tu peux utiliser cette valeur pour les sauvegarder
+        return settings 
     
     def draw_window_settings(self, controller):
+        self.set_caption(self.caption)
         self.reset_background_screen()
         self.draw_menu_window()
 
@@ -168,7 +155,8 @@ class SettingsMenu(Menu):
        # Create row surface for blitting option labels, button and option
         difficulty_surface = self.get_full_rect((self.screen_center[0], self.screen_center[1] - self.height // 8 * 1.5))
         resolution_surface = self.get_full_rect((self.screen_center[0], self.screen_center[1] - self.height // 8 * 0.5))
-        language_surface = self.get_full_rect((self.screen_center[0], self.screen_center[1] + self.height // 8 * 0.5))
+        yes_no_choice_surface = self.get_full_rect((self.screen_center[0], self.screen_center[1] + self.height // 8 * 0.5))
+        # language_surface = self.get_full_rect((self.screen_center[0], self.screen_center[1] + self.height // 8 * 0.5))
         
         option_difficulty_rect = self.option_button(difficulty_surface,
                 "Difficulté", self.difficulties, self.difficulty_index, (self.width // 2, 60)
@@ -176,19 +164,31 @@ class SettingsMenu(Menu):
         
         self.difficulty_index = self.draw_arrow_button(option_difficulty_rect, self.difficulty_index, self.difficulties)
 
+        yes_no_choice_options = self.option_button(yes_no_choice_surface,
+            "Supprimer le top 3", self.yes_no_choice, self.yes_index, (self.width // 2, 120)
+        )
+        self.yes_index = self.draw_arrow_button(yes_no_choice_options,
+            self.yes_index, self.yes_no_choice)
+        
         option_resolution_rect = self.option_button(resolution_surface,
             "Résolution", self.resolutions, self.resolution_index, (self.width // 2, 120)
         )
         self.resolution_index = self.draw_arrow_button(option_resolution_rect,
             self.resolution_index, self.resolutions)
 
-        option_language_rect = self.option_button(language_surface,
-            "Langue", self.languages, self.language_index, (self.width // 2, 180)
+        yes_no_choice_options = self.option_button(yes_no_choice_surface,
+            "Supprimer le top 3", self.yes_no_choice, self.yes_index, (self.width // 2, 120)
         )
-        self.language_index = self.draw_arrow_button(option_language_rect,
-            self.language_index, self.languages)
+        self.yes_index = self.draw_arrow_button(yes_no_choice_options,
+            self.yes_index, self.yes_no_choice)
 
-        # Boutons Retour et Appliquer
+        # option_language_rect = self.option_button(language_surface,
+        #     "Langue", self.languages, self.language_index, (self.width // 2, 180)
+        # )
+        # self.language_index = self.draw_arrow_button(option_language_rect,
+        #     self.language_index, self.languages)
+
+        # Return button and Apply button to save parameters
         self.button_return = self.small_button("Retour",
                                 (self.screen_center[0] - self.win_width // 4,
                                 self.screen_center[1] + self.height//8*1.5))

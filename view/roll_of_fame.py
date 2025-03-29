@@ -2,14 +2,16 @@ from view.menu import Menu
 from view.__settings__ import TITLE_FONT, CELESTE
 
 class RollOfFame(Menu):
-    def __init__(self, controller):
-        super().__init__('Palmarès')
+    def __init__(self, controller, caption="Palmarès"):
+        super().__init__(caption)
+        self.caption
         self.controller = controller
         self.data_acces = self.controller.data_access
         self.game_controller = self.controller.game_controller
         self.divided_by = -1.5
 
     def draw_wall_of_fame_menu(self):
+        self.set_caption(self.caption)
         self.reset_background_screen()
         self.draw_menu_window()
 
@@ -26,7 +28,7 @@ class RollOfFame(Menu):
         # Draw buttons with player names and times
             record_list = []
             for player_record in player_dict.items():
-                player_name = player_record[0].split()[0]
+                player_name = player_record[0].split()[0] + " (" + player_record[0].split()[1] + ")"
                 record = player_record[1]
                 text_to_display = f"{player_name} : {(record/100)}s"
                 record_list.append(text_to_display)
@@ -45,8 +47,13 @@ class RollOfFame(Menu):
             self.draw_full_button(text, (self.screen_center[0],
                                 self.screen_center[1] - self.height//8 * 0.5) )
 
-        self.button_return = self.draw_full_button('Retour',
-                                                        (self.screen_center[0],
-                                                         self.screen_center[1] + self.height//8*1.5))
+        self.button_return = self.medium_button(
+            'Retour',
+            (self.screen_center[0],
+            self.screen_center[1] + self.height // 8 * 1.5)
+        )
+        # self.button_return = self.draw_full_button('Retour',
+        #                                                 (self.screen_center[0],
+        #                                                  self.screen_center[1] + self.height//8*1.5))
 
         return self.button_return

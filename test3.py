@@ -5,7 +5,7 @@ import sys
 
 my_menu = GameGrid('grille de jeu')
 
-board = my_menu.create_board()
+board = my_menu.create_grid()
 while True:
     
 
