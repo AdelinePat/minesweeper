@@ -156,10 +156,9 @@ class MenuController():
             top3_dict = json.load(file)
 
         for index, key in enumerate(top3_dict):
-            if top3_dict[key] < self.game_controller.game_info.game_time:
-                print("ALLLEER TOP 3!")
-                print(index)
-                return index
+            if self.game_controller.game_info.game_time < top3_dict[key]:
+                print(key)
+                return key
             else:
                 return None
 
