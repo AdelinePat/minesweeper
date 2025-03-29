@@ -132,28 +132,11 @@ class SettingsMenu(Menu):
             print(f"Langue: Index {settings[2][0]}, Valeur {settings[2][1]}")
 
             return settings
-        
-    # def draw_window_settings(self, controller): 
-    #     # self.reset_background_screen()
-    #     # self.win_height = self.height // 3 * 2
-    #     self.draw_menu_window()
-
-    #     self.draw_text("Paramètres", TITLE_FONT, 50, (self.height // 9, self.title_center))
-
-    
-    #     self.left_difficulty, self.right_difficulty = self.option_button("Difficulté", self.difficulties, self.difficulty_index, (self.win_width // 3, self.win_height // 8 * 1.5))
-    #     self.left_resolution, self.right_resolution = self.option_button("Résolution", self.resolutions, self.resolution_index, (self.win_width // 3, self.win_height // 8 * 3.5))
-    #     self.left_language, self.right_language = self.option_button("Langue", self.languages, self.language_index, (self.win_width // 3, self.win_height // 8 * 5.5))
-
-       
-    #     self.button_return = self.draw_full_button("Retour", (self.win_width // 2, self.win_height // 8 * 7))
-
-    #     return self.button_return  
 
     def apply_settings(self):
         settings = self.get_current_settings()
         print("Les paramètres ont été appliqués !")
-        return settings  # Tu peux utiliser cette valeur pour les sauvegarder
+        return settings 
     
     def draw_window_settings(self, controller):
         self.reset_background_screen()
@@ -188,7 +171,7 @@ class SettingsMenu(Menu):
         self.language_index = self.draw_arrow_button(option_language_rect,
             self.language_index, self.languages)
 
-        # Boutons Retour et Appliquer
+        # Return button and Apply button to save parameters
         self.button_return = self.small_button("Retour",
                                 (self.screen_center[0] - self.win_width // 4,
                                 self.screen_center[1] + self.height//8*1.5))

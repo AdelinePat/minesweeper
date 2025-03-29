@@ -55,7 +55,7 @@ class VictoryMenu(Menu):
 
         # prenom  MenuController 
         # player_name_display = controller.player_name if controller.player_name else "nom-de_joueur"
-        self.game_controller.game_info.player_name = self.player_name_to_input
+        self.game_controller.player_name = self.player_name_to_input
 
         # controller.top_players = self.draw_full_button(
         #     player_name_display,

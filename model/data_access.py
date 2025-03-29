@@ -4,7 +4,7 @@ import json
 
 class Data():
     def __init__(self, controller):
-        self.controller = controller
+        self.game_controller = controller
         self.top_players = []
 
     def load_top3_dict(self):
@@ -50,9 +50,9 @@ class Data():
     def update_top_players(self):
         """ Adds the player's result and keeps only the top 3 fastest times """
         top3_dict = self.load_top3_dict()
-        new_player_name = self.controller.player_name + f' {datetime.now().isoformat()}'
-        top3_dict[new_player_name] = self.controller.game_time
-        if len(top3_dict) == 3:
+        new_player_name = self.game_controller.player_name + f' {datetime.now().isoformat()}'
+        top3_dict[new_player_name] = self.game_controller.game_time
+        if len(top3_dict) == 4:
             top3_dict = self.pop_last_player_from_top_3(top3_dict)
         top3_dict_sorted = self.sort_top3_before_saving(top3_dict)
         self.save_top_players(top3_dict_sorted)
