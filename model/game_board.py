@@ -355,8 +355,11 @@ class GameBoard(InGameMenu):
                 self.set_board_values()
 
             if (row, column) in self.bomb_positions:
-                self.game_over = True
-                print("AIE, raté ! Il y avait une bombe , tu as perdu")
+                if hitbox.element:
+                    return
+                else:
+                    self.game_over = True
+                    print("AIE, raté ! Il y avait une bombe , tu as perdu")
 
             else:
                 self.reveal_square(row, column)
@@ -364,19 +367,17 @@ class GameBoard(InGameMenu):
         elif hitbox.hitbox.collidepoint(mouse_position) and hitbox.element==None and self.check_mouse_release(2):
             self.start_game = True
             hitbox.element= "F"
-            print(f"element changed to {hitbox.element}")
             self.board[row][column].is_element = True
             self.draw_element(row, column)
 
         elif hitbox.hitbox.collidepoint(mouse_position) and hitbox.element=="F" and self.check_mouse_release(2):
             hitbox.element="?"
-            print(f"element changed to {hitbox.element}")
+
             self.draw_element(row, column)
 
         elif hitbox.hitbox.collidepoint(mouse_position) and hitbox.element=="?" and self.check_mouse_release(2):
             hitbox.element=None
-            print(f"element changed to {hitbox.element}")
-            # self.draw_element(row, column)
+
 
 
            
