@@ -24,8 +24,8 @@ class GameBoard(InGameMenu):
         self.start_game = False
         self.bomb_positions = []
         self.revealed_square = []
-        self.flag_list = 0
-        self.interrogation_list = 0
+        self.flag_count = 0
+        self.interrogation_count = 0
         self.game_over = False
 
         
@@ -78,13 +78,23 @@ class GameBoard(InGameMenu):
                                self.height // 4*0.75
                                )
         
-        self.display_game_info('Drapeau(x) posé(s) :', f'{self.flag_list}',
-                               self.height // 4*1.25
-                               )
-        
-        self.display_game_info('? posé(s) :', f'{self.interrogation_list}',
-                               self.height // 4*1.75
-                               )
+        if self.flag_count <= 1:
+            self.display_game_info('Drapeau posé :', f'{self.flag_count}',
+                                self.height // 4*1.25
+                                )
+        else:
+            self.display_game_info('Drapeaux posés :', f'{self.flag_count}',
+                                self.height // 4*1.25
+                                )
+
+        if self.interrogation_count <= 1:
+            self.display_game_info('? posé :', f'{self.interrogation_count}',
+                                self.height // 4*1.75
+                                )
+        else:
+            self.display_game_info('? posés :', f'{self.interrogation_count}',
+                                self.height // 4*1.75
+                                )
         
         self.reset_game = self.small_button('Réinitialiser', (self.width // 4*3, self.height // 4 * 2.5))
         if self.reset_game:
@@ -384,8 +394,8 @@ class GameBoard(InGameMenu):
         mouse_position = pygame.mouse.get_pos()
         self.check_for_victory()
         if not self.is_victory and not self.game_over:
-            self.flag_list = 0
-            self.interrogation_list = 0
+            self.flag_count = 0
+            self.interrogation_count = 0
             for row in range(self.rows):
                 for column in range(self.columns):
                     hitbox = self.board[row][column]
@@ -395,9 +405,9 @@ class GameBoard(InGameMenu):
                         position = (row, column)
                         self.revealed_square.append(self.board[row][column].hitbox)
                     elif self.board[row][column].element == "F":
-                        self.flag_list += 1
+                        self.flag_count += 1
                     elif self.board[row][column].element == "?":
-                        self.interrogation_list += 1
+                        self.interrogation_count += 1
         elif self.game_over:
             self.reveal_all_board()
         else:
