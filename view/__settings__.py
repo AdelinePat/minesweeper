@@ -1,11 +1,7 @@
-# from pygame_menu import Theme
-# from assets.fonts import 
-## DEFAULT SETTINGS
-width=1080
-height=720
-RESOLUTION = (width, height)
+RESOLUTION = (1080, 720)
 FPS = 144
 TOP3_PATH = './assets/roll_of_fame.json'
+
 ## COLORS
 AGRESSIVE_PINK = (195, 60, 84)
 INDIGO_DYE = (37, 78, 112)
@@ -20,18 +16,8 @@ WHITE = (255, 255, 255)
 TITLE_FONT = "./assets/fonts/JockeyOne-Regular.ttf"
 TEXT_FONT = "./assets/fonts/Jersey10-Regular.ttf"
 
-##ICON
-MINE_ICON = "./assets/icon/mine_icon.png"
+##IMG
+MINE_ICON = "./assets/icon/mine_icon_blue.png"
+MINE_ASSETS = "./assets/img/mine_asset_small.png"
+FLAG_ASSETS = "./assets/img/flag_asset_small.png"
 
-# CUSTOM_THEME = Theme(
-#     background_color=GHOST_WHITE,
-#     scrollbar_shadow=True,
-#     scrollbar_slider_color="orange",
-#     scrollbar_slider_hover_color="green",
-#     scrollbar_slider_pad=2,
-#     selection_color=AGRESSIVE_PINK,
-#     title_background_color=INDIGO_DYE,
-#     title_font_color=CELESTE,
-#     title_font_shadow=True,
-#     widget_font_color=INDIGO_DYE
-# )
