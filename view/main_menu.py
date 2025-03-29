@@ -1,3 +1,4 @@
+
 import pygame
 import sys
 from view.__settings__ import TITLE_FONT, CELESTE
@@ -77,3 +78,6 @@ class MainMenu(Menu):
                     sys.exit()
 
             self.update()
+
+          
+ 
