@@ -10,6 +10,7 @@ class RollOfFame(Menu):
         self.controller = controller
         self.data_acces = self.controller.data_access
         self.game_controller = self.controller.game_controller
+        self.divided_by = -1.5
         # self.in_settings_screen = False
 
     def draw_wall_of_fame_menu(self):
@@ -30,38 +31,46 @@ class RollOfFame(Menu):
         #     player = []
         player_dict = self.data_acces.load_top3_dict()
         
-        y = self.screen_center[1] 
-        y_factor = - self.height//8*1.5
+        
 
+        # Draw buttons with player names and times
+        record_list = []
         for player_record in player_dict.items():
             player_name = player_record[0].split()[0]
             record = player_record[1]
-            # print(player_name, record)
             text_to_display = f"{player_name} : {record/100}s"
-            self.draw_full_text(text_to_display,
+            record_list.append(text_to_display)
+            
+        
+        y = self.screen_center[1]
+        
+        for player_record_text in record_list:
+            y_factor = self.height//8*self.divided_by
+            self.draw_full_button(player_record_text,
                             (self.screen_center[0],
                             y + y_factor))
-            y_factor+1
+            self.divided_by += 1
+        self.divided_by = -1.5
             
 
-        # Draw buttons with player names and times
-        for index, player in enumerate(player_dict[:3]):  # Display only the top 3 players
-            player_name_display_top3 = player.get("name", f"Player {index + 1}")
-            player_time = player.get("time", 0)
-            button_text = f"{player_name_display_top3}: {player_time}s"
+        
+        # for index, player in enumerate(player_dict[:3]):  # Display only the top 3 players
+        #     player_name_display_top3 = player.get("name", f"Player {index + 1}")
+        #     player_time = player.get("time", 0)
+        #     button_text = f"{player_name_display_top3}: {player_time}s"
 
-            if index == 0:
-                player_name_display_top3  = self.draw_full_button(button_text,
-                                                     (self.screen_center[0],
-                                                      y))
-            elif index == 1:
-                player_name_display_top3 = self.draw_full_button(button_text,
-                                                                               (self.screen_center[0],
-                                                                                self.screen_center[1] - self.height//8*0.5))
-            elif index == 2:
-                player_name_display_top3 = self.draw_full_button(button_text,
-                                                                           (self.screen_center[0],
-                                                                            self.screen_center[1] + self.height//8*0.5))
+        #     if index == 0:
+        #         player_name_display_top3  = self.draw_full_button(button_text,
+        #                                              (self.screen_center[0],
+        #                                               y))
+        #     elif index == 1:
+        #         player_name_display_top3 = self.draw_full_button(button_text,
+        #                                                                        (self.screen_center[0],
+        #                                                                         self.screen_center[1] - self.height//8*0.5))
+        #     elif index == 2:
+        #         player_name_display_top3 = self.draw_full_button(button_text,
+        #                                                                    (self.screen_center[0],
+        #                                                                     self.screen_center[1] + self.height//8*0.5))
 
         self.button_return = self.draw_full_button('Retour',
                                                         (self.screen_center[0],
