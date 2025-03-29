@@ -4,6 +4,10 @@ from model.game_board import GameBoard
 
 from controller.game_controller import GameController
 import pygame
+import json
+import uuid  
+from datetime import datetime 
+
 
 class MenuController():
     def __init__(self):
@@ -21,13 +25,12 @@ class MenuController():
         self.in_game_screen = GameBoard('grille de jeu', self.game_controller.game_info)
         
         self.resolution = self.settings_screen.resolutions[0]
-                
 
-    
-        self.player_name = " Yulii"
-        self.player_score = 0
+        ## Displatch those 4 infos into game_info or elsewhere
+        self.player_name = " Adelina"
+        self.player_time = None
         self.top_players = []
-
+        self.player_id = str(uuid.uuid4())
 
     def screen_access(self):
         """Controls screen transitions based on the flags."""
@@ -117,14 +120,7 @@ class MenuController():
             print("This is the settings menu.")
         pass
 
-    def check_top_players(self):
-        '''Vérifier si le joueur actuel est dans le top 3'''
-        if self.player_name and self.player_score:
-            self.top_players.append({"name": self.player_name, "score": self.player_score})
-            self.top_players = sorted(self.top_players, key=lambda x: x["score"], reverse=True)
-            self.top_players = self.top_players[:3]
-            if any(player["name"] == self.player_name for player in self.top_players):
-                print(f"{self.player_name} est dans le top 3 !")
+    
 
     def go_to_main_menu(self):
         """Switch to the main menu."""
@@ -140,5 +136,43 @@ class MenuController():
         self.screen_access()
         print("Switching to the settings menu.")
 
+    def load_top_players(self, file_path='view/wall_of_fame.json'):
+        try:
+            with open(file_path, 'r', encoding='utf-8') as file:
+                data = json.load(file)
+                if isinstance(data, list):  
+                    self.top_players = data
+                else:  
+                    self.top_players = []
+        except (FileNotFoundError, json.JSONDecodeError):
+            self.top_players = []
 
+    def save_top_players(self, file_path='view/wall_of_fame.json'):
+        """ Saves the leaderboard to a file """
+        with open(file_path, 'w', encoding='utf-8') as file:
+            json.dump(self.top_players, file, indent=4, ensure_ascii=False)
 
+    def update_top_players(self):
+        """ Adds the player's result and keeps only the top 3 fastest times """
+        
+        new_entry = {
+            "id": self.player_id,
+            "name": self.player_name,
+            "time": self.player_time, 
+            "timestamp": datetime.now().isoformat()  
+        }
+
+        # If there are fewer than 3 players in the top list, add the new player
+        if len(self.top_players) < 3:
+            self.top_players.append(new_entry)
+        else:
+            # If the player's time is better than the slowest in the top 3, replace it
+            self.top_players.append(new_entry)
+            self.top_players.sort(key=lambda x: x["time"])  
+            self.top_players = self.top_players[:3]  
+
+    def process_winner(self, file_path='view/wall_of_fame.json'):
+        """ Processes the winner: loads, updates, and saves the leaderboard """
+        self.load_top_players(file_path)
+        self.update_top_players()
+        self.save_top_players(file_path)
