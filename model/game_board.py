@@ -17,6 +17,9 @@ class GameBoard(InGameMenu):
         self.is_victory = False
         
         self.stopwatch_start_time=None
+
+        self.previous_mouse_state=pygame.mouse.get_pressed()
+
         self.click = 0
         self.start_game = False
         self.bomb_positions = []
@@ -178,7 +181,7 @@ class GameBoard(InGameMenu):
                                     self.board[row][column].hitbox.topleft[1])
                     # print(f'redraw board when not so ghost white {row}, {column}')
                     if self.board[row][column].is_element and self.board[row][column].element in ("F", "?"):
-                        print(f"element: {self.board[row][column].element}")
+                        # print(f"element: {self.board[row][column].element}")
                         self.draw_revealed_square_with_element(row, column)
             x = self.grid_top_left[0]
             y += (self.grid_node_height + self.padding)
@@ -339,6 +342,18 @@ class GameBoard(InGameMenu):
                 if self.board[row][column].value == None:
                     self.board[row][column].value = self.count_surrounding_bombs(row, column)
                 # print(f'value at {row},{column} : {self.board[row][column].value}')
+
+    def check_mouse_release(self, button: int=0)->bool:
+        '''checks if mouse button (0 for left, 1 for middle, 2 for right) was released 
+        useful for avoiding mouse holding shenanigans'''
+        current_mouse_state=pygame.mouse.get_pressed()
+        if self.previous_mouse_state[button] and not current_mouse_state[button]:
+            self.previous_mouse_state=current_mouse_state
+            return True
+        
+        self.previous_mouse_state=current_mouse_state
+        return False
+    
     
     def check_user_click(self, row, column, mouse_position, hitbox):
         if hitbox.hitbox.collidepoint(mouse_position) and pygame.mouse.get_pressed()[0]:
@@ -357,11 +372,24 @@ class GameBoard(InGameMenu):
             else:
                 self.reveal_square(row, column)
         
-        elif hitbox.hitbox.collidepoint(mouse_position) and pygame.mouse.get_pressed()[2]:
+        elif hitbox.hitbox.collidepoint(mouse_position) and hitbox.element==None and self.check_mouse_release(2):
             self.start_game = True
             hitbox.element= "F"
+            print(f"element changed to {hitbox.element}")
             self.board[row][column].is_element = True
             self.draw_element(row, column)
+
+        elif hitbox.hitbox.collidepoint(mouse_position) and hitbox.element=="F" and self.check_mouse_release(2):
+            hitbox.element="?"
+            print(f"element changed to {hitbox.element}")
+            self.draw_element(row, column)
+
+        elif hitbox.hitbox.collidepoint(mouse_position) and hitbox.element=="?" and self.check_mouse_release(2):
+            hitbox.element=None
+            print(f"element changed to {hitbox.element}")
+            # self.draw_element(row, column)
+
+
            
 
     def count_surrounding_bombs(self, row, column):
