@@ -88,6 +88,7 @@ class MenuController():
         elif self.is_screen_win == True:
             self.is_screen_main = False
             winner_better_than = self.check_timer_top_3_players()
+            self.process_winner()
 
             if winner_better_than == None:
                 self.winner_screen.draw_window_winner_not_top_3(self)
@@ -148,65 +149,84 @@ class MenuController():
         self.screen_access()
         print("Switching to the settings menu.")
 
+    def load_top3_dict(self):
+        with open(TOP3_PATH, 'r', encoding="UTF-8") as file:
+            top3_dict = json.load(file)
+        return top3_dict
+
     def check_timer_top_3_players(self): # check iof save_new_top 3 and all bellow doesn't already do the job
-        with open(TOP3_PATH, 'r', encoding="UTF-8") as file:
-            top3_dict = json.load(file)
-
+        top3_dict = self.load_top3_dict()
         for index, key in enumerate(top3_dict):
             if self.game_controller.game_info.game_time < top3_dict[key]:
-                print(key)
-                return key
-            else:
-                return None
-            
-    def save_new_top_3(self):
-        with open(TOP3_PATH, 'r', encoding="UTF-8") as file:
-            top3_dict = json.load(file)
-
-        for index, key in enumerate(top3_dict):
-            if self.game_controller.game_info.game_time < top3_dict[key]:
-                print(key)
+                # print(key)
                 return key
             else:
                 return None
 
-    def load_top_players(self, file_path='view/wall_of_fame.json'):
+    def load_top_players_names_only(self):
         try:
-            with open(file_path, 'r', encoding='utf-8') as file:
-                data = json.load(file)
-                if isinstance(data, list):  
-                    self.top_players = data
-                else:  
-                    self.top_players = []
+            top3_dict = self.load_top3_dict()
+            if isinstance(top3_dict, dict):  # list of dictionnary
+                for key in top3_dict:
+                    player_name = key.split()[0]
+                    self.top_players.append(key)
+                # self.top_players = data
+            else:  
+                self.top_players = []
         except (FileNotFoundError, json.JSONDecodeError):
             self.top_players = []
 
-    def save_top_players(self, file_path='view/wall_of_fame.json'):
+    def save_top_players(self, dict_to_dump):
         """ Saves the leaderboard to a file """
-        with open(file_path, 'w', encoding='utf-8') as file:
-            json.dump(self.top_players, file, indent=4, ensure_ascii=False)
+        with open(TOP3_PATH, 'w', encoding='utf-8') as file:
+            json.dump(dict_to_dump, file, indent=4, ensure_ascii=False)
+
+    def pop_last_player_from_top_3(self, top3_dict):
+        timer_list = []
+        for key in top3_dict:
+            timer_list.append(top3_dict[key])
+
+        for key in top3_dict:
+            if top3_dict[key] == max(timer_list):
+                key_to_pop = key
+        top3_dict.pop(key_to_pop)
+
+        return top3_dict
+
+    def sort_top3_before_saving(self, top3_dict):
+        new_dict = {}
+        for key, value in sorted(top3_dict.items(), key=lambda item : item[1]):
+            new_dict[key] = value
+        return new_dict
 
     def update_top_players(self):
         """ Adds the player's result and keeps only the top 3 fastest times """
-        
-        new_entry = {
-            "id": self.player_id,
-            "name": self.player_name,
-            "time": self.player_time, 
-            "timestamp": datetime.now().isoformat()  
-        }
+        top3_dict = self.load_top3_dict()
+        new_player_name = self.game_controller.game_info.player_name + f' {datetime.now().isoformat()}'
+        top3_dict[new_player_name] = self.game_controller.game_info.game_time
+        top3_dict = self.pop_last_player_from_top_3(top3_dict)
+        top3_dict_sorted = self.sort_top3_before_saving(top3_dict)
+        self.save_top_players(top3_dict_sorted)
 
-        # If there are fewer than 3 players in the top list, add the new player
-        if len(self.top_players) < 3:
-            self.top_players.append(new_entry)
-        else:
-            # If the player's time is better than the slowest in the top 3, replace it
-            self.top_players.append(new_entry)
-            self.top_players.sort(key=lambda x: x["time"])  
-            self.top_players = self.top_players[:3]  
+        # new_entry = {
+        #     "id": self.player_id,
+        #     "name": self.player_name,
+        #     "time": self.player_time, 
+        #     "timestamp": datetime.now().isoformat()  
+        # }
 
-    def process_winner(self, file_path='view/wall_of_fame.json'):
+        # # If there are fewer than 3 players in the top list, add the new player
+        # if len(self.top_players) < 3:
+        #     self.top_players.append(new_entry)
+        # else:
+        #     # If the player's time is better than the slowest in the top 3, replace it
+        #     self.top_players.append(new_entry)
+        #     self.top_players.sort(key=lambda x: x["time"])  
+        #     self.top_players = self.top_players[:3]  
+
+
+    def process_winner(self):
         """ Processes the winner: loads, updates, and saves the leaderboard """
-        self.load_top_players(file_path)
+        self.load_top_players_names_only()
         self.update_top_players()
-        self.save_top_players(file_path)
+        self.save_top_players()
