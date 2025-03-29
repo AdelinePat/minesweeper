@@ -36,6 +36,34 @@ class InGameMenu(Interface):
             (self.title_center[0] // 4*3, self.title_center[1]),
             color=CELESTE
         )
+    
+    def set_bottom_text(self, text, font_size=None):
+        if font_size == None:
+            font_size = self.height//9
+        else:
+            font_size = font_size
+
+        self.bottom_title = self.draw_text(text,
+            TITLE_FONT,
+            font_size,
+            (self.title_center[0] // 4*3,self.height//1.1),
+            color=CELESTE
+        )
+
+        back_rect = pygame.Rect(0, 0,
+                    self.bottom_title.width + 100,
+                    self.bottom_title.height)
+        back_rect.center = self.bottom_title.center
+
+        pygame.draw.rect(self.screen, INDIGO_DYE, back_rect)
+        
+        self.bottom_title = self.draw_text(text,
+            TITLE_FONT,
+            font_size,
+            (self.title_center[0] // 4*3,self.height//1.1),
+            color=CELESTE
+        )
+    
 
     def display_game_info(self, text_title, text_content, position_y):
         font = TEXT_FONT
