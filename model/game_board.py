@@ -18,6 +18,7 @@ class GameBoard(InGameMenu):
         self.border_thickness = 5
         self.border_radius = 15
         self.button_height = self.height // 12
+        self.is_victory = False
         
 
 
@@ -122,6 +123,7 @@ class GameBoard(InGameMenu):
         self.start_game = False
         self.bomb_positions = []
         self.revealed_square = []
+        # self.is_victory = False
 
 
     def create_board(self):
@@ -217,23 +219,24 @@ class GameBoard(InGameMenu):
         elif self.board[row][column].value == 0:
             for actual_row in range(min_row_range, max_row_range):
                 for actual_col in range(min_column_range, max_column_range):
-                    print(actual_row, actual_col)
+                    # print(actual_row, actual_col)
                     
-                    if self.board[actual_row][actual_col].value == 0 and (actual_row,actual_col) not in self.revealed_square:
+                    # if self.board[actual_row][actual_col].value == 0 and (actual_row,actual_col) not in self.revealed_square:
+                    if self.board[actual_row][actual_col].value == 0 and not self.board[actual_row][actual_col].revealed:
                         self.board[actual_row][actual_col].revealed = True
                         # self.createSquare(GHOST_WHITE,
                         #     self.board[actual_row][actual_col].hitbox.topleft[0],
                         #     self.board[actual_row][actual_col].hitbox.topleft[1])
-                        position = (actual_row, actual_col)
-                        ## delete revelead_square list later
-                        self.revealed_square.append(position)
+                        
                     
                         # print(position)
                         self.reveal_square(actual_row, actual_col)
                         # print(self.board[actual_row][actual_row])
-                    elif self.board[actual_row][actual_col].value in (1,2,3,4,5,6,7,8):
+                    elif self.board[actual_row][actual_col].value in (1,2,3,4,5,6,7,8) and not self.board[actual_row][actual_col].revealed:
                         self.board[actual_row][actual_col].revealed = True
                         self.draw_revealed_square_with_value(actual_row, actual_col)
+                        # position = (actual_row, actual_col)
+                        # self.revealed_square.append(position)
 
                     
                         
@@ -246,6 +249,7 @@ class GameBoard(InGameMenu):
                         #     self.board[actual_row][actual_col].hitbox.height - 5,
                         #     self.board[actual_row][actual_col].hitbox.center
                         #     )
+                    
                         
             self.draw_grid_border()
 
@@ -379,7 +383,23 @@ class GameBoard(InGameMenu):
     
     def go_through_board(self):
         mouse_position = pygame.mouse.get_pos()
-        for row in range(self.rows):
-            for column in range(self.columns):
-                hitbox = self.board[row][column]
-                self.check_user_click(row, column, mouse_position, hitbox)
+        self.check_for_victory()
+        if not self.is_victory:
+            for row in range(self.rows):
+                for column in range(self.columns):
+                    hitbox = self.board[row][column]
+                    self.check_user_click(row, column, mouse_position, hitbox)
+                    
+                    if self.board[row][column].revealed and self.board[row][column].hitbox not in self.revealed_square:
+                        position = (row, column)
+                        self.revealed_square.append(self.board[row][column].hitbox)
+        else:
+            print("fin de partie")
+
+    def check_for_victory(self):
+        square_to_reveal = self.rows * self.columns - len(self.bomb_positions)
+        print(len(self.revealed_square))
+        if len(self.revealed_square) == square_to_reveal:
+            self.is_victory = True
+        else:
+            self.is_victory = False
