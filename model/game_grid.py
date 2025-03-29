@@ -4,7 +4,7 @@ from view.__settings__ import CERULEAN, NOT_SO_GHOST_WHITE, GHOST_WHITE, TEXT_FO
 from view.in_game_menu import InGameMenu
 from model.square import Square
 
-class GameBoard(InGameMenu):
+class GameGrid(InGameMenu):
     def __init__(self, caption, game_info):
         super().__init__(caption)
         self.game_info = game_info

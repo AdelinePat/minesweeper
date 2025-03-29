@@ -1,9 +1,9 @@
 # from view.in_game_menu import InGameMenu
-from model.game_grid import GameBoard
+from model.game_grid import GameGrid
 import pygame
 import sys
 
-my_menu = GameBoard('grille de jeu')
+my_menu = GameGrid('grille de jeu')
 
 board = my_menu.create_board()
 while True:

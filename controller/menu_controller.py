@@ -2,7 +2,7 @@ from view.victory_menu import VictoryMenu
 from view.settings_menu import SettingsMenu
 from view.roll_of_fame import RollOfFame
 from model.data_access import Data
-from model.game_grid import GameBoard
+from model.game_grid import GameGrid
 from controller.game_controller import GameController
 
 class MenuController():
@@ -19,7 +19,7 @@ class MenuController():
         self.winner_screen = VictoryMenu('Bravo vous avez gagné', self.game_controller)
         self.settings_screen = SettingsMenu(self.game_controller)
         self.roll_of_fame_screen = RollOfFame(self)
-        self.in_game_screen = GameBoard('grille de jeu', self.game_controller.game_info)
+        self.in_game_screen = GameGrid('grille de jeu', self.game_controller.game_info)
         
         self.resolution = self.settings_screen.resolutions[0]
 
