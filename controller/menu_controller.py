@@ -9,18 +9,18 @@ class MenuController():
     def __init__(self):
         self.game_controller = GameInfo()
         self.data_access = Data(self.game_controller)
-        self.is_screen_settings = False
-        self.is_screen_record = False
-        self.is_screen_main = True
-        self.is_screen_win = False
-        self.is_screen_in_game = False
-        self.button_return = False
-        self.winner = ""
-        self.winner_screen = VictoryMenu('Bravo vous avez gagné', self.game_controller)
+        self.victory_screen = VictoryMenu('Bravo vous avez gagné', self.game_controller)
         self.settings_screen = SettingsMenu(self.game_controller)
         self.roll_of_fame_screen = RollOfFame(self)
         self.in_game_screen = GameBoard('grille de jeu', self.game_controller)
-        
+
+        self.is_screen_settings = False
+        self.is_screen_record = False
+        self.is_screen_main = True
+        self.is_screen_victory = False
+        self.is_screen_in_game = False
+        self.button_return = False
+
         self.resolution = self.settings_screen.resolutions[0]
 
         ## Displatch those 4 infos into game_info or elsewhere
@@ -37,11 +37,11 @@ class MenuController():
                 self.in_game_screen.reset_game_info()
                 self.go_to_victory_menu()
 
-    def manage_winner_screen(self, winner_better_than):
+    def manage_victory_screen(self, winner_better_than):
         if not winner_better_than:
-            self.winner_screen.draw_window_winner_not_top_3(self)
+            self.victory_screen.draw_window_winner_not_top_3(self)
         else:
-            self.winner_screen.draw_winner_top_3(self)
+            self.victory_screen.draw_winner_top_3(self)
             print(self.game_controller.player_name)
 
     def screen_access(self):
@@ -58,11 +58,11 @@ class MenuController():
             if self.settings_screen.button_return:
                 self.go_to_main_menu()
 
-        elif self.is_screen_win == True:
+        elif self.is_screen_victory == True:
             self.is_screen_main = False
             winner_better_than = self.check_timer_top_3_players()
-            self.manage_winner_screen(winner_better_than)
-            if self.winner_screen.button_return == True:
+            self.manage_victory_screen(winner_better_than)
+            if self.victory_screen.button_return == True:
                 if self.game_controller.player_name != None:
                     self.data_access.process_winner()
                 self.go_to_main_menu()
@@ -74,17 +74,11 @@ class MenuController():
             if self.roll_of_fame_screen.button_return:
                 self.go_to_main_menu()
 
-    def start_game(self):
-        """Placeholder for starting the game."""
-        if self.is_screen_in_game:
-            print("This is the game screen.")
-        pass
-
     def go_to_victory_menu(self):
         self.is_screen_settings = False
         self.is_screen_record = False
         self.is_screen_main = False
-        self.is_screen_win = True
+        self.is_screen_victory = True
         self.is_screen_in_game = False
 
     def go_to_main_menu(self):
@@ -92,7 +86,7 @@ class MenuController():
         self.is_screen_settings = False
         self.is_screen_record = False
         self.is_screen_main = True
-        self.is_screen_win = False
+        self.is_screen_victory = False
         self.is_screen_in_game = False
         print("Going back to the main menu.")
 
