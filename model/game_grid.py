@@ -264,10 +264,10 @@ class GameGrid(InGameMenu):
 
         bomb_positions_list = []
         if self.game_info.difficulty == 0:
-            # min_range = 8
-            # max_range = 12
-            min_range = 1
-            max_range = 3
+            min_range = 8
+            max_range = 12
+            # min_range = 1
+            # max_range = 3
         elif self.game_info.difficulty == 1:
             min_range = 17
             max_range = 22
