@@ -34,7 +34,7 @@ class GameGrid(InGameMenu):
         self.stopwatch_start_time=None
         self.click_count = 0
         self.start_game = False
-        self.bomb_positions_list = []
+        self.mine_positions_list = []
         self.revealed_square_list = []
         self.flag_count = 0
         self.interrogation_count = 0
@@ -72,7 +72,7 @@ class GameGrid(InGameMenu):
 
         
 
-        self.display_game_info('Mines :', f'{len(self.bomb_positions_list)}',
+        self.display_game_info('Mines :', f'{len(self.mine_positions_list)}',
                                self.height // 4*0.75
                                )
         
@@ -114,11 +114,11 @@ class GameGrid(InGameMenu):
         return my_top_left
 
     def reset_game_info(self):
-        self.bomb_positions_list = []
+        self.mine_positions_list = []
         self.stopwatch_start_time=None
         self.click_count = 0
         self.start_game = False
-        self.bomb_positions_list = []
+        self.mine_positions_list = []
         self.revealed_square_list = []
         self.is_victory = False
         self.game_over = False
@@ -260,9 +260,9 @@ class GameGrid(InGameMenu):
         position = (x,y)
         return position
 
-    def get_bomb_positions_list(self, row, column):
+    def get_mine_positions_list(self, row, column):
 
-        bomb_positions_list = []
+        mine_positions_list = []
         if self.game_info.difficulty == 0:
             min_range = 8
             max_range = 12
@@ -276,14 +276,14 @@ class GameGrid(InGameMenu):
             max_range = 50
 
         
-        bomb_number = random.randrange(min_range, max_range)
+        mines_number = random.randrange(min_range, max_range)
 
-        for bomb in range(0, bomb_number):
+        for mine in range(0, mines_number):
             position = self.get_random_position_tuple()
-            while position in bomb_positions_list or position == (row, column):
+            while position in mine_positions_list or position == (row, column):
                 position = self.get_random_position_tuple()
-            bomb_positions_list.append(position)
-        return bomb_positions_list
+            mine_positions_list.append(position)
+        return mine_positions_list
     
     def draw_element(self,actual_row, actual_col):
         self.create_square(
@@ -316,15 +316,15 @@ class GameGrid(InGameMenu):
         return min_range, max_range
     
     def set_grid_values(self):
-        for bomb_position in self.bomb_positions_list:
-            x = bomb_position[0]
-            y = bomb_position[1]
-            self.grid[x][y].value = 'bomb'
+        for mine_position in self.mine_positions_list:
+            x = mine_position[0]
+            y = mine_position[1]
+            self.grid[x][y].value = 'mine'
 
         for row in range(self.rows):
             for column in range(self.columns):
                 if self.grid[row][column].value == None:
-                    self.grid[row][column].value = self.count_surrounding_bombs(row, column)
+                    self.grid[row][column].value = self.count_surrounding_mines(row, column)
 
     def check_mouse_release(self, button: int=0)->bool:
         '''checks if mouse button (0 for left, 1 for middle, 2 for right) was released 
@@ -345,12 +345,12 @@ class GameGrid(InGameMenu):
             
             if self.click_count == 1:
 
-                self.bomb_positions_list = self.get_bomb_positions_list(row, column)
+                self.mine_positions_list = self.get_mine_positions_list(row, column)
                 self.set_grid_values()
 
-            if (row, column) in self.bomb_positions_list:
+            if (row, column) in self.mine_positions_list:
                 self.game_over = True
-                print("AIE, raté ! Il y avait une bombe , tu as perdu")
+                print("AIE, raté ! Il y avait une mine , tu as perdu")
 
             else:
                 self.reveal_square(row, column)
@@ -370,17 +370,17 @@ class GameGrid(InGameMenu):
 
            
 
-    def count_surrounding_bombs(self, row, column):
-        bomb_count = 0
+    def count_surrounding_mines(self, row, column):
+        mine_count = 0
         min_row_range, max_row_range = self.set_range(row, self.rows)
         min_column_range, max_column_range = self.set_range(column, self.columns)
 
         for actual_row in range(min_row_range, max_row_range):
             for actual_col in range(min_column_range, max_column_range):
-                if (actual_row, actual_col) in self.bomb_positions_list:     
-                    bomb_count += 1
+                if (actual_row, actual_col) in self.mine_positions_list:     
+                    mine_count += 1
 
-        return bomb_count
+        return mine_count
     
     def go_through_grid(self):
         mouse_position = pygame.mouse.get_pos()
@@ -406,7 +406,7 @@ class GameGrid(InGameMenu):
         #     print("fin de partie")
 
     def check_for_victory(self):
-        square_to_reveal = self.rows * self.columns - len(self.bomb_positions_list)
+        square_to_reveal = self.rows * self.columns - len(self.mine_positions_list)
         if len(self.revealed_square_list) == square_to_reveal:
             self.is_victory = True
             self.game_info.game_time = self.exact_current_timer
