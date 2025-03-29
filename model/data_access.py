@@ -52,7 +52,8 @@ class Data():
         top3_dict = self.load_top3_dict()
         new_player_name = self.controller.game_controller.game_info.player_name + f' {datetime.now().isoformat()}'
         top3_dict[new_player_name] = self.controller.game_controller.game_info.game_time
-        top3_dict = self.pop_last_player_from_top_3(top3_dict)
+        if len(top3_dict) == 3:
+            top3_dict = self.pop_last_player_from_top_3(top3_dict)
         top3_dict_sorted = self.sort_top3_before_saving(top3_dict)
         self.save_top_players(top3_dict_sorted)
 

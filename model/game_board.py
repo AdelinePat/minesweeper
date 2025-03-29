@@ -255,15 +255,18 @@ class GameBoard(InGameMenu):
             )
         
     def draw_revealed_square_with_element(self, actual_row, actual_col):
-        self.createSquare((255,0,0),
+        self.createSquare(NOT_SO_GHOST_WHITE,
                         self.board[actual_row][actual_col].hitbox.topleft[0],
                         self.board[actual_row][actual_col].hitbox.topleft[1])
+        if self.board[actual_row][actual_col].element == "?":
+            self.draw_text(str(self.board[actual_row][actual_col].element),
+                TEXT_FONT,
+                self.board[actual_row][actual_col].hitbox.height - 5,
+                self.board[actual_row][actual_col].hitbox.center
+                )
+        else:
+            self.screen.blit(self.game_info.flag_img, self.board[actual_row][actual_col].hitbox)
 
-        self.draw_text(str(self.board[actual_row][actual_col].element),
-            TEXT_FONT,
-            self.board[actual_row][actual_col].hitbox.height - 5,
-            self.board[actual_row][actual_col].hitbox.center
-            )
         
     def get_random_position_tuple(self):
         x = random.randrange(self.rows)
@@ -297,16 +300,18 @@ class GameBoard(InGameMenu):
     
     def draw_element(self,actual_row, actual_col):
         self.createSquare(
-            GHOST_WHITE,
+            NOT_SO_GHOST_WHITE,
             self.board[actual_row][actual_col].hitbox.topleft[0],
             self.board[actual_row][actual_col].hitbox.topleft[1]
         )
-
-        self.draw_text(str(self.board[actual_row][actual_col].element),
-            TEXT_FONT,
-            self.board[actual_row][actual_col].hitbox.height - 5,
-            self.board[actual_row][actual_col].hitbox.center
-            )
+        if self.board[actual_row][actual_col].element == "?":
+            self.draw_text(str(self.board[actual_row][actual_col].element),
+                TEXT_FONT,
+                self.board[actual_row][actual_col].hitbox.height - 5,
+                self.board[actual_row][actual_col].hitbox.center
+                )
+        else:
+            self.screen.blit(self.game_info.flag_img, self.board[actual_row][actual_col].hitbox)
 
 
     

@@ -99,11 +99,14 @@ class MenuController():
 
     def check_timer_top_3_players(self):
         top3_dict = self.data_access.load_top3_dict()
-        for key in top3_dict:
-            if self.game_controller.game_info.game_time < top3_dict[key]:
-                is_top_3 = True
-            else:
-                is_top_3 = False
+        if len(top3_dict) < 3:
+            is_top_3 = True
+        else:
+            for key in top3_dict:
+                if self.game_controller.game_info.game_time < top3_dict[key]:
+                    is_top_3 = True
+                else:
+                    is_top_3 = False
         
         return is_top_3
 
