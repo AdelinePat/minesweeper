@@ -2,7 +2,7 @@ from view.victory_menu import VictoryMenu
 from view.settings_menu import SettingsMenu
 from view.roll_of_fame import RollOfFame
 from model.data_access import Data
-from model.game_board import GameBoard
+from model.game_grid import GameBoard
 from controller.game_controller import GameController
 
 class MenuController():

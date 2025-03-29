@@ -1,5 +1,5 @@
 # from view.in_game_menu import InGameMenu
-from model.game_board import GameBoard
+from model.game_grid import GameBoard
 import pygame
 import sys
 
