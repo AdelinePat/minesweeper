@@ -19,7 +19,7 @@ class MenuController():
         self.settings_screen = SettingsMenu()
 
     
-        self.player_name = " Yulii"
+        self.player_name = " Adelina"
         self.player_time = None
         self.top_players = []
         self.player_id = str(uuid.uuid4())
@@ -44,8 +44,10 @@ class MenuController():
             if self.winner_screen.button_return == True:
                 self.is_screen_win = False
                 self.is_screen_main = True
+        
+          
 
-    
+
     def set_settings(self, choice):
         '''TODO: display settings screen + back-end for settings choice'''
         if choice == True:
@@ -95,13 +97,14 @@ class MenuController():
 
 
 
+
     def load_top_players(self, file_path='view/wall_of_fame.json'):
         try:
             with open(file_path, 'r', encoding='utf-8') as file:
                 data = json.load(file)
-                if isinstance(data, list):  # If it's a list
+                if isinstance(data, list):  
                     self.top_players = data
-                else:  # If it's not a list
+                else:  
                     self.top_players = []
         except (FileNotFoundError, json.JSONDecodeError):
             self.top_players = []
@@ -113,12 +116,12 @@ class MenuController():
 
     def update_top_players(self):
         """ Adds the player's result and keeps only the top 3 fastest times """
-        # Add the new player to the list
+        
         new_entry = {
             "id": self.player_id,
             "name": self.player_name,
-            "time": self.player_time,  # Time in seconds
-            "timestamp": datetime.now().isoformat()  # Timestamp
+            "time": self.player_time, 
+            "timestamp": datetime.now().isoformat()  
         }
 
         # If there are fewer than 3 players in the top list, add the new player
@@ -127,8 +130,8 @@ class MenuController():
         else:
             # If the player's time is better than the slowest in the top 3, replace it
             self.top_players.append(new_entry)
-            self.top_players.sort(key=lambda x: x["time"])  # Sort by time in ascending order
-            self.top_players = self.top_players[:3]  # Keep only the top 3 fastest times
+            self.top_players.sort(key=lambda x: x["time"])  
+            self.top_players = self.top_players[:3]  
 
     def process_winner(self, file_path='view/wall_of_fame.json'):
         """ Processes the winner: loads, updates, and saves the leaderboard """

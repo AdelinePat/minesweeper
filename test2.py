@@ -1,5 +1,5 @@
-from view.wall_of_fame_menu import Wall_of_fame_menu
+from view.main_menu import MainMenu
 import pygame
 
-main_menu = Wall_of_fame_menu()
+main_menu = MainMenu()
 main_menu.main_loop()
