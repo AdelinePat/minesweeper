@@ -179,9 +179,9 @@ class GameBoard(InGameMenu):
                     self.createSquare(NOT_SO_GHOST_WHITE,
                                     self.board[row][column].hitbox.topleft[0], 
                                     self.board[row][column].hitbox.topleft[1])
-                    # print(f'redraw board when not so ghost white {row}, {column}')
+
                     if self.board[row][column].is_element and self.board[row][column].element in ("F", "?"):
-                        # print(f"element: {self.board[row][column].element}")
+
                         self.draw_revealed_square_with_element(row, column)
             x = self.grid_top_left[0]
             y += (self.grid_node_height + self.padding)
@@ -204,15 +204,27 @@ class GameBoard(InGameMenu):
         min_row_range, max_row_range = self.set_range(row, self.rows)
         min_column_range, max_column_range = self.set_range(column, self.columns)
 
+        if  self.board[row][column].element in ("F", "?"):
+            self.board[row][column].revealed=False
+            return
 
-        if self.board[row][column].value in (1,2,3,4,5,6,7,8):
+        elif self.board[row][column].value in (1,2,3,4,5,6,7,8):
                 self.board[row][column].revealed = True
                 self.draw_revealed_square_with_value(row, column)
+
+        
 
         elif self.board[row][column].value == 0:
             for actual_row in range(min_row_range, max_row_range):
                 for actual_col in range(min_column_range, max_column_range):
+                    if self.board[actual_row][actual_col].element in ("F", "?"):
+                        print("hit an element")
+                        self.board[actual_row][actual_col].revealed=False
+                        continue
+
                     print(actual_row, actual_col)
+
+                    
                     
                     if self.board[actual_row][actual_col].value == 0 and (actual_row,actual_col) not in self.revealed_square:
                         self.board[actual_row][actual_col].revealed = True
@@ -229,6 +241,8 @@ class GameBoard(InGameMenu):
                     elif self.board[actual_row][actual_col].value in (1,2,3,4,5,6,7,8):
                         self.board[actual_row][actual_col].revealed = True
                         self.draw_revealed_square_with_value(actual_row, actual_col)
+
+                    
 
                     
                         
