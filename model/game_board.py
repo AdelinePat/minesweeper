@@ -264,7 +264,7 @@ class GameBoard(InGameMenu):
                 self.board[actual_row][actual_col].hitbox.height - 5,
                 self.board[actual_row][actual_col].hitbox.center
                 )
-        else:
+        elif self.board[actual_row][actual_col].element == "F":
             self.screen.blit(self.game_info.flag_img, self.board[actual_row][actual_col].hitbox)
 
         
@@ -310,7 +310,7 @@ class GameBoard(InGameMenu):
                 self.board[actual_row][actual_col].hitbox.height - 5,
                 self.board[actual_row][actual_col].hitbox.center
                 )
-        else:
+        elif self.board[actual_row][actual_col].element == "F":
             self.screen.blit(self.game_info.flag_img, self.board[actual_row][actual_col].hitbox)
 
 
