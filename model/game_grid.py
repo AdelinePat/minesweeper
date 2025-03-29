@@ -357,6 +357,8 @@ class GameGrid(InGameMenu):
                 self.set_grid_values()
 
             if (row, column) in self.mine_positions_list:
+                if hitbox.element:
+                    return
                 self.game_over = True
                 print("AIE, raté ! Il y avait une mine , tu as perdu")
 
