@@ -6,6 +6,7 @@ import pygame
 class VictoryMenu(Menu):
     def __init__(self, caption, controller):
         super().__init__(caption)
+        self.caption = caption
         self.game_controller = controller
         self.get_resolution(self.resolution)
         
@@ -13,6 +14,7 @@ class VictoryMenu(Menu):
         self.player_name_to_input = ""
 
     def draw_window_winner_not_top_3(self, controller):
+        self.set_caption(self.caption)
         # self.get_resolution(controller.resolution)
 
         self.reset_background_screen()
@@ -34,6 +36,7 @@ class VictoryMenu(Menu):
         return self.button_return
 
     def draw_winner_top_3(self, controller):
+        self.set_caption(self.caption)
         self.reset_background_screen()
         self.win_height = self.height // 3*2
         if controller.resolution != controller.settings_screen.resolutions[0]:

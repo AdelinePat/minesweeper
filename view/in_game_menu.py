@@ -7,6 +7,7 @@ class InGameMenu(Interface):
     def __init__(self, caption):
         super().__init__(caption)
         self.get_resolution(self.resolution)
+        self.set_caption(self.caption)
     
 
     def set_title(self, text, font_size=None):

@@ -2,14 +2,16 @@ from view.menu import Menu
 from view.__settings__ import TITLE_FONT, CELESTE
 
 class RollOfFame(Menu):
-    def __init__(self, controller):
-        super().__init__('Palmarès')
+    def __init__(self, controller, caption="Palmarès"):
+        super().__init__(caption)
+        self.caption
         self.controller = controller
         self.data_acces = self.controller.data_access
         self.game_controller = self.controller.game_controller
         self.divided_by = -1.5
 
     def draw_wall_of_fame_menu(self):
+        self.set_caption(self.caption)
         self.reset_background_screen()
         self.draw_menu_window()
 

@@ -6,8 +6,9 @@ from view.interface import Interface
 
 
 class SettingsMenu(Menu):
-    def __init__(self, game_controller, data_access, caption="Settings"):
+    def __init__(self, game_controller, data_access, caption="Paramètres"):
         super().__init__(caption)
+        self.caption = caption
         self.difficulties = DIFFICULTY
         self.difficulty_index = 0
         self.resolutions = RESOLUTIONS
@@ -141,6 +142,7 @@ class SettingsMenu(Menu):
         return settings 
     
     def draw_window_settings(self, controller):
+        self.set_caption(self.caption)
         self.reset_background_screen()
         self.draw_menu_window()
 

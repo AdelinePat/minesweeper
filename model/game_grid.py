@@ -53,7 +53,8 @@ class GameGrid(InGameMenu):
             #↑ if it looks stupid, but it works, then it ain't stupid, space erases the previous title and puts in the timer
             return self.time_to_show
     
-    def draw_in_game_screen(self):        
+    def draw_in_game_screen(self):
+        self.set_caption(self.caption)       
         self.reset_background_screen()
         self.grid_rect_draw = pygame.draw.rect(self.screen,
                                                CERULEAN,

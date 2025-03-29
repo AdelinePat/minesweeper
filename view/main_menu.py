@@ -13,6 +13,7 @@ class MainMenu(Menu):
                                 (self.screen_center[0], self.screen_center[1] + self.height // 8 * 1.5))
     
     def draw_main_menu(self):
+        self.set_caption(self.caption)
         # Reset background and draw the main menu
         self.reset_background_screen()
         self.draw_menu_window()

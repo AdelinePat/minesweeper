@@ -3,7 +3,8 @@ from view.__settings__ import RESOLUTION, INDIGO_DYE, TITLE_FONT, TEXT_FONT, MIN
 class Interface():
     def __init__(self, caption, width=RESOLUTION[0], height=RESOLUTION[1], background_color=INDIGO_DYE):
         self.get_resolution((width, height))
-        pygame.display.set_caption(caption)
+        self.caption = caption
+        self.set_caption(self.caption)
         self.background_color = background_color
         self.clock = pygame.time.Clock()
         self.fps = 144
@@ -19,6 +20,9 @@ class Interface():
         self.screen_center = (self.width//2, self.height//2)
         self.title_center = (self.width//2, self.height//12)
         self.button_height = self.height // 12
+
+    def set_caption(self, caption):
+        pygame.display.set_caption(caption)
 
     def update(self):
         pygame.display.flip()
