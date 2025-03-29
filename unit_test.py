@@ -35,12 +35,19 @@ top3_dict.pop(key_to_pop)
 
 new_dict = {}
 for key, value in sorted(top3_dict.items(), key=lambda item : item[1]):
-    print(key, value, end="\n\n")
+    # print(key, value, end="\n\n")
     new_dict[key] = value
 
 top3_dict.update(new_dict)
-print(new_dict)
+# print(new_dict)
 # print(top3_dict)
+
+for player_record in top3_dict.items():
+    player_name = player_record[0].split()[0]
+    record = player_record[1]
+    print(player_name, record)
+    
+print(top3_dict.items())
 
             
         # if self.game_controller.game_info.game_time

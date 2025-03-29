@@ -8,6 +8,7 @@ class RollOfFame(Menu):
     def __init__(self, controller):
         super().__init__('Wall of Fame')
         self.controller = controller
+        self.data_acces = self.controller.data_access
         self.game_controller = self.controller.game_controller
         # self.in_settings_screen = False
 
@@ -22,15 +23,29 @@ class RollOfFame(Menu):
                                        color=CELESTE)
 
         # Load player data from JSON file
-        try:
-            with open('view/wall_of_fame.json', 'r') as file:
-                players = json.load(file)
-        except(FileExistsError, json.JSONDecodeError):
-            player = []        
+        # try:
+        #     with open('view/wall_of_fame.json', 'r') as file:
+        #         players = json.load(file)
+        # except(FileExistsError, json.JSONDecodeError):
+        #     player = []
+        player_dict = self.data_acces.load_top3_dict()
+        
+        y = self.screen_center[1] 
+        y_factor = - self.height//8*1.5
 
+        for player_record in player_dict.items():
+            player_name = player_record[0].split()[0]
+            record = player_record[1]
+            # print(player_name, record)
+            text_to_display = f"{player_name} : {record/100}s"
+            self.draw_full_text(text_to_display,
+                            (self.screen_center[0],
+                            y + y_factor))
+            y_factor+1
+            
 
         # Draw buttons with player names and times
-        for index, player in enumerate(players[:3]):  # Display only the top 3 players
+        for index, player in enumerate(player_dict[:3]):  # Display only the top 3 players
             player_name_display_top3 = player.get("name", f"Player {index + 1}")
             player_time = player.get("time", 0)
             button_text = f"{player_name_display_top3}: {player_time}s"
@@ -38,7 +53,7 @@ class RollOfFame(Menu):
             if index == 0:
                 player_name_display_top3  = self.draw_full_button(button_text,
                                                      (self.screen_center[0],
-                                                      self.screen_center[1] - self.height//8*1.5))
+                                                      y))
             elif index == 1:
                 player_name_display_top3 = self.draw_full_button(button_text,
                                                                                (self.screen_center[0],

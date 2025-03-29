@@ -1,6 +1,7 @@
 from view.winner_menu import Winner
 from view.settings_menu import SettingsMenu
 from view.wall_of_fame_menu import RollOfFame
+from model.data_access import Data
 from model.game_board import GameBoard
 import json
 from view.__settings__ import TOP3_PATH
@@ -14,6 +15,7 @@ from datetime import datetime
 class MenuController():
     def __init__(self):
         self.game_controller = GameController()
+        self.data_access = Data(self)
         self.is_screen_settings = False
         self.is_screen_record = False
         self.is_screen_main = True
@@ -88,14 +90,14 @@ class MenuController():
         elif self.is_screen_win == True:
             self.is_screen_main = False
             winner_better_than = self.check_timer_top_3_players()
-            if winner_better_than == None:
+            if not winner_better_than:
                 self.winner_screen.draw_window_winner_not_top_3(self)
             else:
                 self.winner_screen.draw_winner_top_3(self)
                 print(self.game_controller.game_info.player_name)
             if self.winner_screen.button_return == True:
                 if self.game_controller.game_info.player_name != None:
-                    self.process_winner()
+                    self.data_access.process_winner()
                 
                 self.go_to_main_menu()
 
@@ -148,20 +150,6 @@ class MenuController():
         self.is_screen_win = True
         self.is_screen_in_game = False
 
-    def go_to_top_3(self):
-        self.is_screen_settings = False
-        self.is_screen_record = True
-        self.is_screen_main = False
-        self.is_screen_win = False
-        self.is_screen_in_game = False
-
-    def go_to_game(self):
-        self.is_screen_settings = False
-        self.is_screen_record = False
-        self.is_screen_main = False
-        self.is_screen_win = False
-        self.is_screen_in_game = True
-
     def go_to_main_menu(self):
         """Switch to the main menu."""
         self.is_screen_settings = False
@@ -171,28 +159,19 @@ class MenuController():
         self.is_screen_in_game = False
         print("Going back to the main menu.")
 
-    # def go_to_settings(self):
-    #     """Switch to the settings screen."""
-    #     self.is_screen_settings = True
-    #     self.is_screen_record = False
-    #     self.is_screen_main = False
-    #     self.is_screen_win = False
-    #     self.is_screen_in_game = False
-    #     print("Switching to the settings menu.")
-
     # def load_top3_dict(self):
     #     with open(TOP3_PATH, 'r', encoding="UTF-8") as file:
     #         top3_dict = json.load(file)
     #     return top3_dict
 
     def check_timer_top_3_players(self): # check iof save_new_top 3 and all bellow doesn't already do the job
-        top3_dict = self.load_top3_dict()
-        for index, key in enumerate(top3_dict):
+        top3_dict = self.data_access.load_top3_dict()
+        for key in top3_dict:
             if self.game_controller.game_info.game_time < top3_dict[key]:
                 # print(key)
-                return key
+                return True
             else:
-                return None
+                return False
 
     # def load_top_players_names_only(self):
     #     try:

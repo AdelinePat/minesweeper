@@ -38,11 +38,9 @@ class MainMenu(Menu):
 
 
         # "Leaderboard" button
-        self.controller.is_screen_win = self.draw_full_button('Palmarès', 
+        self.controller.is_screen_record = self.draw_full_button('Palmarès', 
                                 (self.screen_center[0], self.screen_center[1] + self.height // 8 * 0.5))
         
-        if self.controller.is_screen_win==True:
-            print("hola")
         # "Quit" button
         self.button_quit = self.draw_full_button('Quitter', 
                                 (self.screen_center[0], self.screen_center[1] + self.height // 8 * 1.5))
