@@ -32,9 +32,9 @@ class MainMenu(Menu):
                                   (self.screen_center[0], self.screen_center[1] - self.height // 8 * 1.5))
 
         # "Settings" button
-        if self.draw_full_button('Paramètres',
-                            (self.screen_center[0], self.screen_center[1] - self.height // 8 * 0.5)):
-            self.controller.go_to_settings()  # Utilise la fonction de transition
+        self.controller.is_screen_settings = self.draw_full_button('Paramètres',
+                            (self.screen_center[0], self.screen_center[1] - self.height // 8 * 0.5))
+            # self.controller.go_to_settings()  # Utilise la fonction de transition
 
 
         # "Leaderboard" button
