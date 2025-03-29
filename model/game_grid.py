@@ -266,8 +266,8 @@ class GameGrid(InGameMenu):
         if self.game_info.difficulty == 0:
             # min_range = 8
             # max_range = 12
-            min_range = 3
-            max_range = 5
+            min_range = 1
+            max_range = 3
         elif self.game_info.difficulty == 1:
             min_range = 17
             max_range = 22
@@ -344,7 +344,6 @@ class GameGrid(InGameMenu):
             self.start_game = True
             
             if self.click_count == 1:
-# do some stuff
 
                 self.bomb_positions_list = self.get_bomb_positions_list(row, column)
                 self.set_grid_values()

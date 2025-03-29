@@ -4,6 +4,7 @@ pygame.init()
 class GameInfo():
     def __init__(self):
         self.difficulty = 0 # 0 = Easy, 1 = Difficult , possibility to have more difficulties with time
+        self.difficulty_string = "Facile"
         self.language = 'fr' # fr = french, en = english
         self.square_surface = None
         self.mine_img = pygame.image.load(MINE_ASSETS)

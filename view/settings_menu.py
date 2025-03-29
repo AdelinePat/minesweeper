@@ -115,6 +115,7 @@ class SettingsMenu(Menu):
 
             self.game_controller.language = self.languages[self.language_index]
             self.game_controller.difficulty = self.difficulty_index
+            self.game_controller.difficulty_string = self.difficulties[self.difficulty_index]
 
             self.get_resolution(self.game_controller.resolution)
             self.get_actual_menu_window()

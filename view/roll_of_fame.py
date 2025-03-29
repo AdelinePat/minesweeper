@@ -26,7 +26,7 @@ class RollOfFame(Menu):
         # Draw buttons with player names and times
             record_list = []
             for player_record in player_dict.items():
-                player_name = player_record[0].split()[0]
+                player_name = player_record[0].split()[0] + " (" + player_record[0].split()[1] + ")"
                 record = player_record[1]
                 text_to_display = f"{player_name} : {(record/100)}s"
                 record_list.append(text_to_display)

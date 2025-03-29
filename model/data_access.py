@@ -50,7 +50,7 @@ class Data():
     def update_top_players(self):
         """ Adds the player's result and keeps only the top 3 fastest times """
         top3_dict = self.load_top3_dict()
-        new_player_name = self.game_controller.player_name + f' {datetime.now().isoformat()}'
+        new_player_name = self.game_controller.player_name + f' {self.game_controller.difficulty_string}' + f' {datetime.now().isoformat()}'
         top3_dict[new_player_name] = self.game_controller.game_time
         if len(top3_dict) == 4:
             top3_dict = self.pop_last_player_from_top_3(top3_dict)
