@@ -16,7 +16,7 @@ class SettingsMenu(Menu):
         self.resolution_index = 0
         self.languages = ["fr", "eng"]
         self.language_index = 0
-        self.game_controller = game_controller.game_info
+        self.game_controller = game_controller
         
         self.get_resolution(self.resolution)
 

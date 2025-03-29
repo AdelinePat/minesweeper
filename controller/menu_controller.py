@@ -3,12 +3,12 @@ from view.settings_menu import SettingsMenu
 from view.roll_of_fame import RollOfFame
 from model.data_access import Data
 from model.game_board import GameBoard
-from controller.game_controller import GameController
+from model.game_info import GameInfo
 
 class MenuController():
     def __init__(self):
-        self.game_controller = GameController()
-        self.data_access = Data(self)
+        self.game_controller = GameInfo()
+        self.data_access = Data(self.game_controller)
         self.is_screen_settings = False
         self.is_screen_record = False
         self.is_screen_main = True
@@ -19,7 +19,7 @@ class MenuController():
         self.winner_screen = VictoryMenu('Bravo vous avez gagné', self.game_controller)
         self.settings_screen = SettingsMenu(self.game_controller)
         self.roll_of_fame_screen = RollOfFame(self)
-        self.in_game_screen = GameBoard('grille de jeu', self.game_controller.game_info)
+        self.in_game_screen = GameBoard('grille de jeu', self.game_controller)
         
         self.resolution = self.settings_screen.resolutions[0]
 
@@ -42,13 +42,13 @@ class MenuController():
             self.winner_screen.draw_window_winner_not_top_3(self)
         else:
             self.winner_screen.draw_winner_top_3(self)
-            print(self.game_controller.game_info.player_name)
+            print(self.game_controller.player_name)
 
     def screen_access(self):
         """Controls screen transitions based on the flags."""
         if self.is_screen_in_game:
             self.is_screen_main = False
-            self.game_controller.game_info.set_grid()
+            self.game_controller.set_grid()
             self.in_game_screen.draw_in_game_screen()
             self.manage_game_screen()
 
@@ -63,7 +63,7 @@ class MenuController():
             winner_better_than = self.check_timer_top_3_players()
             self.manage_winner_screen(winner_better_than)
             if self.winner_screen.button_return == True:
-                if self.game_controller.game_info.player_name != None:
+                if self.game_controller.player_name != None:
                     self.data_access.process_winner()
                 self.go_to_main_menu()
 
@@ -103,7 +103,7 @@ class MenuController():
             is_top_3 = True
         else:
             for key in top3_dict:
-                if self.game_controller.game_info.game_time < top3_dict[key]:
+                if self.game_controller.game_time < top3_dict[key]:
                     is_top_3 = True
                 else:
                     is_top_3 = False
@@ -149,8 +149,8 @@ class MenuController():
     # def update_top_players(self):
     #     """ Adds the player's result and keeps only the top 3 fastest times """
     #     top3_dict = self.load_top3_dict()
-    #     new_player_name = self.game_controller.game_info.player_name + f' {datetime.now().isoformat()}'
-    #     top3_dict[new_player_name] = self.game_controller.game_info.game_time
+    #     new_player_name = self.game_controller.player_name + f' {datetime.now().isoformat()}'
+    #     top3_dict[new_player_name] = self.game_controller.game_time
     #     top3_dict = self.pop_last_player_from_top_3(top3_dict)
     #     top3_dict_sorted = self.sort_top3_before_saving(top3_dict)
     #     self.save_top_players(top3_dict_sorted)
