@@ -4,6 +4,7 @@ class GameInfo():
     def __init__(self):
         self.difficulty = 0 # 0 = Easy, 1 = Difficult , possibility to have more difficulties with time
         self.language = 'fr' # fr = french, en = english
+        self.player_name = None
         self.grid_rows = None
         self.grid_columns = None
         self.mines_number = None

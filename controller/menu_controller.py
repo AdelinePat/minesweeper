@@ -16,7 +16,7 @@ class MenuController():
         self.is_screen_in_game = False
         self.button_return = False
         self.winner = ""
-        self.winner_screen = Winner('Bravo vous avez gagné')
+        self.winner_screen = Winner('Bravo vous avez gagné', self.game_controller)
         self.settings_screen = SettingsMenu(self.game_controller)
                 # self.in_game_screen = GameBoard('grille de jeu', self.game_controller.game_info)
         self.in_game_screen = GameBoard('grille de jeu', self.game_controller.game_info)
@@ -84,13 +84,14 @@ class MenuController():
 
         elif self.is_screen_win == True:
             self.is_screen_main = False
-            is_top_3 = self.check_timer_top_3_players()
+            winner_better_than = self.check_timer_top_3_players()
 
-            if is_top_3 == None:
+            if winner_better_than == None:
                 self.winner_screen.draw_window_winner_not_top_3(self)
             else:
                 # create condition for which screen to display
                 self.winner_screen.draw_winner_top_3(self)
+                print(self.game_controller.game_info.player_name)
             # self.winner_screen.draw_window_winner_not_top_3(self)
             if self.winner_screen.button_return == True:
                 self.is_screen_win = False
@@ -161,6 +162,18 @@ class MenuController():
                 return key
             else:
                 return None
+            
+    def save_new_top_3(self):
+        with open(TOP3_PATH, 'r', encoding="UTF-8") as file:
+            top3_dict = json.load(file)
+
+        for index, key in enumerate(top3_dict):
+            if self.game_controller.game_info.game_time < top3_dict[key]:
+                print(key)
+                return key
+            else:
+                return None
+
 
 
 

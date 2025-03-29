@@ -6,7 +6,7 @@ with open(TOP3_PATH, 'r', encoding="UTF-8") as file:
     top3_dict = json.load(file)
 
 for index, key in enumerate(top3_dict):
-    if top3_dict[key] > timer:
+    if top3_dict[key] < timer:
         print(index)
     else:
         print(False)
