@@ -127,7 +127,6 @@ class GameBoard(InGameMenu):
 
 
     def create_board(self):
-        
         self.rows = self.game_info.grid_rows
         self.columns = self.game_info.grid_columns
 

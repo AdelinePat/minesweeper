@@ -1,5 +1,5 @@
 import pygame
-from view.wall_of_fame_menu import Wall_of_fame_menu
+from view.roll_of_fame import Wall_of_fame_menu
 
 pygame.init()
 

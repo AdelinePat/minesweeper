@@ -1,6 +1,6 @@
-from view.winner_menu import Winner
+from view.victory_menu import VictoryMenu
 from view.settings_menu import SettingsMenu
-from view.wall_of_fame_menu import RollOfFame
+from view.roll_of_fame import RollOfFame
 from model.data_access import Data
 from model.game_board import GameBoard
 import json
@@ -23,7 +23,7 @@ class MenuController():
         self.is_screen_in_game = False
         self.button_return = False
         self.winner = ""
-        self.winner_screen = Winner('Bravo vous avez gagné', self.game_controller)
+        self.winner_screen = VictoryMenu('Bravo vous avez gagné', self.game_controller)
         self.settings_screen = SettingsMenu(self.game_controller)
         self.roll_of_fame_screen = RollOfFame(self)
                 # self.in_game_screen = GameBoard('grille de jeu', self.game_controller.game_info)
@@ -49,6 +49,20 @@ class MenuController():
                 self.game_controller.game_info.grid_rows = 15
                 self.game_controller.game_info.grid_columns = 15
 
+    def manage_game_screen(self):
+        if self.in_game_screen.button_return:
+                self.in_game_screen.reset_game_info()
+                self.go_to_main_menu()
+        elif self.in_game_screen.is_victory:
+                self.in_game_screen.reset_game_info()
+                self.go_to_victory_menu()
+
+    def manage_winner_screen(self, winner_better_than):
+        if not winner_better_than:
+            self.winner_screen.draw_window_winner_not_top_3(self)
+        else:
+            self.winner_screen.draw_winner_top_3(self)
+            print(self.game_controller.game_info.player_name)
 
     def screen_access(self):
         """Controls screen transitions based on the flags."""
@@ -56,49 +70,21 @@ class MenuController():
             self.is_screen_main = False
             self.set_grid()
             self.in_game_screen.draw_in_game_screen()
-            # pygame.display.update()
-            
-            # self.controller.is_screen_main = False
-            # self.in_settings_screen = True
-
-            if self.in_game_screen.button_return:
-                self.in_game_screen.reset_game_info()
-                self.go_to_main_menu()
-                # self.is_screen_in_game = False
-                # self.is_screen_main = True
-            elif self.in_game_screen.is_victory:
-                self.in_game_screen.reset_game_info()
-                # self.is_screen_in_game = False
-                # self.is_screen_win = True
-                self.go_to_victory_menu()
-            
-                
+            self.manage_game_screen()
 
         elif self.is_screen_settings:
             self.is_screen_main = False
             self.settings_screen.draw_window_settings(self)
-            # pygame.display.update()
-            
-            # self.controller.is_screen_main = False
-            # self.in_settings_screen = True
-
             if self.settings_screen.button_return:
-                # self.is_screen_settings = False
-                # self.is_screen_main = True
                 self.go_to_main_menu()
 
         elif self.is_screen_win == True:
             self.is_screen_main = False
             winner_better_than = self.check_timer_top_3_players()
-            if not winner_better_than:
-                self.winner_screen.draw_window_winner_not_top_3(self)
-            else:
-                self.winner_screen.draw_winner_top_3(self)
-                print(self.game_controller.game_info.player_name)
+            self.manage_winner_screen(winner_better_than)
             if self.winner_screen.button_return == True:
                 if self.game_controller.game_info.player_name != None:
                     self.data_access.process_winner()
-                
                 self.go_to_main_menu()
 
         elif self.is_screen_record:
@@ -108,41 +94,12 @@ class MenuController():
             if self.roll_of_fame_screen.button_return:
                 self.go_to_main_menu()
 
-                # self.is_screen_win = False
-                # self.is_screen_main = True
-    
-    def set_settings(self, choice):
-        '''TODO: display settings screen + back-end for settings choice'''
-
-        if choice == True:
-            print('YEAH LET\'S PLAY')
-            print("This is the game screen.")
-        elif self.is_screen_settings:
-            self.is_screen_main = False
-            
-            self.settings_screen.draw_window_settings(self)
-            if self.settings_screen.button_return :
-                self.is_screen_settings = False
-                self.is_screen_main = True
-            # self.settings_screen.update()
-            print("This is the settings menu.")
-        elif self.is_screen_record:
-            print("This is the top 3 players screen.")
-        elif self.is_screen_main:
-            print("This is the main menu.")
-
     def start_game(self):
         """Placeholder for starting the game."""
         if self.is_screen_in_game:
             print("This is the game screen.")
         pass
 
-    def set_settings(self):
-        """Handle settings screen access."""
-        if self.is_screen_settings:
-            print("This is the settings menu.")
-        pass
-    
     def go_to_victory_menu(self):
         self.is_screen_settings = False
         self.is_screen_record = False
@@ -159,19 +116,16 @@ class MenuController():
         self.is_screen_in_game = False
         print("Going back to the main menu.")
 
-    # def load_top3_dict(self):
-    #     with open(TOP3_PATH, 'r', encoding="UTF-8") as file:
-    #         top3_dict = json.load(file)
-    #     return top3_dict
 
-    def check_timer_top_3_players(self): # check iof save_new_top 3 and all bellow doesn't already do the job
+    def check_timer_top_3_players(self):
         top3_dict = self.data_access.load_top3_dict()
         for key in top3_dict:
             if self.game_controller.game_info.game_time < top3_dict[key]:
-                # print(key)
-                return True
+                is_top_3 = True
             else:
-                return False
+                is_top_3 = False
+        
+        return is_top_3
 
     # def load_top_players_names_only(self):
     #     try:

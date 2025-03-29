@@ -19,7 +19,6 @@ class Data():
                 for key in top3_dict:
                     player_name = key.split()[0]
                     self.top_players.append(key)
-                # self.top_players = data
             else:  
                 self.top_players = []
         except (FileNotFoundError, json.JSONDecodeError):
@@ -56,23 +55,6 @@ class Data():
         top3_dict = self.pop_last_player_from_top_3(top3_dict)
         top3_dict_sorted = self.sort_top3_before_saving(top3_dict)
         self.save_top_players(top3_dict_sorted)
-
-        # new_entry = {
-        #     "id": self.player_id,
-        #     "name": self.player_name,
-        #     "time": self.player_time, 
-        #     "timestamp": datetime.now().isoformat()  
-        # }
-
-        # # If there are fewer than 3 players in the top list, add the new player
-        # if len(self.top_players) < 3:
-        #     self.top_players.append(new_entry)
-        # else:
-        #     # If the player's time is better than the slowest in the top 3, replace it
-        #     self.top_players.append(new_entry)
-        #     self.top_players.sort(key=lambda x: x["time"])  
-        #     self.top_players = self.top_players[:3]  
-
 
     def process_winner(self):
         """ Processes the winner: loads, updates, and saves the leaderboard """

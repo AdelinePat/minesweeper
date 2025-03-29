@@ -3,7 +3,7 @@ from view.menu import Menu
 from view.__settings__ import TITLE_FONT, CELESTE, TEXT_FONT, GHOST_WHITE, CERULEAN, AGRESSIVE_PINK, TEXT_FONT, INDIGO_DYE, CYAN, NOT_SO_GHOST_WHITE 
 import pygame
 
-class Winner(Menu):
+class VictoryMenu(Menu):
     def __init__(self, caption, controller, identification=0):
         super().__init__(caption, identification)
         self.game_controller = controller
