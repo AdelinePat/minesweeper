@@ -12,3 +12,16 @@ class GameInfo():
         self.interrogation_point_number = None
         self.mines_positions = None # list of tuples
         self.game_time = None
+
+    
+    def set_grid(self):
+        match self.difficulty:
+            case 0:
+                self.grid_rows = 8
+                self.grid_columns = 8                   
+            case 1:
+                self.grid_rows = 12
+                self.grid_columns = 12
+            case 2:
+                self.grid_rows = 15
+                self.grid_columns = 15

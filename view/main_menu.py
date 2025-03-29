@@ -1,13 +1,12 @@
 import pygame
 import sys
+from view.__settings__ import TITLE_FONT, CELESTE
 from view.menu import Menu
 from controller.menu_controller import MenuController
-from view.__settings__ import TITLE_FONT, CELESTE
 
 class MainMenu(Menu):
     def __init__(self, caption):
         super().__init__(caption)
-        # self.menu = Menu('Minesweeper')  # Main game menu
         self.controller = MenuController()
         self.get_resolution(self.controller.resolution)
         
@@ -34,8 +33,6 @@ class MainMenu(Menu):
         # "Settings" button
         self.controller.is_screen_settings = self.draw_full_button('Paramètres',
                             (self.screen_center[0], self.screen_center[1] - self.height // 8 * 0.5))
-            # self.controller.go_to_settings()  # Utilise la fonction de transition
-
 
         # "Leaderboard" button
         self.controller.is_screen_record = self.draw_full_button('Palmarès', 
@@ -50,12 +47,7 @@ class MainMenu(Menu):
     def main_loop(self):
         pygame.init()
 
-        
-
         while True:
-
-            # if self.controller.resolution != self.controller.settings_screen.resolutions[0]:
-            # self.get_resolution(self.controller.resolution)
             # Draw the main menu screen
             if self.controller.is_screen_main:
                 self.draw_main_menu()
@@ -80,7 +72,4 @@ class MainMenu(Menu):
                     pygame.quit()
                     sys.exit()
 
-                
-            # Update the display to show changes
-            # pygame.display.update()
             self.update()

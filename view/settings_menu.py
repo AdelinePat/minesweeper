@@ -166,9 +166,9 @@ class SettingsMenu(Menu):
                         color=CELESTE)
         
        # Create row surface for blitting option labels, button and option
-        difficulty_surface = self.draw_full_text((self.screen_center[0], self.screen_center[1] - self.height // 8 * 1.5))
-        resolution_surface = self.draw_full_text((self.screen_center[0], self.screen_center[1] - self.height // 8 * 0.5))
-        language_surface = self.draw_full_text((self.screen_center[0], self.screen_center[1] + self.height // 8 * 0.5))
+        difficulty_surface = self.get_full_rect((self.screen_center[0], self.screen_center[1] - self.height // 8 * 1.5))
+        resolution_surface = self.get_full_rect((self.screen_center[0], self.screen_center[1] - self.height // 8 * 0.5))
+        language_surface = self.get_full_rect((self.screen_center[0], self.screen_center[1] + self.height // 8 * 0.5))
         
         option_difficulty_rect = self.option_button(difficulty_surface,
                 "Difficulté", self.difficulties, self.difficulty_index, (self.width // 2, 60)

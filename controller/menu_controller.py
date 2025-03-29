@@ -3,14 +3,7 @@ from view.settings_menu import SettingsMenu
 from view.roll_of_fame import RollOfFame
 from model.data_access import Data
 from model.game_board import GameBoard
-import json
-from view.__settings__ import TOP3_PATH
 from controller.game_controller import GameController
-import pygame
-import json
-import uuid  
-from datetime import datetime 
-
 
 class MenuController():
     def __init__(self):
@@ -26,28 +19,15 @@ class MenuController():
         self.winner_screen = VictoryMenu('Bravo vous avez gagné', self.game_controller)
         self.settings_screen = SettingsMenu(self.game_controller)
         self.roll_of_fame_screen = RollOfFame(self)
-                # self.in_game_screen = GameBoard('grille de jeu', self.game_controller.game_info)
         self.in_game_screen = GameBoard('grille de jeu', self.game_controller.game_info)
         
         self.resolution = self.settings_screen.resolutions[0]
 
         ## Displatch those 4 infos into game_info or elsewhere
-        self.player_name = " Adelina"
-        self.player_time = None
-        self.top_players = []
-        self.player_id = str(uuid.uuid4())
-
-    def set_grid(self):
-        match self.game_controller.game_info.difficulty:
-            case 0:
-                self.game_controller.game_info.grid_rows = 8
-                self.game_controller.game_info.grid_columns = 8                   
-            case 1:
-                self.game_controller.game_info.grid_rows = 12
-                self.game_controller.game_info.grid_columns = 12
-            case 2:
-                self.game_controller.game_info.grid_rows = 15
-                self.game_controller.game_info.grid_columns = 15
+        # self.player_name = " Adelina"
+        # self.player_time = None
+        # self.top_players = []
+        # self.player_id = str(uuid.uuid4())
 
     def manage_game_screen(self):
         if self.in_game_screen.button_return:
@@ -68,7 +48,7 @@ class MenuController():
         """Controls screen transitions based on the flags."""
         if self.is_screen_in_game:
             self.is_screen_main = False
-            self.set_grid()
+            self.game_controller.game_info.set_grid()
             self.in_game_screen.draw_in_game_screen()
             self.manage_game_screen()
 

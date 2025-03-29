@@ -1,12 +1,8 @@
-from view.in_game_menu import InGameMenu
-from view.__settings__ import CERULEAN, NOT_SO_GHOST_WHITE, GHOST_WHITE, TEXT_FONT, TITLE_FONT, CYAN, AGRESSIVE_PINK
 import random
 import pygame
-import datetime
-import time
+from view.__settings__ import CERULEAN, NOT_SO_GHOST_WHITE, GHOST_WHITE, TEXT_FONT
+from view.in_game_menu import InGameMenu
 from model.square import Square
-
-
 
 class GameBoard(InGameMenu):
     def __init__(self, caption, game_info):
@@ -20,14 +16,9 @@ class GameBoard(InGameMenu):
         self.button_height = self.height // 12
         self.is_victory = False
         
-
-
         self.stopwatch_start_time=None
-
         self.click = 0
         self.start_game = False
-        # self.rows = rows
-        # self.columns = columns
         self.bomb_positions = []
         self.revealed_square = []
 

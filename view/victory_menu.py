@@ -4,8 +4,8 @@ from view.__settings__ import TITLE_FONT, CELESTE, TEXT_FONT, GHOST_WHITE, CERUL
 import pygame
 
 class VictoryMenu(Menu):
-    def __init__(self, caption, controller, identification=0):
-        super().__init__(caption, identification)
+    def __init__(self, caption, controller):
+        super().__init__(caption)
         self.game_controller = controller
         self.get_resolution(self.resolution)
         
