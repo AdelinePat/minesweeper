@@ -24,6 +24,8 @@ class GameBoard(InGameMenu):
         self.start_game = False
         self.bomb_positions = []
         self.revealed_square = []
+        self.flag_list = 0
+        self.interrogation_list = 0
 
         
         self.window_rect =  pygame.Rect(
@@ -38,15 +40,6 @@ class GameBoard(InGameMenu):
                                      self.window_rect.topleft[1],
                                      self.grid_surface_tuple[0],
                                     self.grid_surface_tuple[1])
-        
-        # self.grid_rect_draw = pygame.draw.rect(self.screen,
-        #                                        CERULEAN,
-        #                                        self.grid_rect,
-        #                                        border_radius=self.border_radius)
-        
-        
-        
-        # self.board = self.create_board()
     
     def start_stopwatch(self):
         if self.click>=1:
@@ -62,7 +55,6 @@ class GameBoard(InGameMenu):
             return self.time_to_show
     
     def draw_in_game_screen(self):        
-        # self.set_title(self.start_stopwatch() if self.start_stopwatch() else "Cliquez pour commencer")
         self.reset_background_screen()
         self.grid_rect_draw = pygame.draw.rect(self.screen,
                                                CERULEAN,
@@ -81,16 +73,14 @@ class GameBoard(InGameMenu):
                                self.height // 4*0.75
                                )
         
-        #print(len(self.bomb_positions))
-        
-        self.display_game_info('Drapeau(x) posé(s) :', f'0',
+        self.display_game_info('Drapeau(x) posé(s) :', f'{self.flag_list}',
                                self.height // 4*1.25
                                )
         
-        self.display_game_info('? posé(s) :', f'0',
+        self.display_game_info('? posé(s) :', f'{self.interrogation_list}',
                                self.height // 4*1.75
                                )
-
+        
         self.reset_game = self.small_button('Réinitialiser', (self.width // 4*3, self.height // 4 * 2.5))
         if self.reset_game:
             self.reset_game_info()
@@ -117,7 +107,9 @@ class GameBoard(InGameMenu):
         self.start_game = False
         self.bomb_positions = []
         self.revealed_square = []
-        # self.is_victory = False
+        self.is_victory = False
+        # self.flag_list = 0
+        # self.interrogation_list = 0
 
 
     def create_board(self):
@@ -140,7 +132,6 @@ class GameBoard(InGameMenu):
             for column in range(self.columns):
     
                 square_hitbox = self.createSquare(NOT_SO_GHOST_WHITE, x, y)
-                # content = [square_hitbox, None]
                 content = Square(square_hitbox, None, False)
                
                 row_list.append(content)
@@ -154,10 +145,6 @@ class GameBoard(InGameMenu):
         return board
     
     def redraw_board(self):
-        # self.grid_rect_draw = pygame.draw.rect(self.screen,
-        #                                        CERULEAN,
-        #                                        self.grid_rect,
-        #                                        border_radius=self.border_radius)
         x = self.grid_top_left[0]
         y = self.grid_top_left[1]
 
@@ -179,10 +166,10 @@ class GameBoard(InGameMenu):
                     self.createSquare(NOT_SO_GHOST_WHITE,
                                     self.board[row][column].hitbox.topleft[0], 
                                     self.board[row][column].hitbox.topleft[1])
-                    # print(f'redraw board when not so ghost white {row}, {column}')
+                    
                     if self.board[row][column].is_element and self.board[row][column].element in ("F", "?"):
-                        # print(f"element: {self.board[row][column].element}")
                         self.draw_revealed_square_with_element(row, column)
+
             x = self.grid_top_left[0]
             y += (self.grid_node_height + self.padding)
         
@@ -210,40 +197,18 @@ class GameBoard(InGameMenu):
                 self.draw_revealed_square_with_value(row, column)
 
         elif self.board[row][column].value == 0:
+
             for actual_row in range(min_row_range, max_row_range):
                 for actual_col in range(min_column_range, max_column_range):
-                    # print(actual_row, actual_col)
-                    
-                    # if self.board[actual_row][actual_col].value == 0 and (actual_row,actual_col) not in self.revealed_square:
+
                     if self.board[actual_row][actual_col].value == 0 and not self.board[actual_row][actual_col].revealed:
                         self.board[actual_row][actual_col].revealed = True
-                        # self.createSquare(GHOST_WHITE,
-                        #     self.board[actual_row][actual_col].hitbox.topleft[0],
-                        #     self.board[actual_row][actual_col].hitbox.topleft[1])
-                        
-                    
-                        # print(position)
                         self.reveal_square(actual_row, actual_col)
-                        # print(self.board[actual_row][actual_row])
+
                     elif self.board[actual_row][actual_col].value in (1,2,3,4,5,6,7,8) and not self.board[actual_row][actual_col].revealed:
                         self.board[actual_row][actual_col].revealed = True
                         self.draw_revealed_square_with_value(actual_row, actual_col)
-                        # position = (actual_row, actual_col)
-                        # self.revealed_square.append(position)
 
-                    
-                        
-                        # self.createSquare(GHOST_WHITE,
-                        #     self.board[actual_row][actual_col].hitbox.topleft[0],
-                        #     self.board[actual_row][actual_col].hitbox.topleft[1])
-
-                        # self.draw_text(str(self.board[actual_row][actual_col].value),
-                        #     TEXT_FONT,
-                        #     self.board[actual_row][actual_col].hitbox.height - 5,
-                        #     self.board[actual_row][actual_col].hitbox.center
-                        #     )
-                    
-                        
             self.draw_grid_border()
 
     def draw_revealed_square_with_value(self, actual_row, actual_col):
@@ -408,6 +373,8 @@ class GameBoard(InGameMenu):
         mouse_position = pygame.mouse.get_pos()
         self.check_for_victory()
         if not self.is_victory:
+            self.flag_list = 0
+            self.interrogation_list = 0
             for row in range(self.rows):
                 for column in range(self.columns):
                     hitbox = self.board[row][column]
@@ -416,6 +383,10 @@ class GameBoard(InGameMenu):
                     if self.board[row][column].revealed and self.board[row][column].hitbox not in self.revealed_square:
                         position = (row, column)
                         self.revealed_square.append(self.board[row][column].hitbox)
+                    elif self.board[row][column].element == "F":
+                        self.flag_list += 1
+                    elif self.board[row][column].element == "?":
+                        self.interrogation_list += 1
         else:
             print("fin de partie")
 
