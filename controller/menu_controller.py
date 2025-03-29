@@ -10,7 +10,7 @@ class MenuController():
         self.game_controller = GameInfo()
         self.data_access = Data(self.game_controller)
         self.victory_screen = VictoryMenu('Bravo vous avez gagné', self.game_controller)
-        self.settings_screen = SettingsMenu(self.game_controller)
+        self.settings_screen = SettingsMenu(self.game_controller, self.data_access)
         self.roll_of_fame_screen = RollOfFame(self)
         self.in_game_screen = GameGrid('grille de jeu', self.game_controller)
 

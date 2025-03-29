@@ -61,3 +61,10 @@ class Data():
         """ Processes the winner: loads, updates, and saves the leaderboard """
         self.load_top_players_names_only()
         self.update_top_players()
+
+    def reset_top_3_players(self):
+        top_dict = self.load_top3_dict()
+        if top_dict:
+            with open(TOP3_PATH, 'w', encoding='utf-8') as file:
+                dict_to_dump = {}
+                json.dump(dict_to_dump, file, indent=4, ensure_ascii=False)

@@ -6,6 +6,7 @@ class GameInfo():
         self.difficulty = 0 # 0 = Easy, 1 = Difficult , possibility to have more difficulties with time
         self.difficulty_string = "Facile"
         self.language = 'fr' # fr = french, en = english
+        self.reset_top_3 = 1
         self.square_surface = None
         self.mine_img = pygame.image.load(MINE_ASSETS)
         self.flag_img = pygame.image.load(FLAG_ASSETS)

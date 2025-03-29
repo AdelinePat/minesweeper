@@ -6,15 +6,18 @@ from view.interface import Interface
 
 
 class SettingsMenu(Menu):
-    def __init__(self, game_controller, caption="Settings"):
+    def __init__(self, game_controller, data_access, caption="Settings"):
         super().__init__(caption)
         self.difficulties = DIFFICULTY
         self.difficulty_index = 0
         self.resolutions = RESOLUTIONS
         self.resolution_index = 0
         self.languages = LANGUAGES
+        self.yes_no_choice = ['Oui', 'Non']
+        self.yes_index = 1
         self.language_index = 0
         self.game_controller = game_controller
+        self.data_access = data_access
         
         self.get_resolution(self.resolution)
 
@@ -110,6 +113,10 @@ class SettingsMenu(Menu):
             self.game_controller.language = self.languages[self.language_index]
             self.game_controller.difficulty = self.difficulty_index
             self.game_controller.difficulty_string = self.difficulties[self.difficulty_index]
+            self.game_controller.reset_top_3 = self.yes_index
+            if self.game_controller.reset_top_3 == 0:
+                self.data_access.reset_top_3_players()
+
 
             self.get_resolution(self.game_controller.resolution)
             self.get_actual_menu_window()
@@ -146,7 +153,8 @@ class SettingsMenu(Menu):
        # Create row surface for blitting option labels, button and option
         difficulty_surface = self.get_full_rect((self.screen_center[0], self.screen_center[1] - self.height // 8 * 1.5))
         resolution_surface = self.get_full_rect((self.screen_center[0], self.screen_center[1] - self.height // 8 * 0.5))
-        language_surface = self.get_full_rect((self.screen_center[0], self.screen_center[1] + self.height // 8 * 0.5))
+        yes_no_choice_surface = self.get_full_rect((self.screen_center[0], self.screen_center[1] + self.height // 8 * 0.5))
+        # language_surface = self.get_full_rect((self.screen_center[0], self.screen_center[1] + self.height // 8 * 0.5))
         
         option_difficulty_rect = self.option_button(difficulty_surface,
                 "Difficulté", self.difficulties, self.difficulty_index, (self.width // 2, 60)
@@ -154,17 +162,29 @@ class SettingsMenu(Menu):
         
         self.difficulty_index = self.draw_arrow_button(option_difficulty_rect, self.difficulty_index, self.difficulties)
 
+        yes_no_choice_options = self.option_button(yes_no_choice_surface,
+            "Supprimer le top 3", self.yes_no_choice, self.yes_index, (self.width // 2, 120)
+        )
+        self.yes_index = self.draw_arrow_button(yes_no_choice_options,
+            self.yes_index, self.yes_no_choice)
+        
         option_resolution_rect = self.option_button(resolution_surface,
             "Résolution", self.resolutions, self.resolution_index, (self.width // 2, 120)
         )
         self.resolution_index = self.draw_arrow_button(option_resolution_rect,
             self.resolution_index, self.resolutions)
 
-        option_language_rect = self.option_button(language_surface,
-            "Langue", self.languages, self.language_index, (self.width // 2, 180)
+        yes_no_choice_options = self.option_button(yes_no_choice_surface,
+            "Supprimer le top 3", self.yes_no_choice, self.yes_index, (self.width // 2, 120)
         )
-        self.language_index = self.draw_arrow_button(option_language_rect,
-            self.language_index, self.languages)
+        self.yes_index = self.draw_arrow_button(yes_no_choice_options,
+            self.yes_index, self.yes_no_choice)
+
+        # option_language_rect = self.option_button(language_surface,
+        #     "Langue", self.languages, self.language_index, (self.width // 2, 180)
+        # )
+        # self.language_index = self.draw_arrow_button(option_language_rect,
+        #     self.language_index, self.languages)
 
         # Return button and Apply button to save parameters
         self.button_return = self.small_button("Retour",
