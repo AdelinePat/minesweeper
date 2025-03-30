@@ -262,8 +262,8 @@ class GameGrid(InGameMenu):
         if self.game_info.difficulty == 0:
             min_range = 8
             max_range = 12
-            # min_range = 1
-            # max_range = 3
+            # min_range = 3
+            # max_range = 5
         elif self.game_info.difficulty == 1:
             min_range = 17
             max_range = 22
@@ -398,16 +398,18 @@ class GameGrid(InGameMenu):
                         self.flag_count += 1
                     elif self.grid[row][column].element == "?":
                         self.interrogation_count += 1
-        elif self.game_over:
-            self.reveal_all_grid()
+        # elif self.game_over:
+        #     self.reveal_all_grid()
         # else:
         #     print("fin de partie")
 
     def check_for_victory(self):
         square_to_reveal = self.rows * self.columns - len(self.mine_positions_list)
-        if len(self.revealed_square_list) == square_to_reveal:
+        if len(self.revealed_square_list) == square_to_reveal and not self.game_over:
             self.is_victory = True
             self.game_info.game_time = self.exact_current_timer
+        elif self.game_over:
+            self.reveal_all_grid()
         else:
             self.is_victory = False
 
