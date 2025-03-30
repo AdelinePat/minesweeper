@@ -39,9 +39,9 @@ class RollOfFame(Menu):
                 rest = record%100
                 minutes = (record//100) // 60
                 if minutes != 0:
-                    text_to_display = f"{player_name} : {minutes:02d}''{seconds:02d}'{rest}"
+                    text_to_display = f"{player_name} : {minutes:02d}min {seconds:02d}s {rest}"
                 else:
-                    text_to_display = f"{player_name} : '{seconds:02d}'{rest}"
+                    text_to_display = f"{player_name} : {seconds:02d}s {rest}"
                 record_list.append(text_to_display)
                 
             y = self.screen_center[1]

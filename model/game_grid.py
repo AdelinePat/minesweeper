@@ -40,7 +40,13 @@ class GameGrid(InGameMenu):
         if self.controller.resolution != self.resolution:
             self.controller.resolution = self.controller.settings_screen.resolution
             self.get_resolution(self.controller.resolution) 
-            self.get_actual_menu_window()    
+            self.get_actual_menu_window()
+            # self.grid_node_width = self.get_grid_node_size()
+            # self.grid_node_height = self.get_grid_node_size()
+            # self.game_info.square_surface = (self.grid_node_width, self.grid_node_height)
+            # self.game_info.set_mine_resized()
+            # self.game_info.set_flag_resized()
+
 
         self.reset_background_screen()
         self.grid_rect_draw = pygame.draw.rect(self.screen,
@@ -50,8 +56,15 @@ class GameGrid(InGameMenu):
 
         if self.click_count == 0 and not self.start_game:
             self.grid = self.create_grid()
+            self.game_info.square_surface = (self.grid_node_width, self.grid_node_height)
+            self.game_info.set_mine_resized()
+            self.game_info.set_flag_resized()
+
         else:
-            self.redraw_grid() 
+            self.redraw_grid()
+            self.game_info.square_surface = (self.grid_node_width, self.grid_node_height)
+            self.game_info.set_mine_resized()
+            self.game_info.set_flag_resized()
 
         if not self.game_over:
             self.set_title(f'{self.start_stopwatch() if self.start_stopwatch() else "Minesweeper MOUHAHAHAHAHA"}', self.height//25)
@@ -405,7 +418,7 @@ class GameGrid(InGameMenu):
 
     def check_for_victory(self):
         square_to_reveal = self.rows * self.columns - len(self.mine_positions_list)
-        if len(self.revealed_square_list) == square_to_reveal and not self.game_over:
+        if len(self.revealed_square_list) == square_to_reveal and self.game_over == False:
             self.is_victory = True
             self.game_info.game_time = self.exact_current_timer
         elif self.game_over:
