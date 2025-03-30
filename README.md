@@ -10,13 +10,13 @@
 
 📌 **Project Description**
 
-A customizable game menu system built with **Pygame**. This project provides an interactive interface for setting game preferences, including **difficulty, resolution, and language selection**, as well as a **winner screen**.
+A customizable game menu system built with **Pygame**. This project provides an interactive interface for setting game preferences, including **difficulty, resolution, and erase record selection**, as well as a **winner screen**.
 
-# Financial Management Tool
+# Minesweeper game with Python
 
 **Features**
 
-- 🎛  **Settings Menu**: Adjust difficulty, resolution, and language.  
+- 🎛  **Settings Menu**: Adjust difficulty, resolution, and erase top 3 players.  
 - 🏆 **Winner Screen**: Displays victory messages and prompts for player name entry.  
 - 🎨 **Customizable UI**: Uses various fonts, colors, and buttons.  
 - 🔄 **Dynamic Navigation**: Clickable buttons and arrow-based selection.  
@@ -80,11 +80,9 @@ python main.py
 📂 assets  
 │ 📂 font  
 │ 📂 icon  
-│ 📂 img  
-│ 📂 img_cell  
+│ 📂 img   
   
 📂 controller  
-│ 📄 game_controller.py  
 │ 📄 menu_controller.py  
 
 📂 model  
@@ -99,7 +97,7 @@ python main.py
 │ 📄 interface.py  
 │ 📄 main_menu.py   
 │ 📄 menu.py  
-│ 📄 a_roll_of_fame.py  
+│ 📄 roll_of_fame.py  
 │ 📄 settings_menu.py  
 │ 📄 victory_menu.py   
   
