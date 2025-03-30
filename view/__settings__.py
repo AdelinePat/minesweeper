@@ -1,10 +1,11 @@
-RESOLUTION = (1080, 720)
+
 FPS = 144
 TOP3_PATH = './assets/roll_of_fame.json'
 
 ## LISTS
 DIFFICULTY = ["Facile", "Moyen", "Difficile"]
 RESOLUTIONS = [(1024, 576), (720, 405), (1600, 900)]
+RESOLUTION = RESOLUTIONS[0]
 LANGUAGES = ["fr", "eng"]
 
 ## COLORS
