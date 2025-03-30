@@ -117,6 +117,8 @@ class SettingsMenu(Menu):
             self.game_controller.reset_top_3 = self.yes_index
             if self.game_controller.reset_top_3 == 0:
                 self.data_access.reset_top_3_players()
+                self.yes_index = 1
+                self.game_controller.reset_top_3 = self.yes_index
 
 
             self.get_resolution(self.game_controller.resolution)
