@@ -1,3 +1,4 @@
+
 import pygame
 import sys
 from view.__settings__ import TITLE_FONT, CELESTE
@@ -48,6 +49,11 @@ class MainMenu(Menu):
 
         while True:
             # Draw the main menu screen
+            if self.controller.resolution != self.controller.settings_screen.resolution:
+                    self.controller.resolution = self.controller.settings_screen.resolution
+                    self.get_resolution(self.controller.resolution)
+                    self.get_actual_menu_window()
+                    
             if self.controller.is_screen_main:
                 self.draw_main_menu()
 
@@ -72,3 +78,6 @@ class MainMenu(Menu):
                     sys.exit()
 
             self.update()
+
+          
+ 

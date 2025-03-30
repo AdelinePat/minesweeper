@@ -4,10 +4,11 @@ from view.__settings__ import TITLE_FONT, CELESTE, TEXT_FONT, GHOST_WHITE, CERUL
 import pygame
 
 class VictoryMenu(Menu):
-    def __init__(self, caption, controller):
+    def __init__(self, caption, controller, game_controller):
         super().__init__(caption)
         self.caption = caption
-        self.game_controller = controller
+        self.controller = controller
+        self.game_controller = game_controller
         self.get_resolution(self.resolution)
         
         self.draw_menu_window()
@@ -16,6 +17,10 @@ class VictoryMenu(Menu):
     def draw_window_winner_not_top_3(self, controller):
         self.set_caption(self.caption)
         # self.get_resolution(controller.resolution)
+        if self.controller.resolution != self.resolution:
+            self.controller.resolution = self.controller.settings_screen.resolution
+            self.get_resolution(self.controller.resolution)
+            self.get_actual_menu_window()
 
         self.reset_background_screen()
         self.win_height = self.height // 3*1.2
@@ -37,10 +42,13 @@ class VictoryMenu(Menu):
 
     def draw_winner_top_3(self, controller):
         self.set_caption(self.caption)
+        if self.controller.resolution != self.resolution:
+            self.controller.resolution = self.controller.settings_screen.resolution
+            self.get_resolution(self.controller.resolution)
+            self.get_actual_menu_window()
         self.reset_background_screen()
+
         self.win_height = self.height // 3*2
-        if controller.resolution != controller.settings_screen.resolutions[0]:
-            self.get_resolution(controller.resolution)
             
         self.draw_menu_window()
 

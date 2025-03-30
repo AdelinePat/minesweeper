@@ -14,8 +14,8 @@ class Interface():
         
     def get_resolution(self, resolution):
         self.resolution = resolution
-        self.width= self.resolution[0]
-        self.height= self.resolution[1]
+        self.width = self.resolution[0]
+        self.height = self.resolution[1]
         self.screen = pygame.display.set_mode(self.resolution)
         self.screen_center = (self.width//2, self.height//2)
         self.title_center = (self.width//2, self.height//12)

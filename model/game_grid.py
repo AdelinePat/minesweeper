@@ -7,29 +7,12 @@ from model.square import Square
 
 
 class GameGrid(InGameMenu):
-    def __init__(self, caption, game_info):
+    def __init__(self, caption, controller, game_info):
         super().__init__(caption)
+        self.controller = controller
         self.game_info = game_info
-        self.win_width = self.width // 3*2
-        self.win_height = self.height // 3*2
-        self.padding = 2
-        self.border_thickness = 5
-        self.border_radius = 15
-        self.button_height = self.height // 12
-        self.window_rect =  pygame.Rect(
-                            0,0,
-                            self.win_width, self.win_height)
-        
-        self.window_rect.center = self.screen_center
-
-        self.grid_surface_tuple = (self.height//3*2, self.height//3*2)
-
-        self.grid_rect = pygame.Rect(self.window_rect.topleft[0],
-                                    self.window_rect.topleft[1],
-                                    self.grid_surface_tuple[0],
-                                    self.grid_surface_tuple[1])
+   
         self.previous_mouse_state=pygame.mouse.get_pressed()
-
 
         self.is_victory = False
         self.stopwatch_start_time=None
@@ -64,7 +47,12 @@ class GameGrid(InGameMenu):
             return self.time_to_show
     
     def draw_in_game_screen(self):
-        self.set_caption(self.caption)       
+        self.set_caption(self.caption) 
+        if self.controller.resolution != self.resolution:
+            self.controller.resolution = self.controller.settings_screen.resolution
+            self.get_resolution(self.controller.resolution) 
+            self.get_actual_menu_window()    
+
         self.reset_background_screen()
         self.grid_rect_draw = pygame.draw.rect(self.screen,
                                             CERULEAN,
@@ -287,8 +275,8 @@ class GameGrid(InGameMenu):
         if self.game_info.difficulty == 0:
             min_range = 8
             max_range = 12
-            # min_range = 1
-            # max_range = 3
+            # min_range = 3
+            # max_range = 5
         elif self.game_info.difficulty == 1:
             min_range = 17
             max_range = 22
@@ -423,16 +411,18 @@ class GameGrid(InGameMenu):
                         self.flag_count += 1
                     elif self.grid[row][column].element == "?":
                         self.interrogation_count += 1
-        elif self.game_over:
-            self.reveal_all_grid()
+        # elif self.game_over:
+        #     self.reveal_all_grid()
         # else:
         #     print("fin de partie")
 
     def check_for_victory(self):
         square_to_reveal = self.rows * self.columns - len(self.mine_positions_list)
-        if len(self.revealed_square_list) == square_to_reveal:
+        if len(self.revealed_square_list) == square_to_reveal and not self.game_over:
             self.is_victory = True
             self.game_info.game_time = self.exact_current_timer
+        elif self.game_over:
+            self.reveal_all_grid()
         else:
             self.is_victory = False
 

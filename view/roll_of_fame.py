@@ -12,6 +12,11 @@ class RollOfFame(Menu):
 
     def draw_wall_of_fame_menu(self):
         self.set_caption(self.caption)
+        if self.controller.resolution != self.resolution:
+            self.controller.resolution = self.controller.settings_screen.resolution
+            self.get_resolution(self.controller.resolution) 
+            self.get_actual_menu_window()
+            
         self.reset_background_screen()
         self.draw_menu_window()
 

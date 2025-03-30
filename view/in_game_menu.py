@@ -8,7 +8,42 @@ class InGameMenu(Interface):
         super().__init__(caption)
         self.get_resolution(self.resolution)
         self.set_caption(self.caption)
-    
+        self.win_width = self.width // 3*2
+        self.win_height = self.height // 3*2
+        self.padding = 2
+        self.border_thickness = 5
+        self.border_radius = 15
+        self.button_height = self.height // 12
+        self.window_rect =  pygame.Rect(
+                            0,0,
+                            self.win_width, self.win_height)
+        
+        self.window_rect.center = self.screen_center
+
+        self.grid_surface_tuple = (self.height//3*2, self.height//3*2)
+
+        self.grid_rect = pygame.Rect(self.window_rect.topleft[0],
+                                     self.window_rect.topleft[1],
+                                     self.grid_surface_tuple[0],
+                                    self.grid_surface_tuple[1])
+
+    def get_actual_menu_window(self):
+        self.get_resolution(self.resolution)
+        self.win_bg_color=GHOST_WHITE
+        self.win_width = self.width // 3*2
+        self.win_height = self.height // 3*2
+        self.window_rect =  pygame.Rect(
+                            0,0,
+                            self.win_width, self.win_height)
+        
+        self.window_rect.center = self.screen_center
+
+        self.grid_surface_tuple = (self.height//3*2, self.height//3*2)
+
+        self.grid_rect = pygame.Rect(self.window_rect.topleft[0],
+                                     self.window_rect.topleft[1],
+                                     self.grid_surface_tuple[0],
+                                    self.grid_surface_tuple[1])
 
     def set_title(self, text, font_size=None):
         if font_size == None:
