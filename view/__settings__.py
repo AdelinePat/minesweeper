@@ -4,7 +4,7 @@ TOP3_PATH = './assets/roll_of_fame.json'
 
 ## LISTS
 DIFFICULTY = ["Facile", "Moyen", "Difficile"]
-RESOLUTIONS = [(1080, 720), (720, 450), (2500, 1080)]
+RESOLUTIONS = [(1024, 576), (720, 405), (1600, 900)]
 LANGUAGES = ["fr", "eng"]
 
 ## COLORS
