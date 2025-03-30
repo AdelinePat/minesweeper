@@ -35,7 +35,13 @@ class RollOfFame(Menu):
             for player_record in player_dict.items():
                 player_name = player_record[0].split()[0] + " (" + player_record[0].split()[1] + ")"
                 record = player_record[1]
-                text_to_display = f"{player_name} : {(record/100)}s"
+                seconds = (record//100) % 60
+                rest = record%100
+                minutes = (record//100) // 60
+                if minutes != 0:
+                    text_to_display = f"{player_name} : {minutes:02d}''{seconds:02d}'{rest}"
+                else:
+                    text_to_display = f"{player_name} : '{seconds:02d}'{rest}"
                 record_list.append(text_to_display)
                 
             y = self.screen_center[1]
