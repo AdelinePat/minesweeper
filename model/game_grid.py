@@ -1,8 +1,10 @@
+import json
 import random
 import pygame
 from view.__settings__ import CERULEAN, NOT_SO_GHOST_WHITE, GHOST_WHITE, TEXT_FONT
 from view.in_game_menu import InGameMenu
 from model.square import Square
+
 
 class GameGrid(InGameMenu):
     def __init__(self, caption, game_info):
@@ -23,14 +25,15 @@ class GameGrid(InGameMenu):
         self.grid_surface_tuple = (self.height//3*2, self.height//3*2)
 
         self.grid_rect = pygame.Rect(self.window_rect.topleft[0],
-                                     self.window_rect.topleft[1],
-                                     self.grid_surface_tuple[0],
+                                    self.window_rect.topleft[1],
+                                    self.grid_surface_tuple[0],
                                     self.grid_surface_tuple[1])
         self.previous_mouse_state=pygame.mouse.get_pressed()
 
 
         self.is_victory = False
         self.stopwatch_start_time=None
+        self.final_time=None
         self.click_count = 0
         self.start_game = False
         self.mine_positions_list = []
@@ -38,6 +41,14 @@ class GameGrid(InGameMenu):
         self.flag_count = 0
         self.interrogation_count = 0
         self.game_over = False
+        self.joke_title="Minesweeper"
+
+    def set_joke_title(self)->str:
+        with open("./assets/joke_titles.json", "r",encoding="utf-8") as jokes_dict:
+            titles=json.load(jokes_dict)
+        random_key=random.choice(["1","2","3","4","5","6","7","8","9"])
+        self.joke_title=titles[random_key]
+        return self.joke_title
     
     def start_stopwatch(self):
         if self.click_count>=1:
@@ -56,9 +67,9 @@ class GameGrid(InGameMenu):
         self.set_caption(self.caption)       
         self.reset_background_screen()
         self.grid_rect_draw = pygame.draw.rect(self.screen,
-                                               CERULEAN,
-                                               self.grid_rect,
-                                               border_radius=self.border_radius)
+                                            CERULEAN,
+                                            self.grid_rect,
+                                            border_radius=self.border_radius)
 
         if self.click_count == 0 and not self.start_game:
             self.grid = self.create_grid()
@@ -66,11 +77,10 @@ class GameGrid(InGameMenu):
             self.redraw_grid() 
 
         if not self.game_over:
-            self.set_title(f'{self.start_stopwatch() if self.start_stopwatch() else "Minesweeper MOUHAHAHAHAHA"}', self.height//25)
+            self.set_title(f'{self.start_stopwatch() if self.start_stopwatch() else self.joke_title}', self.height//25)
         else:
             self.set_title(f'Vous avez perdu', self.height//25)
 
-        
 
         self.display_game_info('Mines :', f'{len(self.mine_positions_list)}',
                                self.height // 4*0.75
@@ -96,6 +106,7 @@ class GameGrid(InGameMenu):
         
         self.reset_game = self.small_button('Réinitialiser', (self.width // 4*3, self.height // 4 * 2.5))
         if self.reset_game:
+            self.set_joke_title()
             self.reset_game_info()
             self.create_grid()
             
@@ -122,6 +133,8 @@ class GameGrid(InGameMenu):
         self.revealed_square_list = []
         self.is_victory = False
         self.game_over = False
+        
+        
         # self.flag_list = 0
         # self.interrogation_list = 0
 
