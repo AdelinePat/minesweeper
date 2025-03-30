@@ -9,10 +9,10 @@ class MenuController():
     def __init__(self):
         self.game_controller = GameInfo()
         self.data_access = Data(self.game_controller)
-        self.victory_screen = VictoryMenu('Bravo vous avez gagné', self.game_controller)
+        self.victory_screen = VictoryMenu('Bravo vous avez gagné', self, self.game_controller)
         self.settings_screen = SettingsMenu(self.game_controller, self.data_access)
         self.roll_of_fame_screen = RollOfFame(self)
-        self.in_game_screen = GameGrid('Minesweeper - En cours de partie',self, self.game_controller)
+        self.in_game_screen = GameGrid('Minesweeper - En cours de partie', self, self.game_controller)
 
         self.is_screen_settings = False
         self.is_screen_record = False
