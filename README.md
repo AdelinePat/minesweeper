@@ -88,26 +88,20 @@ python main.py
 │ 📄 menu_controller.py  
 
 📂 model  
-│ 📄 game_board.py  
+│ 📄 date_access.py  
+│ 📄 game_grid.py  
 │ 📄 game_info.py  
 │ 📄 square.py  
-│ 📄 write_transactionquery.py  
-  
-📂 test  
-│ 📄 test.py  
-│ 📄 test3.py  
-│ 📄 winner_button.py  
-│ 📄 winner_top_button.py  
   
 📂 view  
 │ 📄 __settings__.py  
 │ 📄 in_game_menu.py  
 │ 📄 interface.py  
-│ 📄 main_menu.py  
+│ 📄 main_menu.py   
 │ 📄 menu.py  
+│ 📄 a_roll_of_fame.py  
 │ 📄 settings_menu.py  
-│ 📄 winner_menu.py  
-│ 📄 winner.py  
+│ 📄 victory_menu.py   
   
 📄 .gitignore  
 📄 main.py  
