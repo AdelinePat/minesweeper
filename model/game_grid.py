@@ -29,8 +29,8 @@ class GameGrid(InGameMenu):
     def set_joke_title(self)->str:
         with open("./assets/joke_titles.json", "r",encoding="utf-8") as jokes_dict:
             titles=json.load(jokes_dict)
-        random_key=random.choice(["1","2","3","4","5","6","7","8","9"])
-        self.joke_title=titles[random_key]
+        random_key=random.randint(1,12)
+        self.joke_title=titles[str(random_key)]
         return self.joke_title
     
     def start_stopwatch(self):
