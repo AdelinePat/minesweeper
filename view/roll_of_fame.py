@@ -63,8 +63,5 @@ class RollOfFame(Menu):
             (self.screen_center[0],
             self.screen_center[1] + self.height // 8 * 1.5)
         )
-        # self.button_return = self.draw_full_button('Retour',
-        #                                                 (self.screen_center[0],
-        #                                                  self.screen_center[1] + self.height//8*1.5))
 
         return self.button_return

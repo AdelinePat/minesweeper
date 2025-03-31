@@ -20,9 +20,11 @@ class GameInfo():
         self.game_time = None
 
     def set_mine_resized(self):
+        self.mine_img = pygame.image.load(MINE_ASSETS)
         self.mine_img = pygame.transform.smoothscale(self.mine_img.convert_alpha(), (self.square_surface[0] - 6, self.square_surface[1] - 6))
         
     def set_flag_resized(self):
+        self.flag_img = pygame.image.load(FLAG_ASSETS)
         self.flag_img = pygame.transform.smoothscale(self.flag_img.convert_alpha(), (self.square_surface[0] - 6, self.square_surface[1] - 6))
 
 

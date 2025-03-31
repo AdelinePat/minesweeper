@@ -42,7 +42,6 @@ class SettingsMenu(Menu):
         return option_rect
 
     def arrow_button(self, button_text, center, option_index,  options, left_right, background=CYAN, background_hovered=AGRESSIVE_PINK, color=INDIGO_DYE, color_hover=GHOST_WHITE):
-        # Create rectangle for text -> self.button_height//2 = font_size
         button_draw_text, button_text_rect = self.create_text_rect(button_text,
                                             TEXT_FONT,
                                             self.button_height//2,
@@ -94,7 +93,6 @@ class SettingsMenu(Menu):
 
 
     def draw_arrow_button(self, option_rect, option_index, options):
-        # actual_left_button = option_index 
         actual_index = self.arrow_button("<",
                         (option_rect.midleft[0] - 30 , option_rect.midleft[1]),
                         option_index,
@@ -131,16 +129,10 @@ class SettingsMenu(Menu):
                 (self.resolution_index, self.resolutions[self.resolution_index]),
                 (self.language_index, self.languages[self.language_index]),
             )
-
-            print(f"Difficulté: Index {settings[0][0]}, Valeur {settings[0][1]}")
-            print(f"Résolution: Index {settings[1][0]}, Valeur {settings[1][1]}")
-            print(f"Langue: Index {settings[2][0]}, Valeur {settings[2][1]}")
-
             return settings
 
     def apply_settings(self):
         settings = self.get_current_settings()
-        print("Les paramètres ont été appliqués !")
         return settings 
     
     def draw_window_settings(self, controller):
@@ -158,7 +150,6 @@ class SettingsMenu(Menu):
         difficulty_surface = self.get_full_rect((self.screen_center[0], self.screen_center[1] - self.height // 8 * 1.5))
         resolution_surface = self.get_full_rect((self.screen_center[0], self.screen_center[1] - self.height // 8 * 0.5))
         yes_no_choice_surface = self.get_full_rect((self.screen_center[0], self.screen_center[1] + self.height // 8 * 0.5))
-        # language_surface = self.get_full_rect((self.screen_center[0], self.screen_center[1] + self.height // 8 * 0.5))
         
         option_difficulty_rect = self.option_button(difficulty_surface,
                 "Difficulté", self.difficulties, self.difficulty_index, (self.width // 2, 60)
@@ -183,12 +174,6 @@ class SettingsMenu(Menu):
         )
         self.yes_index = self.draw_arrow_button(yes_no_choice_options,
             self.yes_index, self.yes_no_choice)
-
-        # option_language_rect = self.option_button(language_surface,
-        #     "Langue", self.languages, self.language_index, (self.width // 2, 180)
-        # )
-        # self.language_index = self.draw_arrow_button(option_language_rect,
-        #     self.language_index, self.languages)
 
         # Return button and Apply button to save parameters
         self.button_return = self.small_button("Retour",

@@ -15,6 +15,7 @@ class MainMenu(Menu):
     
     def draw_main_menu(self):
         self.set_caption(self.caption)
+        
         # Reset background and draw the main menu
         self.reset_background_screen()
         self.draw_menu_window()
@@ -58,14 +59,12 @@ class MainMenu(Menu):
                 self.draw_main_menu()
 
                 if self.button_quit:
-                    print("Exiting the game...")
                     pygame.quit()
                     sys.exit() 
 
             else:
                 
                 if self.button_quit:
-                    print("Exiting the game...")
                     pygame.quit()
                     sys.exit()   
             

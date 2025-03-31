@@ -13,21 +13,13 @@ class MenuController():
         self.settings_screen = SettingsMenu(self.game_controller, self.data_access)
         self.roll_of_fame_screen = RollOfFame(self)
         self.in_game_screen = GameGrid('Minesweeper - En cours de partie', self, self.game_controller)
-
         self.is_screen_settings = False
         self.is_screen_record = False
         self.is_screen_main = True
         self.is_screen_victory = False
         self.is_screen_in_game = False
         self.button_return = False
-
         self.resolution = self.settings_screen.resolutions[0]
-
-        ## Displatch those 4 infos into game_info or elsewhere
-        # self.player_name = " Adelina"
-        # self.player_time = None
-        # self.top_players = []
-        # self.player_id = str(uuid.uuid4())
 
     def manage_game_screen(self):
         if self.in_game_screen.button_return:
@@ -87,7 +79,6 @@ class MenuController():
         self.is_screen_main = True
         self.is_screen_victory = False
         self.is_screen_in_game = False
-        print("Going back to the main menu.")
 
 
     def check_timer_top_3_players(self):

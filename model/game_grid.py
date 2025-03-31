@@ -41,9 +41,7 @@ class GameGrid(InGameMenu):
             self.current_timer=int((pygame.time.get_ticks()-self.stopwatch_start_time)/1000)
             self.time_in_seconds=(self.current_timer%60)
             self.time_in_minutes=(self.current_timer//60)
-            #↓ if it looks stupid, but it works, then it ain't stupid, space erases the previous title and puts in the timer
             self.time_to_show=str(f"                                                                   {self.time_in_minutes:02}:{self.time_in_seconds:02}                                                               ")
-            #↑ if it looks stupid, but it works, then it ain't stupid, space erases the previous title and puts in the timer
             return self.time_to_show
     
     def draw_in_game_screen(self):
@@ -52,12 +50,6 @@ class GameGrid(InGameMenu):
             self.controller.resolution = self.controller.settings_screen.resolution
             self.get_resolution(self.controller.resolution) 
             self.get_actual_menu_window()
-            # self.grid_node_width = self.get_grid_node_size()
-            # self.grid_node_height = self.get_grid_node_size()
-            # self.game_info.square_surface = (self.grid_node_width, self.grid_node_height)
-            # self.game_info.set_mine_resized()
-            # self.game_info.set_flag_resized()
-
 
         self.reset_background_screen()
         self.grid_rect_draw = pygame.draw.rect(self.screen,
@@ -134,19 +126,11 @@ class GameGrid(InGameMenu):
         self.revealed_square_list = []
         self.is_victory = False
         self.game_over = False
-        
-        
-        # self.flag_list = 0
-        # self.interrogation_list = 0
-
 
     def create_grid(self):
         self.rows = self.game_info.grid_rows
         self.columns = self.game_info.grid_columns
-
-        
         self.grid_node_width = self.get_grid_node_size()
-        
         self.grid_node_height = self.get_grid_node_size()
         self.game_info.square_surface = (self.grid_node_width, self.grid_node_height)
         self.game_info.set_mine_resized()
@@ -158,7 +142,7 @@ class GameGrid(InGameMenu):
         y = self.grid_top_left[1]
         grid = []
         
-        for row in range(self.rows): # rows
+        for row in range(self.rows): 
             row_list = []
 
             for column in range(self.columns):
@@ -237,7 +221,6 @@ class GameGrid(InGameMenu):
                 for actual_col in range(min_column_range, max_column_range):
 
                     if self.grid[actual_row][actual_col].element in ("F", "?"):
-                        print("hit an element")
                         self.grid[actual_row][actual_col].revealed=False
                         continue
 
@@ -288,16 +271,13 @@ class GameGrid(InGameMenu):
         if self.game_info.difficulty == 0:
             min_range = 8
             max_range = 12
-            # min_range = 3
-            # max_range = 5
         elif self.game_info.difficulty == 1:
             min_range = 17
             max_range = 22
         else:
             min_range = 40
             max_range = 50
-
-        
+                    
         mines_number = random.randrange(min_range, max_range)
 
         for mine in range(0, mines_number):
@@ -374,7 +354,6 @@ class GameGrid(InGameMenu):
                 if hitbox.element:
                     return
                 self.game_over = True
-                print("AIE, raté ! Il y avait une mine , tu as perdu")
 
             else:
                 self.reveal_square(row, column)
@@ -424,10 +403,6 @@ class GameGrid(InGameMenu):
                         self.flag_count += 1
                     elif self.grid[row][column].element == "?":
                         self.interrogation_count += 1
-        # elif self.game_over:
-        #     self.reveal_all_grid()
-        # else:
-        #     print("fin de partie")
 
     def check_for_victory(self):
         square_to_reveal = self.rows * self.columns - len(self.mine_positions_list)

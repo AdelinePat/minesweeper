@@ -1,4 +1,3 @@
-# from view.interface import Interface
 from view.menu import Menu
 from view.__settings__ import TITLE_FONT, CELESTE, TEXT_FONT, GHOST_WHITE, CERULEAN, AGRESSIVE_PINK, TEXT_FONT, INDIGO_DYE, CYAN, NOT_SO_GHOST_WHITE 
 import pygame
@@ -16,7 +15,6 @@ class VictoryMenu(Menu):
 
     def draw_window_winner_not_top_3(self, controller):
         self.set_caption(self.caption)
-        # self.get_resolution(controller.resolution)
         if self.controller.resolution != self.resolution:
             self.controller.resolution = self.controller.settings_screen.resolution
             self.get_resolution(self.controller.resolution)
@@ -63,16 +61,8 @@ class VictoryMenu(Menu):
                 (self.screen_center[0],
                  self.screen_center[1] - self.height // 8 * 1.5)
             )
-
-        # prenom  MenuController 
-        # player_name_display = controller.player_name if controller.player_name else "nom-de_joueur"
+        
         self.game_controller.player_name = self.player_name_to_input
-
-        # controller.top_players = self.draw_full_button(
-        #     player_name_display,
-        #     (self.screen_center[0],
-        #     self.screen_center[1] - self.height // 8 * 0.1)
-        # )
         self.input_user_name()
     
 
@@ -85,8 +75,6 @@ class VictoryMenu(Menu):
         return self.button_return
 
     def input_user_name(self):
-        #text, font, font_size, position,
-
         self.draw_full_button(self.player_name_to_input,
                             (self.screen_center[0],
                             self.screen_center[1] - self.height // 8 * 0.1))

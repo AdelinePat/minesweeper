@@ -49,7 +49,6 @@ class Interface():
     
 
     def small_button(self, button_text, center, background=CYAN, background_hovered=AGRESSIVE_PINK, color=INDIGO_DYE, color_hover=GHOST_WHITE):
-        # Create rectangle for text -> self.button_height//2 = font_size
         button_draw_text, button_text_rect = self.create_text_rect(button_text,
                                             TEXT_FONT,
                                             self.button_height//2,

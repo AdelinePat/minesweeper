@@ -15,7 +15,7 @@ class Data():
     def load_top_players_names_only(self):
         try:
             top3_dict = self.load_top3_dict()
-            if isinstance(top3_dict, dict):  # list of dictionnary
+            if isinstance(top3_dict, dict): 
                 for key in top3_dict:
                     player_name = key.split()[0]
                     self.top_players.append(key)

@@ -117,8 +117,6 @@ class InGameMenu(Interface):
         
         back_rect.center = content_rect.center
         
-        # pygame.draw.rect(content_rect)
-        # self.screen, self.win_bg_color, self.window_rect
         pygame.draw.rect(self.screen, INDIGO_DYE, back_rect)
         content_rect = self.draw_text(text_content, font, font_size*2, position_content, color_content)
         title_rect = self.draw_text(text_title, TITLE_FONT, font_size, position, color)
